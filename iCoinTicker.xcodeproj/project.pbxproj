@@ -11,6 +11,7 @@
 		CA82D0B11ED31FB900B079E4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA82D0B01ED31FB900B079E4 /* ViewController.swift */; };
 		CA82D0B31ED31FB900B079E4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA82D0B21ED31FB900B079E4 /* Assets.xcassets */; };
 		CA82D0BE1ED3210200B079E4 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = CA82D0BD1ED3210200B079E4 /* README.md */; };
+		CA82D0C01ED321EC00B079E4 /* screenshot.png in Resources */ = {isa = PBXBuildFile; fileRef = CA82D0BF1ED321EC00B079E4 /* screenshot.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +21,7 @@
 		CA82D0B21ED31FB900B079E4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CA82D0B71ED31FB900B079E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CA82D0BD1ED3210200B079E4 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		CA82D0BF1ED321EC00B079E4 /* screenshot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screenshot.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,6 +41,7 @@
 				CA82D0BD1ED3210200B079E4 /* README.md */,
 				CA82D0AD1ED31FB900B079E4 /* iCoinTicker */,
 				CA82D0AC1ED31FB900B079E4 /* Products */,
+				CA82D0BF1ED321EC00B079E4 /* screenshot.png */,
 			);
 			sourceTree = "<group>";
 		};
@@ -121,6 +124,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CA82D0B31ED31FB900B079E4 /* Assets.xcassets in Resources */,
+				CA82D0C01ED321EC00B079E4 /* screenshot.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
