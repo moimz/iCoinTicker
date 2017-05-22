@@ -2,8 +2,8 @@
 //  ViewController.swift
 //  iCoinTicker
 //
-//  Created by 알쯔 on 2017. 5. 22..
-//  Copyright © 2017년 Moimz. All rights reserved.
+//  Created by Arzz on 2017. 5. 22..
+//  Copyright © 2017 Moimz. All rights reserved.
 //
 
 import Cocoa

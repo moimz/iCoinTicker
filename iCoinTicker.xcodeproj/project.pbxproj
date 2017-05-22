@@ -10,7 +10,6 @@
 		CA82D0AF1ED31FB900B079E4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA82D0AE1ED31FB900B079E4 /* AppDelegate.swift */; };
 		CA82D0B11ED31FB900B079E4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA82D0B01ED31FB900B079E4 /* ViewController.swift */; };
 		CA82D0B31ED31FB900B079E4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA82D0B21ED31FB900B079E4 /* Assets.xcassets */; };
-		CA82D0B61ED31FB900B079E4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA82D0B41ED31FB900B079E4 /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -18,7 +17,6 @@
 		CA82D0AE1ED31FB900B079E4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CA82D0B01ED31FB900B079E4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		CA82D0B21ED31FB900B079E4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		CA82D0B51ED31FB900B079E4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CA82D0B71ED31FB900B079E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -55,7 +53,6 @@
 				CA82D0AE1ED31FB900B079E4 /* AppDelegate.swift */,
 				CA82D0B01ED31FB900B079E4 /* ViewController.swift */,
 				CA82D0B21ED31FB900B079E4 /* Assets.xcassets */,
-				CA82D0B41ED31FB900B079E4 /* Main.storyboard */,
 				CA82D0B71ED31FB900B079E4 /* Info.plist */,
 			);
 			path = iCoinTicker;
@@ -121,7 +118,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CA82D0B31ED31FB900B079E4 /* Assets.xcassets in Resources */,
-				CA82D0B61ED31FB900B079E4 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,17 +134,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		CA82D0B41ED31FB900B079E4 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				CA82D0B51ED31FB900B079E4 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		CA82D0B81ED31FB900B079E4 /* Debug */ = {
