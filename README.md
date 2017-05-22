@@ -25,9 +25,11 @@ A simple status bar widget for macOS that displays the latest BTC / ETH currency
 
 
 ## Screenshot
+![Ticker-Screenshot](https://github.com/moimz/iCoinTicker/blob/master/screenshot.png?raw=true)
 
 
 ## Download
+https://github.com/moimz/iCoinTicker/releases/download/v1.0.0/iCoinTicker.zip
 
 
 ## Donate

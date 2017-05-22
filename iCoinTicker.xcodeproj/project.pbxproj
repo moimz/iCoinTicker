@@ -10,8 +10,7 @@
 		CA82D0AF1ED31FB900B079E4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA82D0AE1ED31FB900B079E4 /* AppDelegate.swift */; };
 		CA82D0B11ED31FB900B079E4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA82D0B01ED31FB900B079E4 /* ViewController.swift */; };
 		CA82D0B31ED31FB900B079E4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA82D0B21ED31FB900B079E4 /* Assets.xcassets */; };
-		CA82D0BE1ED3210200B079E4 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = CA82D0BD1ED3210200B079E4 /* README.md */; };
-		CA82D0C01ED321EC00B079E4 /* screenshot.png in Resources */ = {isa = PBXBuildFile; fileRef = CA82D0BF1ED321EC00B079E4 /* screenshot.png */; };
+		CA82D0C41ED325E700B079E4 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = CA82D0C31ED325E700B079E4 /* MainMenu.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,8 +19,9 @@
 		CA82D0B01ED31FB900B079E4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		CA82D0B21ED31FB900B079E4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CA82D0B71ED31FB900B079E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CA82D0BD1ED3210200B079E4 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		CA82D0BF1ED321EC00B079E4 /* screenshot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screenshot.png; sourceTree = "<group>"; };
+		CA82D0C31ED325E700B079E4 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
+		CA82D0C51ED327BF00B079E4 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		CA82D0C61ED327DF00B079E4 /* screenshot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screenshot.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,10 +38,10 @@
 		CA82D0A21ED31FB900B079E4 = {
 			isa = PBXGroup;
 			children = (
-				CA82D0BD1ED3210200B079E4 /* README.md */,
+				CA82D0C51ED327BF00B079E4 /* README.md */,
 				CA82D0AD1ED31FB900B079E4 /* iCoinTicker */,
 				CA82D0AC1ED31FB900B079E4 /* Products */,
-				CA82D0BF1ED321EC00B079E4 /* screenshot.png */,
+				CA82D0C61ED327DF00B079E4 /* screenshot.png */,
 			);
 			sourceTree = "<group>";
 		};
@@ -60,6 +60,7 @@
 				CA82D0B01ED31FB900B079E4 /* ViewController.swift */,
 				CA82D0B21ED31FB900B079E4 /* Assets.xcassets */,
 				CA82D0B71ED31FB900B079E4 /* Info.plist */,
+				CA82D0C31ED325E700B079E4 /* MainMenu.xib */,
 			);
 			path = iCoinTicker;
 			sourceTree = "<group>";
@@ -96,6 +97,7 @@
 				TargetAttributes = {
 					CA82D0AA1ED31FB900B079E4 = {
 						CreatedOnToolsVersion = 8.3.2;
+						DevelopmentTeam = XSDBV8D2XL;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -124,7 +126,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CA82D0B31ED31FB900B079E4 /* Assets.xcassets in Resources */,
-				CA82D0C01ED321EC00B079E4 /* screenshot.png in Resources */,
+				CA82D0C41ED325E700B079E4 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -135,7 +137,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CA82D0BE1ED3210200B079E4 /* README.md in Sources */,
 				CA82D0B11ED31FB900B079E4 /* ViewController.swift in Sources */,
 				CA82D0AF1ED31FB900B079E4 /* AppDelegate.swift in Sources */,
 			);
@@ -240,11 +241,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = XSDBV8D2XL;
 				INFOPLIST_FILE = iCoinTicker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.moimz.iCoinTicker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -253,11 +258,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = XSDBV8D2XL;
 				INFOPLIST_FILE = iCoinTicker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.moimz.iCoinTicker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
