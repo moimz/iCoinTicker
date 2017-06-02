@@ -11,9 +11,24 @@
 		CA82D0B11ED31FB900B079E4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA82D0B01ED31FB900B079E4 /* ViewController.swift */; };
 		CA82D0B31ED31FB900B079E4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA82D0B21ED31FB900B079E4 /* Assets.xcassets */; };
 		CA82D0C41ED325E700B079E4 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = CA82D0C31ED325E700B079E4 /* MainMenu.xib */; };
+		CAEEFBFC1EE2017D007DD443 /* cryptocoins.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = CAEEFBFB1EE2017D007DD443 /* cryptocoins.ttf */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		CAEEFBFA1EE20152007DD443 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Fonts;
+			dstSubfolderSpec = 7;
+			files = (
+				CAEEFBFC1EE2017D007DD443 /* cryptocoins.ttf in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		CA73E4451EE2314A00736DC3 /* screenshot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screenshot.png; sourceTree = "<group>"; };
 		CA82D0AB1ED31FB900B079E4 /* iCoinTicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iCoinTicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA82D0AE1ED31FB900B079E4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CA82D0B01ED31FB900B079E4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -21,7 +36,7 @@
 		CA82D0B71ED31FB900B079E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CA82D0C31ED325E700B079E4 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		CA82D0C51ED327BF00B079E4 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		CA82D0C61ED327DF00B079E4 /* screenshot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screenshot.png; sourceTree = "<group>"; };
+		CAEEFBFB1EE2017D007DD443 /* cryptocoins.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = cryptocoins.ttf; path = ../cryptocoins.ttf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,13 +50,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CA73E4441EE2171300736DC3 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				CAEEFBFB1EE2017D007DD443 /* cryptocoins.ttf */,
+			);
+			name = Fonts;
+			sourceTree = "<group>";
+		};
 		CA82D0A21ED31FB900B079E4 = {
 			isa = PBXGroup;
 			children = (
 				CA82D0C51ED327BF00B079E4 /* README.md */,
 				CA82D0AD1ED31FB900B079E4 /* iCoinTicker */,
 				CA82D0AC1ED31FB900B079E4 /* Products */,
-				CA82D0C61ED327DF00B079E4 /* screenshot.png */,
+				CA73E4451EE2314A00736DC3 /* screenshot.png */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,6 +79,7 @@
 		CA82D0AD1ED31FB900B079E4 /* iCoinTicker */ = {
 			isa = PBXGroup;
 			children = (
+				CA73E4441EE2171300736DC3 /* Fonts */,
 				CA82D0AE1ED31FB900B079E4 /* AppDelegate.swift */,
 				CA82D0B01ED31FB900B079E4 /* ViewController.swift */,
 				CA82D0B21ED31FB900B079E4 /* Assets.xcassets */,
@@ -75,6 +99,7 @@
 				CA82D0A71ED31FB900B079E4 /* Sources */,
 				CA82D0A81ED31FB900B079E4 /* Frameworks */,
 				CA82D0A91ED31FB900B079E4 /* Resources */,
+				CAEEFBFA1EE20152007DD443 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -97,7 +122,7 @@
 				TargetAttributes = {
 					CA82D0AA1ED31FB900B079E4 = {
 						CreatedOnToolsVersion = 8.3.2;
-						DevelopmentTeam = XSDBV8D2XL;
+						DevelopmentTeam = YTHZ842387;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -243,7 +268,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = XSDBV8D2XL;
+				DEVELOPMENT_TEAM = YTHZ842387;
 				INFOPLIST_FILE = iCoinTicker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
@@ -260,7 +285,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = XSDBV8D2XL;
+				DEVELOPMENT_TEAM = YTHZ842387;
 				INFOPLIST_FILE = iCoinTicker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
@@ -290,6 +315,7 @@
 				CA82D0BC1ED31FB900B079E4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
