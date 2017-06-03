@@ -17,7 +17,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet weak var statusMenu: NSMenu!
     @IBOutlet weak var refresh: NSMenuItem!
     
-    
     @IBOutlet weak var btc: NSMenuItem!
     @IBOutlet weak var btcMenu: NSMenu!
     
@@ -39,6 +38,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var etcTitle = "Loading..."
     var xrpTitle = "Loading..."
     
+    var ticker: NSAttributedString!
+    
+    var printTimer = Timer()
     var timer = Timer()
     var time = Double(300)
     
@@ -51,6 +53,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.statusItem.menu = self.statusMenu
         
         self.updateTicker()
+        self.printTicker()
         
         self.time = UserDefaults.standard.double(forKey: "time") == Double(0) ? Double(300) : UserDefaults.standard.double(forKey: "time")
         
@@ -62,7 +65,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         refreshMenuSelected.state = NSOnState
         
         self.updateData()
-        timer = Timer.scheduledTimer(timeInterval: self.time, target: self, selector: #selector(AppDelegate.updateData), userInfo: nil, repeats: true)
+        self.timer = Timer.scheduledTimer(timeInterval: self.time, target: self, selector: #selector(AppDelegate.updateData), userInfo: nil, repeats: true)
+        
+        self.startTicker()
     }
     
     func initMarketList(_ coin: Int) {
@@ -181,9 +186,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             
             sender.state = NSOnState
             
-            
             self.getData(coin)
+            
             self.updateTicker()
+            self.stopTicker()
+            self.printTicker()
+            self.startTicker()
         }
     }
     
@@ -219,12 +227,25 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             tickString.append(NSAttributedString(string: " "+"\(self.xrpTitle)", attributes: [NSFontAttributeName: NSFont.systemFont(ofSize: 14.0), NSBaselineOffsetAttributeName: 1.5]))
         }
         
-        if (tickString.length == 0) {
+        self.ticker = tickString
+    }
+    
+    func startTicker() {
+        self.stopTicker()
+        self.printTimer = Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(AppDelegate.printTicker), userInfo: nil, repeats: true)
+    }
+    
+    func stopTicker() {
+        self.printTimer.invalidate()
+    }
+    
+    func printTicker() {
+        if (self.getMarket(1) + self.getMarket(2) + self.getMarket(3) + self.getMarket(4) == 0) {
             self.statusItem.image = NSImage(named: "statusIcon")
             self.statusItem.attributedTitle = nil
         } else {
             self.statusItem.image = nil
-            self.statusItem.attributedTitle = tickString
+            self.statusItem.attributedTitle = self.ticker
         }
     }
     
@@ -316,7 +337,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     (data, response, error) -> Void in
                     
                     do {
-                        let jsonData: AnyObject? = try JSONSerialization.jsonObject(with: data!, options:JSONSerialization.ReadingOptions.mutableContainers ) as! NSDictionary
+                        let jsonData: AnyObject? = try JSONSerialization.jsonObject(with: data!, options:JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
                         
                         var currency = Double(0)
                         
@@ -332,7 +353,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                         let numberFormatter = NumberFormatter()
                         numberFormatter.numberStyle = .decimal
                         
-                        let title = numberFormatter.string(from: NSNumber(value: currency))!
+                        let title: String! = numberFormatter.string(from: NSNumber(value: currency))!
                         
                         switch (coin) {
                             case 1:
@@ -393,6 +414,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     @IBAction func refresh(_ sender: AnyObject) {
         self.updateData()
+        
+        self.btcTitle = "Loading..."
+        self.ethTitle = "Loading..."
+        self.etcTitle = "Loading..."
+        self.xrpTitle = "Loading..."
+        
+        self.updateTicker()
+        self.stopTicker()
+        self.printTicker()
+        self.startTicker()
     }
     
     @IBAction func refreshTime(_ sender: NSMenuItem) {
@@ -412,12 +443,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     @IBAction func openUrl(_ sender: AnyObject) {
-        print("open")
         NSWorkspace.shared().open(URL(string: "https://github.com/moimz/iCoinTicker/issues")!)
     }
     
     @IBAction func quit(_ sender: AnyObject) {
-        timer.invalidate()
+        self.timer.invalidate()
+        self.printTimer.invalidate()
         exit(0)
     }
 }

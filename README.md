@@ -31,7 +31,7 @@ A simple status bar widget for macOS that displays the latest BTC / ETH / ETC / 
 
 
 ## Download
-https://github.com/moimz/iCoinTicker/releases/download/v2.0.0/iCoinTicker.zip
+https://github.com/moimz/iCoinTicker/releases/download/v2.0.1/iCoinTicker.zip
 
 
 ## Donate
