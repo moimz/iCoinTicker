@@ -2,28 +2,35 @@
 
 코빗, 빗썸, 코인원의 비트코인(BTC), 이더리움(ETH), 이더리움클래식(ETC), 리플(XRP) 시세정보를 macOS의 메뉴바에서 확인할 수 있습니다.
 
-A simple status bar widget for macOS that displays the latest BTC / ETH / ETC / XRP currency.
+A simple status bar widget for macOS that displays the latest BTC / ETH / ETC / XRP and etc. currency.
 
 
 ## Features
 - Auto refresh (10s ~ 1h)
 - Manual refresh
-- Support Korean markets
-- Support BTC, ETH, ETC, XRP
+- Support BTC, ETH, ETC, XRP and etc.
 - Store latest user settings
 
 
+## Support Coin
+- BTC
+- ETH
+- ETC
+- XRP
+- STRAT
+- DGB
+
+
 ## Support Currency
-- BTC to KRW
-- ETH to KRW
-- ETC to KRW
-- XRP to KRW
+- KRW
+- USD
 
 
 ## Support Market
 - Korbit
 - Bithumb
 - Coinone
+- Poloniex
 
 
 ## Screenshot
@@ -31,7 +38,7 @@ A simple status bar widget for macOS that displays the latest BTC / ETH / ETC / 
 
 
 ## Download
-https://github.com/moimz/iCoinTicker/releases/download/v2.0.1/iCoinTicker.zip
+https://github.com/moimz/iCoinTicker/releases/download/v2.1.0/iCoinTicker.zip
 
 
 ## Donate
