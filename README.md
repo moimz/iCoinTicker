@@ -1,6 +1,11 @@
 ## iCoinTicker
 
-코빗, 빗썸, 코인원의 비트코인(BTC), 이더리움(ETH), 이더리움클래식(ETC), 리플(XRP) 시세정보를 macOS의 메뉴바에서 확인할 수 있습니다.
+[![Github All Releases](https://img.shields.io/github/downloads/moimz/iCoinTicker/total.svg)](https://github.com/moimz/iCoinTicker/releases)
+[![GitHub release](https://img.shields.io/github/release/moimz/iCoinTicker.svg)](https://github.com/moimz/iCoinTicker/releases)
+[![](https://img.shields.io/github/issues-raw/moimz/iCoinTicker.svg)](https://github.com/moimz/iCoinTicker/issues)
+[![license](https://img.shields.io/github/license/moimz/iCoinTicker.svg)](https://github.com/moimz/iCoinTicker/blob/master/LICENSE.md)
+
+코빗, 빗썸, 코인원의 비트코인(BTC), 이더리움(ETH), 이더리움클래식(ETC), 리플(XRP) 등 시세정보를 macOS의 메뉴바에서 확인할 수 있습니다.
 
 A simple status bar widget for macOS that displays the latest BTC / ETH / ETC / XRP and etc. currency.
 
