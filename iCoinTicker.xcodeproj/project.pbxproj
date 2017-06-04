@@ -28,7 +28,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		CA73E4451EE2314A00736DC3 /* screenshot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screenshot.png; sourceTree = "<group>"; };
+		CA34533E1EE45C9800D6ECF3 /* screenshot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screenshot.png; sourceTree = "<group>"; };
+		CA81D62C1EE42DFA00F1FE30 /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
 		CA82D0AB1ED31FB900B079E4 /* iCoinTicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iCoinTicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA82D0AE1ED31FB900B079E4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CA82D0B01ED31FB900B079E4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -64,7 +65,8 @@
 				CA82D0C51ED327BF00B079E4 /* README.md */,
 				CA82D0AD1ED31FB900B079E4 /* iCoinTicker */,
 				CA82D0AC1ED31FB900B079E4 /* Products */,
-				CA73E4451EE2314A00736DC3 /* screenshot.png */,
+				CA81D62C1EE42DFA00F1FE30 /* LICENSE.md */,
+				CA34533E1EE45C9800D6ECF3 /* screenshot.png */,
 			);
 			sourceTree = "<group>";
 		};

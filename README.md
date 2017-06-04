@@ -5,9 +5,9 @@
 [![](https://img.shields.io/github/issues-raw/moimz/iCoinTicker.svg)](https://github.com/moimz/iCoinTicker/issues)
 [![license](https://img.shields.io/github/license/moimz/iCoinTicker.svg)](https://github.com/moimz/iCoinTicker/blob/master/LICENSE.md)
 
-코빗, 빗썸, 코인원의 비트코인(BTC), 이더리움(ETH), 이더리움클래식(ETC), 리플(XRP) 등 시세정보를 macOS의 메뉴바에서 확인할 수 있습니다.
+코빗, 빗썸, 코인원, Poloniex, Bittrex 의 가상화폐 시세(비트코인(BTC), 이더리움(ETH), 이더리움클래식(ETC), 리플(XRP) 등)를 macOS의 메뉴바에서 확인할 수 있습니다.
 
-A simple status bar widget for macOS that displays the latest BTC / ETH / ETC / XRP and etc. currency.
+macOS menubar ticker that displays the latest crypto currency(BTC, ETH, ETC, XRP and etc.) of Poloniex, Bittrex.
 
 
 ## Features
@@ -18,12 +18,13 @@ A simple status bar widget for macOS that displays the latest BTC / ETH / ETC / 
 
 
 ## Support Coin
-- BTC
-- ETH
-- ETC
-- XRP
-- STRAT
-- DGB
+- BTC (Bitcoin)
+- ETH (Ethereum)
+- ETC (Ethereum Classic)
+- XRP (Ripple)
+- STRAT (Stratis)
+- DGB (DigiByte)
+- SC (Siacoin)
 
 
 ## Support Currency
@@ -36,6 +37,7 @@ A simple status bar widget for macOS that displays the latest BTC / ETH / ETC / 
 - Bithumb
 - Coinone
 - Poloniex
+- Bittrex
 
 
 ## Screenshot
@@ -43,7 +45,7 @@ A simple status bar widget for macOS that displays the latest BTC / ETH / ETC / 
 
 
 ## Download
-https://github.com/moimz/iCoinTicker/releases/download/v2.1.0/iCoinTicker.zip
+https://github.com/moimz/iCoinTicker/releases/download/v2.2.0/iCoinTicker.zip
 
 
 ## Donate

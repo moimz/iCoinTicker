@@ -85,10 +85,12 @@ ETH : 0x3A06b2C45AC207eb66Bc79B4C81522a120E629CC</string>
         <customObject id="5v1-Rt-say" userLabel="Delegate" customClass="AppDelegate" customModule="iCoinTicker" customModuleProvider="target">
             <connections>
                 <outlet property="appname" destination="QeD-hA-b3x" id="vuP-fx-4oG"/>
+                <outlet property="coinMenu" destination="ajs-qB-E6B" id="oCX-Of-4mU"/>
                 <outlet property="currencyMenu" destination="4GM-GR-2Tv" id="eb7-13-PZR"/>
                 <outlet property="fontSizeMenu" destination="upR-Nx-kyt" id="soz-ZX-28j"/>
+                <outlet property="marketMenu" destination="uMQ-1S-PLZ" id="RHp-YV-Nha"/>
                 <outlet property="refresh" destination="kqm-By-QWK" id="6GF-G9-AaL"/>
-                <outlet property="refreshMenu" destination="C4s-PQ-Y1N" id="WLh-wL-b9v"/>
+                <outlet property="refreshTimeMenu" destination="C4s-PQ-Y1N" id="aEh-dj-hs4"/>
                 <outlet property="statusMenu" destination="RYg-KH-kzd" id="S5L-fw-tIK"/>
                 <outlet property="window" destination="aM5-Nr-TIk" id="3jS-jZ-R1s"/>
             </connections>
@@ -110,55 +112,6 @@ ETH : 0x3A06b2C45AC207eb66Bc79B4C81522a120E629CC</string>
                         <action selector="refresh:" target="5v1-Rt-say" id="vgn-QJ-qh9"/>
                     </connections>
                 </menuItem>
-                <menuItem title="Refresh Time" id="TE2-rX-nzv">
-                    <modifierMask key="keyEquivalentModifierMask"/>
-                    <menu key="submenu" title="Refresh Time" id="C4s-PQ-Y1N">
-                        <items>
-                            <menuItem title="10 sec" tag="10" id="j7Y-og-yfM" userLabel="refresh10">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <connections>
-                                    <action selector="refreshTime:" target="5v1-Rt-say" id="v3j-Gi-mX2"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="30 sec" tag="30" id="NQZ-1y-jTM" userLabel="refresh30">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <connections>
-                                    <action selector="refreshTime:" target="5v1-Rt-say" id="pO2-JN-UO0"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="1 min" tag="60" id="ZMf-xn-wgP" userLabel="refresh60">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <connections>
-                                    <action selector="refreshTime:" target="5v1-Rt-say" id="ya0-2b-QGe"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="5 min" tag="300" id="ham-XK-aAy" userLabel="refresh300">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <connections>
-                                    <action selector="refreshTime:" target="5v1-Rt-say" id="GIG-cu-Gdp"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="10 min" tag="600" id="l7W-Q3-4rT" userLabel="refresh600">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <connections>
-                                    <action selector="refreshTime:" target="5v1-Rt-say" id="jfe-9q-ESf"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="30 min" tag="1800" id="9na-Kc-T1H" userLabel="refresh1800">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <connections>
-                                    <action selector="refreshTime:" target="5v1-Rt-say" id="83Y-jF-Glh"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="1 Hour" tag="3600" id="5Jy-0c-bFO" userLabel="refresh3600">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <connections>
-                                    <action selector="refreshTime:" target="5v1-Rt-say" id="dWo-lr-r3A"/>
-                                </connections>
-                            </menuItem>
-                        </items>
-                    </menu>
-                </menuItem>
                 <menuItem isSeparatorItem="YES" id="VMg-9q-iD5"/>
                 <menuItem title="Options" id="dak-8K-KxN">
                     <modifierMask key="keyEquivalentModifierMask"/>
@@ -171,6 +124,19 @@ ETH : 0x3A06b2C45AC207eb66Bc79B4C81522a120E629CC</string>
                             <menuItem title="Font Size" id="VS7-Sb-lCR" userLabel="Font Size">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Font Size" id="upR-Nx-kyt"/>
+                            </menuItem>
+                            <menuItem title="Refresh Time" id="TE2-rX-nzv">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Refresh Time" id="C4s-PQ-Y1N"/>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="57P-bg-iAh"/>
+                            <menuItem title="Enabled Coins" id="0qg-VS-Ig1">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Enabled Coins" id="ajs-qB-E6B"/>
+                            </menuItem>
+                            <menuItem title="Enabled Markets" id="I1E-st-ss2" userLabel="Enabled Markets">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Enabled Markets" id="uMQ-1S-PLZ"/>
                             </menuItem>
                         </items>
                     </menu>
