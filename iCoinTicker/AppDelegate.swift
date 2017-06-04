@@ -232,11 +232,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         
         for coin in 1..<self.coinName.count {
-            if (tickerString.length > 0) {
-                tickerString.append(NSAttributedString(string: " ", attributes: costAttributes))
-            }
-            
             if (self.getMarket(coin) > 0) {
+                if (tickerString.length > 0) {
+                    tickerString.append(NSAttributedString(string: " ", attributes: costAttributes))
+                }
+                
                 tickerString.append(NSAttributedString(string: self.coinMark[coin], attributes: markAttributes))
                 tickerString.append(NSAttributedString(string: " "+"\(self.getCost(coin, self.getMarket(coin), true))", attributes: costAttributes))
             }
