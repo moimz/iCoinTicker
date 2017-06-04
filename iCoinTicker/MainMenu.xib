@@ -85,18 +85,12 @@ ETH : 0x3A06b2C45AC207eb66Bc79B4C81522a120E629CC</string>
         <customObject id="5v1-Rt-say" userLabel="Delegate" customClass="AppDelegate" customModule="iCoinTicker" customModuleProvider="target">
             <connections>
                 <outlet property="appname" destination="QeD-hA-b3x" id="vuP-fx-4oG"/>
-                <outlet property="btc" destination="zMj-7N-6yK" id="ykU-Pm-jrR"/>
-                <outlet property="btcMenu" destination="DLu-Zi-EVj" id="Frx-gN-dGD"/>
-                <outlet property="etc" destination="OP0-dE-wmb" id="kWF-Ja-Ox8"/>
-                <outlet property="etcMenu" destination="OmZ-re-SmN" id="61N-xZ-BPy"/>
-                <outlet property="eth" destination="np9-WM-kZ6" id="4aP-vt-g1w"/>
-                <outlet property="ethMenu" destination="PqP-LO-LCq" id="9J2-8J-AQa"/>
+                <outlet property="currencyMenu" destination="4GM-GR-2Tv" id="eb7-13-PZR"/>
+                <outlet property="fontSizeMenu" destination="upR-Nx-kyt" id="soz-ZX-28j"/>
                 <outlet property="refresh" destination="kqm-By-QWK" id="6GF-G9-AaL"/>
                 <outlet property="refreshMenu" destination="C4s-PQ-Y1N" id="WLh-wL-b9v"/>
                 <outlet property="statusMenu" destination="RYg-KH-kzd" id="S5L-fw-tIK"/>
                 <outlet property="window" destination="aM5-Nr-TIk" id="3jS-jZ-R1s"/>
-                <outlet property="xrp" destination="E26-Jg-NG3" id="m8Y-qR-O89"/>
-                <outlet property="xrpMenu" destination="N4a-8U-OD1" id="tnB-vp-Ql4"/>
             </connections>
         </customObject>
         <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
@@ -109,22 +103,6 @@ ETH : 0x3A06b2C45AC207eb66Bc79B4C81522a120E629CC</string>
                     </connections>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="MXm-ir-VFK"/>
-                <menuItem title="BTC" tag="1" id="zMj-7N-6yK">
-                    <modifierMask key="keyEquivalentModifierMask"/>
-                    <menu key="submenu" id="DLu-Zi-EVj"/>
-                </menuItem>
-                <menuItem title="ETH" tag="2" id="np9-WM-kZ6">
-                    <modifierMask key="keyEquivalentModifierMask"/>
-                    <menu key="submenu" title="ETH" id="PqP-LO-LCq"/>
-                </menuItem>
-                <menuItem title="ETC" tag="3" id="OP0-dE-wmb">
-                    <modifierMask key="keyEquivalentModifierMask"/>
-                    <menu key="submenu" title="ETC" id="OmZ-re-SmN"/>
-                </menuItem>
-                <menuItem title="XRP" tag="4" id="E26-Jg-NG3">
-                    <modifierMask key="keyEquivalentModifierMask"/>
-                    <menu key="submenu" title="XRP" id="N4a-8U-OD1"/>
-                </menuItem>
                 <menuItem isSeparatorItem="YES" id="dbC-Cb-93b"/>
                 <menuItem title="Refresh" id="kqm-By-QWK">
                     <modifierMask key="keyEquivalentModifierMask"/>
@@ -182,6 +160,22 @@ ETH : 0x3A06b2C45AC207eb66Bc79B4C81522a120E629CC</string>
                     </menu>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="VMg-9q-iD5"/>
+                <menuItem title="Options" id="dak-8K-KxN">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Options" id="vI8-lk-Od4">
+                        <items>
+                            <menuItem title="Currency" id="TAb-ZJ-n4j">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Currency" id="4GM-GR-2Tv"/>
+                            </menuItem>
+                            <menuItem title="Font Size" id="VS7-Sb-lCR" userLabel="Font Size">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Font Size" id="upR-Nx-kyt"/>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem isSeparatorItem="YES" id="0IH-ai-g0X"/>
                 <menuItem title="Quit" id="qsu-Kq-aq1">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
