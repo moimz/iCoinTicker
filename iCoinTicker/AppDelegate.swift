@@ -24,7 +24,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     let statusItem = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
     
-    var costs: [[Double]] = []//[Double]](count) (count: 5, repeatedValue: [Double](count: 11, repeatedValue: Double(0)))
+    var costs: [[Double]] = []
     
     var btcCurrency: Double = 0
     var ethCurrency: Double = 0
@@ -83,6 +83,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.timer = Timer.scheduledTimer(timeInterval: self.time, target: self, selector: #selector(AppDelegate.updateData), userInfo: nil, repeats: true)
         
         self.startTicker()
+        
+        self.checkUpdate()
     }
     
     func initMarketList(_ coin: Int) {
@@ -436,10 +438,50 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.startTicker()
     }
     
+    func checkUpdate() {
+        let session = URLSession.shared
+        let jsonUrl = URL(string: "https://api.github.com/repos/moimz/iCoinTicker/releases/latest")
+        
+        let task = session.dataTask(with: jsonUrl!, completionHandler: {
+            (data, response, error) -> Void in
+            
+            do {
+                let jsonData = try JSONSerialization.jsonObject(with: data!) as! [String: Any]
+                let latest = jsonData["tag_name"] as! String
+                let message = jsonData["body"] as! String
+                let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
+                
+                if (true || latest != "v" + version) {
+                    self.showUpdateAlert(latest, message)
+                }
+            } catch _ {
+                // Error
+            }
+        })
+        
+        task.resume()
+    }
+    
+    func showUpdateAlert(_ latest: String, _ message: String) {
+        DispatchQueue.main.async {
+            let alert: NSAlert = NSAlert()
+            alert.alertStyle = NSAlertStyle.warning
+            alert.informativeText = message + "\n\n"
+            alert.messageText = "A new version(" + latest + ") is available.\nWould you like to open website?"
+            alert.addButton(withTitle: "Yes")
+            alert.addButton(withTitle: "No")
+            
+            let selected = alert.runModal()
+            if (selected == NSAlertFirstButtonReturn) {
+                NSWorkspace.shared().open(URL(string: "https://github.com/moimz/iCoinTicker/releases/tag/" + latest)!)
+            }
+        }
+    }
+ 
     @IBAction func info(_ sender: AnyObject) {
         self.window!.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
-        
+ 
         let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
         self.appname.stringValue = "iCoinTicker v" + version
     }
