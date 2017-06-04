@@ -451,7 +451,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 let message = jsonData["body"] as! String
                 let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
                 
-                if (true || latest != "v" + version) {
+                if (latest != "v" + version) {
                     self.showUpdateAlert(latest, message)
                 }
             } catch _ {
