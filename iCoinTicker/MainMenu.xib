@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12120" systemVersion="16G12b" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12121" systemVersion="16G12b" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12120"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12121"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -15,19 +14,19 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <window title="iCoinTicker" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="aM5-Nr-TIk">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
-            <rect key="contentRect" x="196" y="240" width="480" height="300"/>
+            <rect key="contentRect" x="196" y="240" width="480" height="335"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <view key="contentView" wantsLayer="YES" id="F2O-3D-40f">
-                <rect key="frame" x="0.0" y="0.0" width="480" height="300"/>
+                <rect key="frame" x="0.0" y="0.0" width="480" height="335"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tDa-vG-4cZ">
-                        <rect key="frame" x="200" y="200" width="80" height="80"/>
+                        <rect key="frame" x="200" y="235" width="80" height="80"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="AppIcon" id="jzI-BN-HAW"/>
                     </imageView>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QeD-hA-b3x">
-                        <rect key="frame" x="180" y="175" width="121" height="17"/>
+                        <rect key="frame" x="180" y="210" width="121" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="APPNAME" id="86W-5P-tfx">
                             <font key="font" metaFont="system"/>
@@ -36,39 +35,39 @@
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HkE-u8-DsA">
-                        <rect key="frame" x="44" y="106" width="392" height="51"/>
+                        <rect key="frame" x="44" y="132" width="392" height="51"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" id="M3d-7P-OCa">
                             <font key="font" metaFont="system"/>
-                            <string key="title">BTC / ETH / ETC / XRP to KRW 환율을 확인합니다.
-거래소 및 화폐종류는 차차 늘려나가도록 하겠습니다.
-이 프로그램이 조금이라도 유용하시다면, 아래주소로 후원부탁드립니다.</string>
+                            <string key="title">Menubar ticker that displays the latest crypto currency.
+MIT License</string>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a6K-Xh-Qoa">
-                        <rect key="frame" x="44" y="50" width="392" height="42"/>
+                        <rect key="frame" x="44" y="76" width="392" height="51"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" alignment="center" id="dOJ-9c-zbz">
                             <font key="font" metaFont="system"/>
-                            <string key="title">BTC : 3BZZoJV1rW4G36xJ2epDPnYVz4D9mPjsFt
+                            <string key="title">Donate
+BTC : 3BZZoJV1rW4G36xJ2epDPnYVz4D9mPjsFt
 ETH : 0x3A06b2C45AC207eb66Bc79B4C81522a120E629CC</string>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7ch-G4-UC6">
-                        <rect key="frame" x="44" y="32" width="392" height="17"/>
+                        <rect key="frame" x="44" y="39" width="392" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" alignment="center" title="지원/문의" id="gOv-AF-Zgw">
-                            <font key="font" size="13" name=".AppleSDGothicNeoI-Regular"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" alignment="center" title="Feedback" id="gOv-AF-Zgw">
+                            <font key="font" metaFont="system"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
                     <button focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Eh2-sF-Huk">
-                        <rect key="frame" x="89" y="11" width="303" height="14"/>
+                        <rect key="frame" x="89" y="20" width="303" height="14"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="square" title="https://github.com/moimz/iCoinTicker/issues" bezelStyle="shadowlessSquare" alignment="center" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="1IE-Bc-nCZ">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -80,7 +79,7 @@ ETH : 0x3A06b2C45AC207eb66Bc79B4C81522a120E629CC</string>
                     </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="150" y="-334"/>
+            <point key="canvasLocation" x="150" y="-316.5"/>
         </window>
         <customObject id="5v1-Rt-say" userLabel="Delegate" customClass="AppDelegate" customModule="iCoinTicker" customModuleProvider="target">
             <connections>
@@ -92,13 +91,14 @@ ETH : 0x3A06b2C45AC207eb66Bc79B4C81522a120E629CC</string>
                 <outlet property="refresh" destination="kqm-By-QWK" id="6GF-G9-AaL"/>
                 <outlet property="refreshTimeMenu" destination="C4s-PQ-Y1N" id="aEh-dj-hs4"/>
                 <outlet property="statusMenu" destination="RYg-KH-kzd" id="S5L-fw-tIK"/>
+                <outlet property="symbolMenu" destination="ZeF-lU-tUr" id="GnV-iG-D9S"/>
                 <outlet property="window" destination="aM5-Nr-TIk" id="3jS-jZ-R1s"/>
             </connections>
         </customObject>
         <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
         <menu id="RYg-KH-kzd" userLabel="Status Menu">
             <items>
-                <menuItem title="About iCoinTicker" alternate="YES" id="YNh-RM-Knq">
+                <menuItem title="About / Donate" alternate="YES" id="YNh-RM-Knq">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="info:" target="5v1-Rt-say" id="1JH-Gg-5ok"/>
@@ -120,6 +120,10 @@ ETH : 0x3A06b2C45AC207eb66Bc79B4C81522a120E629CC</string>
                             <menuItem title="Currency" id="TAb-ZJ-n4j">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Currency" id="4GM-GR-2Tv"/>
+                            </menuItem>
+                            <menuItem title="Show currency symbol" id="lu5-J9-C6J">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Show currency symbol" id="ZeF-lU-tUr"/>
                             </menuItem>
                             <menuItem title="Font Size" id="VS7-Sb-lCR" userLabel="Font Size">
                                 <modifierMask key="keyEquivalentModifierMask"/>

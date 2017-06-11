@@ -7,6 +7,8 @@
 //
 
 import Cocoa
+import Foundation
+import ServiceManagement
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -20,20 +22,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet weak var refreshTimeMenu: NSMenu!
     @IBOutlet weak var currencyMenu: NSMenu!
     @IBOutlet weak var fontSizeMenu: NSMenu!
+    @IBOutlet weak var symbolMenu: NSMenu!
+    
     @IBOutlet weak var coinMenu: NSMenu!
     @IBOutlet weak var marketMenu: NSMenu!
     
     let statusItem = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
     
     var costs: [[Double]] = []
+    var btcCosts: [[Double]] = []
     
-    let currencyName: [String] = ["", "KRW", "USD"]
-    let currencyMark: [String] = ["", "₩", "$"]
+    let currencyName: [String] = ["", "KRW", "USD", "JPY"]
+    let currencyMark: [String] = ["", "₩", "$", "¥"]
     var currencyLatestTime: Double = 0
     
     let coinName: [String] = ["", "BTC", "ETH", "ETC", "XRP", "STRAT", "DGB", "SC"]
     let coinMark: [String] = ["", "\u{e9a7}", "\u{e9c4}", "\u{e9c2}", "\u{e93a}", "\u{e916}", "\u{e9b6}", "\u{e906}"]
-    let marketName: [String] = ["", "Korbit", "Bithumb", "Coinone","","","","","","","Poloniex","Bittrex"]
+    let marketName: [String] = ["", "Korbit", "Bithumb", "Coinone", "", "", "", "", "", "", "Poloniex", "Bittrex", "", "", "", "", "", "", "", "", "Coincheck", "Bitflyer"]
     
     var tickerTimer = Timer()
     var timer = Timer()
@@ -45,8 +50,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
             
             self.costs.append([])
+            self.btcCosts.append([])
+            
             for _ in self.marketName {
                 self.costs[i].append(Double(0))
+                self.btcCosts[i].append(Double(0))
             }
         }
         
@@ -75,65 +83,112 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.statusMenu.insertItem(menu, at: coin + 1)
         
         let none: NSMenuItem = NSMenuItem(title: "NONE", action: #selector(self.setMarket), keyEquivalent: "")
-        none.tag = coin * 100
+        none.tag = coin * 1000
         none.isEnabled = true
         list.addItem(none)
         
         list.addItem(NSMenuItem.separator())
         
         if (coin <= 3) {
-            let korbit: NSMenuItem = NSMenuItem(title: self.marketName[1], action: #selector(self.setMarket), keyEquivalent: "")
-            korbit.tag = coin * 100 + 1
+            let korbit: NSMenuItem = NSMenuItem(title: self.getMarketName(1, true), action: #selector(self.setMarket), keyEquivalent: "")
+            korbit.tag = coin * 1000 + 1
             if (self.getOptionsMarket(1) == false) {
                 korbit.action = nil
             }
+            korbit.image = self.getMarketFlag(1)
             list.addItem(korbit)
         }
         
         if (coin <= 4) {
-            let bithumb: NSMenuItem = NSMenuItem(title: self.marketName[2], action: #selector(self.setMarket), keyEquivalent: "")
-            bithumb.tag = coin * 100 + 2
+            let bithumb: NSMenuItem = NSMenuItem(title: self.getMarketName(2, true), action: #selector(self.setMarket), keyEquivalent: "")
+            bithumb.tag = coin * 1000 + 2
             if (self.getOptionsMarket(2) == false) {
                 bithumb.action = nil
             }
+            bithumb.image = self.getMarketFlag(2)
             list.addItem(bithumb)
             
-            let coinone: NSMenuItem = NSMenuItem(title: self.marketName[3], action: #selector(self.setMarket), keyEquivalent: "")
-            coinone.tag = coin * 100 + 3
+            let coinone: NSMenuItem = NSMenuItem(title: self.getMarketName(3, true), action: #selector(self.setMarket), keyEquivalent: "")
+            coinone.tag = coin * 1000 + 3
             if (self.getOptionsMarket(3) == false) {
                 coinone.action = nil
             }
+            coinone.image = self.getMarketFlag(3)
             list.addItem(coinone)
             
             list.addItem(NSMenuItem.separator())
         }
         
-        let poloniex: NSMenuItem = NSMenuItem(title: self.marketName[10], action: #selector(self.setMarket), keyEquivalent: "")
-        poloniex.tag = coin * 100 + 10
+        let poloniex: NSMenuItem = NSMenuItem(title: self.getMarketName(10, true), action: #selector(self.setMarket), keyEquivalent: "")
+        poloniex.tag = coin * 1000 + 10
         if (self.getOptionsMarket(10) == false) {
             poloniex.action = nil
         }
+        poloniex.image = self.getMarketFlag(10)
         list.addItem(poloniex)
         
-        let bittrex: NSMenuItem = NSMenuItem(title: self.marketName[11], action: #selector(self.setMarket), keyEquivalent: "")
-        bittrex.tag = coin * 100 + 11
+        if (coin > 1) {
+            let poloniexBtc: NSMenuItem = NSMenuItem(title: self.getMarketName(110, true), action: #selector(self.setMarket), keyEquivalent: "")
+            poloniexBtc.tag = coin * 1000 + 110
+            if (self.getOptionsMarket(110) == false) {
+                poloniexBtc.action = nil
+            }
+            poloniexBtc.image = self.getMarketFlag(10)
+            list.addItem(poloniexBtc)
+        }
+        
+        let bittrex: NSMenuItem = NSMenuItem(title: self.getMarketName(11, true), action: #selector(self.setMarket), keyEquivalent: "")
+        bittrex.tag = coin * 1000 + 11
         if (self.getOptionsMarket(11) == false) {
             bittrex.action = nil
         }
+        bittrex.image = self.getMarketFlag(11)
         list.addItem(bittrex)
         
-        let market = self.getMarket(coin)
+        if (coin > 1) {
+            let bittrexBtc: NSMenuItem = NSMenuItem(title: self.getMarketName(111, true), action: #selector(self.setMarket), keyEquivalent: "")
+            bittrexBtc.tag = coin * 1000 + 111
+            if (self.getOptionsMarket(111) == false) {
+                bittrexBtc.action = nil
+            }
+            bittrexBtc.image = self.getMarketFlag(11)
+            list.addItem(bittrexBtc)
+        }
+        
+        if (coin <= 4) {
+            list.addItem(NSMenuItem.separator())
+            
+            let coincheck: NSMenuItem = NSMenuItem(title: self.getMarketName(20, true), action: #selector(self.setMarket), keyEquivalent: "")
+            coincheck.tag = coin * 1000 + 20
+            if (self.getOptionsMarket(20) == false) {
+                coincheck.action = nil
+            }
+            coincheck.image = self.getMarketFlag(20)
+            list.addItem(coincheck)
+        }
+        
+        if (coin <= 2) {
+            let bitflyer: NSMenuItem = NSMenuItem(title: self.getMarketName(21, true), action: #selector(self.setMarket), keyEquivalent: "")
+            bitflyer.tag = coin * 1000 + 21
+            if (self.getOptionsMarket(21) == false) {
+                bitflyer.action = nil
+            }
+            bitflyer.image = self.getMarketFlag(21)
+            list.addItem(bitflyer)
+        }
+        
         let title = NSMutableAttributedString(string: "")
         title.append(NSAttributedString(string: self.coinMark[coin], attributes: [NSFontAttributeName: NSFont(name: "cryptocoins", size: 14.0)!]))
         title.append(NSAttributedString(string: " "+"\(self.coinName[coin])", attributes: [NSFontAttributeName: NSFont.systemFont(ofSize: 14.0), NSBaselineOffsetAttributeName: 1.5]))
         menu.attributedTitle = title
         
+        let market = self.getMarket(coin)
         if (market == 0) {
             menu.state = NSOffState
-            list.item(withTag: coin * 100)?.state = NSOnState
+            list.item(withTag: coin * 1000)?.state = NSOnState
         } else {
             menu.state = NSOnState
-            list.item(withTag: coin * 100 + market)?.state = NSOnState
+            list.item(withTag: coin * 1000 + market)?.state = NSOnState
         }
     }
     
@@ -161,6 +216,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self.refreshTimeMenu.addItem(menu)
         }
         
+        let symbols: [String] = ["NONE", "Menu", "Ticker", "Menu and Ticker"]
+        for i in 0..<symbols.count {
+            let menu: NSMenuItem = NSMenuItem(title: symbols[i], action: #selector(self.setOptionsSymbol), keyEquivalent: "")
+            menu.tag = i - 1
+            menu.state = self.getOptionsSymbol() == i - 1 ? NSOnState : NSOffState
+            self.symbolMenu.addItem(menu)
+            
+            if (i == 0) {
+                self.symbolMenu.addItem(NSMenuItem.separator())
+            }
+        }
+        
         for i in 1..<self.coinName.count {
             let menu: NSMenuItem = NSMenuItem(title: "", action: #selector(self.setOptionsCoin), keyEquivalent: "")
             menu.tag = i
@@ -168,7 +235,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             
             let title = NSMutableAttributedString(string: "")
             title.append(NSAttributedString(string: self.coinMark[i], attributes: [NSFontAttributeName: NSFont(name: "cryptocoins", size: 14.0)!]))
-            title.append(NSAttributedString(string: " "+"\(self.coinName[i])", attributes: [NSFontAttributeName: NSFont.systemFont(ofSize: 14.0), NSBaselineOffsetAttributeName: 1.5]))
+            title.append(NSAttributedString(string: " " + self.coinName[i], attributes: [NSFontAttributeName: NSFont.systemFont(ofSize: 14.0), NSBaselineOffsetAttributeName: 1.5]))
             menu.attributedTitle = title
             
             self.coinMenu.addItem(menu)
@@ -179,9 +246,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 continue
             }
             
+            if (i % 10 == 0) {
+                self.marketMenu.addItem(NSMenuItem.separator())
+            }
+            
             let menu: NSMenuItem = NSMenuItem(title: self.marketName[i], action: #selector(self.setOptionsMarket), keyEquivalent: "")
             menu.tag = i
             menu.state = self.getOptionsMarket(i) == true ? NSOnState : NSOffState
+            menu.image = self.getMarketFlag(i)
             self.marketMenu.addItem(menu)
         }
     }
@@ -192,8 +264,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func setMarket(_ sender: NSMenuItem) {
         if (sender.state == NSOffState) {
-            let coin = sender.tag / 100
-            let market = sender.tag % 100
+            let coin = sender.tag / 1000
+            let market = sender.tag % 1000
             
             UserDefaults.standard.set(market, forKey: self.coinName[coin].lowercased())
             self.statusMenu.item(withTag: coin)!.state = market == 0 ? NSOffState : NSOnState
@@ -212,41 +284,88 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
+    func getMarketName(_ market: Int, _ padding: Bool = false) -> String {
+        var name: String = ""
+        if (market < 100) {
+            name = self.marketName[market]
+        } else {
+            name = self.marketName[market % 100] + "(฿)"
+        }
+        
+        if (padding == true) {
+            return name + "".padding(toLength: Int((20 - name.characters.count) / 4), withPad: "\t", startingAt: 0)
+        } else {
+            return name
+        }
+    }
+    
+    func getMarketFlag(_ market: Int) -> NSImage {
+        var flag: Int = 0
+        if (market < 100) {
+            flag = Int(market/10)
+        } else {
+            flag = Int((market % 100)/10)
+        }
+        
+        let flags: [String] = ["kr", "us", "jp"]
+        
+        return NSImage(named: flags[flag])!
+    }
+    
     func getMarketCurrency(_ market: Int) -> Int {
         if (market < 10) {
             return 1
         } else if (market < 20) {
             return 2
+        } else if (market < 30) {
+            return 3
+        } else {
+            return self.getOptionsCurrency()
         }
-        
-        return 0
     }
     
     func getCost(_ coin: Int, _ market: Int, _ useTicker: Bool) -> String {
-        var cost: Double = self.costs[coin][market] * self.getCurrency(self.getMarketCurrency(market), self.getOptionsCurrency())
+        var cost: Double = 0
+        if (market < 100) {
+            cost = self.costs[coin][market] * self.getCurrency(self.getMarketCurrency(market), self.getOptionsCurrency())
+        } else {
+            cost = self.btcCosts[coin][market % 100] * self.getCurrency(self.getMarketCurrency(market), self.getOptionsCurrency())
+        }
         
         if (cost == 0) {
             if (useTicker == true) {
                 return "Loading..."
             } else {
-                return ""
+                return self.getOptionsMarket(market) == true ? "Loading..." : ""
             }
         } else {
-            var places: Double = Double(0)
-            if (self.getOptionsCurrency() == 2) {
-                places = Double(2)
-            }
+            var text: String = ""
             
-            let divisor = pow(10.0, places)
-            cost = round(cost * divisor) / divisor
-            
-            let numberFormatter = NumberFormatter()
-            numberFormatter.numberStyle = .decimal
-            
-            if (useTicker == true) {
-                return numberFormatter.string(from: NSNumber(value: cost))!
+            if (market < 100) {
+                var places: Double = Double(0)
+                if (self.getOptionsCurrency() == 2) {
+                    places = Double(2)
+                }
+                
+                let divisor = pow(10.0, places)
+                cost = round(cost * divisor) / divisor
+                
+                let numberFormatter = NumberFormatter()
+                numberFormatter.numberStyle = .decimal
+                
+                if (self.getOptionsSymbol() == 2 || (useTicker == true && self.getOptionsSymbol() == 1) || (useTicker == false && self.getOptionsSymbol() == 0)) {
+                    text = self.currencyMark[self.getOptionsCurrency()] + " " + numberFormatter.string(from: NSNumber(value: cost))!
+                } else {
+                    text = numberFormatter.string(from: NSNumber(value: cost))!
+                }
+                
+                return text
             } else {
-                return " (" + self.currencyMark[self.getOptionsCurrency()] + numberFormatter.string(from: NSNumber(value: cost))! + ")"
+                if (self.getOptionsSymbol() == 2 || (useTicker == true && self.getOptionsSymbol() == 1) || (useTicker == false && self.getOptionsSymbol() == 0)) {
+                    return "฿ " + String(format:"%0.8f", cost)
+                } else {
+                    return String(format:"%0.8f", cost)
+                }
             }
         }
     }
@@ -286,9 +405,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         for coin in 1..<self.coinName.count {
             if (self.getOptionsCoin(coin) == true) {
+                /*
+                if (self.getMarket(coin) > 0) {
+                    let menu: NSMenuItem = self.statusMenu.item(withTag: coin)!
+                    let title = NSMutableAttributedString(string: "")
+                    title.append(NSAttributedString(string: self.coinMark[coin], attributes: [NSFontAttributeName: NSFont(name: "cryptocoins", size: 14.0)!]))
+                    title.append(NSAttributedString(string: " " + self.coinName[coin] + " " + "".padding(toLength: Int((16 - self.coinName[coin].characters.count) / 4), withPad: "\t", startingAt: 0), attributes: [NSFontAttributeName: NSFont.systemFont(ofSize: 14.0), NSBaselineOffsetAttributeName: 1.5]))
+                    title.append(NSAttributedString(string: self.getCost(coin, self.getMarket(coin), false), attributes: [NSFontAttributeName: NSFont.systemFont(ofSize: 14.0), NSBaselineOffsetAttributeName: 1.5]))
+                    menu.attributedTitle = title
+                }
+                */
                 for menu in self.statusMenu.item(withTag: coin)!.submenu!.items {
-                    if (menu.tag % 100 > 0 && self.getOptionsMarket(menu.tag % 100) == true) {
-                        menu.title = self.marketName[menu.tag % 100] + self.getCost(coin, menu.tag % 100, false)
+                    if (menu.tag % 1000 > 0 && self.getOptionsMarket(menu.tag % 1000) == true) {
+                        let title = NSMutableAttributedString(string: "")
+                        title.append(NSAttributedString(string: self.getMarketName(menu.tag % 1000, true), attributes: [NSFontAttributeName: NSFont.systemFont(ofSize: 14.0)]))
+                        title.append(NSAttributedString(string: self.getCost(coin, menu.tag % 1000, false), attributes: [NSFontAttributeName: NSFont.systemFont(ofSize: 14.0)]))
+                        menu.attributedTitle = title
                     }
                 }
             }
@@ -360,10 +492,24 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if (market == 11) {
             apiUrl = "https://bittrex.com/api/v1.1/public/getticker?market="
             
-            if (coin <= 2) {
+            if (coin == 1) {
                 apiUrl = apiUrl + "USDT-" + self.coinName[coin]
             } else {
                 apiUrl = apiUrl + "BTC-" + self.coinName[coin]
+            }
+        }
+        
+        if (market == 20) {
+            apiUrl = "https://coincheck.com/api/rate/" + self.coinName[coin].lowercased() + "_jpy"
+        }
+        
+        if (market == 21) {
+            apiUrl = "https://api.bitflyer.jp/v1/ticker/?product_code="
+            
+            if (coin == 1) {
+                apiUrl = apiUrl + self.coinName[coin] + "_JPY"
+            } else {
+                apiUrl = apiUrl + self.coinName[coin] + "_BTC"
             }
         }
         
@@ -379,43 +525,66 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     var cost = Double(0)
                     
                     if (market == 10) {
-                        cost = Double((jsonData["USDT_BTC"] as! [String: Any])["last"] as! String)!
+                        cost = self.getDouble((jsonData["USDT_BTC"] as! [String: Any])["last"] as Any)
                         self.costs[1][10] = cost
                         
-                        cost = Double((jsonData["USDT_ETH"] as! [String: Any])["last"] as! String)!
+                        cost = self.getDouble((jsonData["USDT_ETH"] as! [String: Any])["last"] as Any)
                         self.costs[2][10] = cost
                         
-                        cost = Double((jsonData["USDT_ETC"] as! [String: Any])["last"] as! String)!
+                        cost = self.getDouble((jsonData["BTC_ETH"] as! [String: Any])["last"] as Any)
+                        self.btcCosts[2][10] = cost
+                        
+                        cost = self.getDouble((jsonData["USDT_ETC"] as! [String: Any])["last"] as Any)
                         self.costs[3][10] = cost
                         
-                        cost = Double((jsonData["USDT_XRP"] as! [String: Any])["last"] as! String)!
+                        cost = self.getDouble((jsonData["BTC_ETC"] as! [String: Any])["last"] as Any)
+                        self.btcCosts[3][10] = cost
+                        
+                        cost = self.getDouble((jsonData["USDT_XRP"] as! [String: Any])["last"] as Any)
                         self.costs[4][10] = cost
                         
-                        cost = Double((jsonData["BTC_STRAT"] as! [String: Any])["last"] as! String)! * self.costs[1][10]
-                        self.costs[5][10] = cost
+                        cost = self.getDouble((jsonData["BTC_XRP"] as! [String: Any])["last"] as Any)
+                        self.btcCosts[4][10] = cost
                         
-                        cost = Double((jsonData["BTC_DGB"] as! [String: Any])["last"] as! String)! * self.costs[1][10]
-                        self.costs[6][10] = cost
+                        cost = self.getDouble((jsonData["BTC_STRAT"] as! [String: Any])["last"] as Any)
+                        self.costs[5][10] = cost * self.costs[1][10]
+                        self.btcCosts[5][10] = cost
                         
-                        cost = Double((jsonData["BTC_SC"] as! [String: Any])["last"] as! String)! * self.costs[1][10]
-                        self.costs[7][10] = cost
+                        cost = self.getDouble((jsonData["BTC_DGB"] as! [String: Any])["last"] as Any)
+                        self.costs[6][10] = cost * self.costs[1][10]
+                        self.btcCosts[6][10] = cost
+                        cost = self.getDouble((jsonData["BTC_SC"] as! [String: Any])["last"] as Any)
+                        self.costs[7][10] = cost * self.costs[1][10]
+                        self.btcCosts[7][10] = cost
                     } else {
                         if (market == 1) {
-                            cost = Double(jsonData["last"] as! String)!
+                            cost = self.getDouble(jsonData["last"] as Any)
                         }
                         
                         if (market == 2) {
-                            cost = Double((jsonData["data"] as! [String: Any])["closing_price"] as! String)!
+                            cost = self.getDouble((jsonData["data"] as! [String: Any])["closing_price"] as Any)
                         }
                         
                         if (market == 3) {
-                            cost = Double(jsonData["last"] as! String)!
+                            cost = self.getDouble(jsonData["last"] as Any)
                         }
                         
                         if (market == 11) {
-                            cost = (jsonData["result"] as! [String: Any])["Last"] as! Double
-                            if (coin > 2) {
+                            cost = self.getDouble((jsonData["result"] as! [String: Any])["Last"] as Any)
+                            if (coin > 1) {
+                                self.btcCosts[coin][market] = cost
                                 cost = cost * self.costs[1][11]
+                            }
+                        }
+                        
+                        if (market == 20) {
+                            cost = self.getDouble(jsonData["rate"] as Any)
+                        }
+                        
+                        if (market == 21) {
+                            cost = self.getDouble(jsonData["ltp"] as Any)
+                            if (coin > 1) {
+                                cost = cost * self.costs[1][21]
                             }
                         }
                         
@@ -426,7 +595,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                         self.costs[coin][market] = cost
                     }
                 } catch _ {
-                    // Error
+                    print("ERROR :",self.coinName[coin], self.getMarketName(market))
                 }
             })
             
@@ -434,13 +603,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
+    func getDouble(_ number: Any) -> Double {
+        if (number is NSNumber) {
+            return number as! Double
+        } else if (number is NSString) {
+            return Double(number as! String)!
+        } else {
+            return Double(0)
+        }
+    }
+    
     func updateData() {
         for coin in 1..<self.coinName.count {
             if (self.getOptionsCoin(coin) == true) {
                 for market in self.statusMenu.item(withTag: coin)!.submenu!.items {
-                    if (market.tag % 100 > 0 && self.getOptionsMarket(market.tag % 100) == true) {
-                        if (market.tag % 100 != 10) {
-                            self.getData(coin, market.tag % 100)
+                    if (market.tag % 1000 > 0 && self.getOptionsMarket(market.tag % 1000) == true) {
+                        if (market.tag % 1000 != 10) {
+                            self.getData(coin, market.tag % 1000)
                         }
                     }
                 }
@@ -519,6 +698,25 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
+    func getOptionsSymbol() -> Int {
+        return UserDefaults.standard.integer(forKey: "symbol")
+    }
+    
+    func setOptionsSymbol(_ sender: NSMenuItem) {
+        if (sender.state == NSOffState) {
+            UserDefaults.standard.set(sender.tag, forKey: "symbol")
+            for menu in self.symbolMenu.items {
+                menu.state = NSOffState
+            }
+            
+            sender.state = NSOnState
+            
+            self.stopTicker()
+            self.updateTicker()
+            self.startTicker()
+        }
+    }
+    
     func getOptionsRefreshTime() -> Int {
         let refreshTime: Int = UserDefaults.standard.integer(forKey: "refreshTime")
         return refreshTime == 0 ? 300 : refreshTime
@@ -554,7 +752,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.statusMenu.item(withTag: sender.tag)?.isEnabled = self.getOptionsCoin(sender.tag)
         
         if (self.getOptionsCoin(sender.tag) == false && self.getMarket(sender.tag) > 0) {
-            self.setMarket(self.statusMenu.item(withTag: sender.tag)!.submenu!.item(withTag: sender.tag * 100)!)
+            self.setMarket(self.statusMenu.item(withTag: sender.tag)!.submenu!.item(withTag: sender.tag * 1000)!)
         }
         
         self.stopTicker()
@@ -563,7 +761,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func getOptionsMarket(_ market: Int) -> Bool {
-        return UserDefaults.standard.integer(forKey: "market" + String(market)) != -1
+        if (market < 100) {
+            return UserDefaults.standard.integer(forKey: "market" + String(market)) != -1
+        } else {
+            return UserDefaults.standard.integer(forKey: "market" + String(market % 100)) != -1
+        }
     }
     
     func setOptionsMarket(_ sender: NSMenuItem) {
@@ -576,10 +778,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         
         for coin in 1..<self.coinName.count {
-            //self.statusMenu.item(withTag: coin)!.submenu?.item(withTag: coin * 100 + sender.tag)?.isEnabled = self.getOptionsMarket(sender.tag)
-            self.statusMenu.item(withTag: coin)!.submenu?.item(withTag: coin * 100 + sender.tag)?.action = self.getOptionsMarket(sender.tag) == true ? #selector(AppDelegate.setMarket) : nil
+            self.statusMenu.item(withTag: coin)!.submenu?.item(withTag: coin * 1000 + sender.tag)?.action = self.getOptionsMarket(sender.tag) == true ? #selector(AppDelegate.setMarket) : nil
             if (self.getMarket(coin) == sender.tag) {
-                self.setMarket(self.statusMenu.item(withTag: coin)!.submenu!.item(withTag: coin * 100)!)
+                self.setMarket(self.statusMenu.item(withTag: coin)!.submenu!.item(withTag: coin * 1000)!)
             }
         }
         
