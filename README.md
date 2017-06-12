@@ -1,6 +1,7 @@
 ## iCoinTicker
 
 [![Github All Releases](https://img.shields.io/github/downloads/moimz/iCoinTicker/total.svg)](https://github.com/moimz/iCoinTicker/releases)
+[![Github Releases](https://img.shields.io/github/downloads/moimz/iCoinTicker/latest/total.svg)](https://github.com/moimz/iCoinTicker/releases/latest)
 [![GitHub release](https://img.shields.io/github/release/moimz/iCoinTicker.svg)](https://github.com/moimz/iCoinTicker/releases)
 [![](https://img.shields.io/github/issues-raw/moimz/iCoinTicker.svg)](https://github.com/moimz/iCoinTicker/issues)
 [![license](https://img.shields.io/github/license/moimz/iCoinTicker.svg)](https://github.com/moimz/iCoinTicker/blob/master/LICENSE.md)
