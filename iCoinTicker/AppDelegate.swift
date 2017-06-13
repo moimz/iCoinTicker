@@ -521,78 +521,80 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 (data, response, error) -> Void in
                 
                 do {
-                    let jsonData = try JSONSerialization.jsonObject(with: data!) as! [String: Any]
-                    var cost = Double(0)
-                    
-                    if (market == 10) {
-                        cost = self.getDouble((jsonData["USDT_BTC"] as! [String: Any])["last"] as Any)
-                        self.costs[1][10] = cost
+                    if (data != nil) {
+                        let jsonData = try JSONSerialization.jsonObject(with: data!) as! [String: Any]
+                        var cost = Double(0)
                         
-                        cost = self.getDouble((jsonData["USDT_ETH"] as! [String: Any])["last"] as Any)
-                        self.costs[2][10] = cost
-                        
-                        cost = self.getDouble((jsonData["BTC_ETH"] as! [String: Any])["last"] as Any)
-                        self.btcCosts[2][10] = cost
-                        
-                        cost = self.getDouble((jsonData["USDT_ETC"] as! [String: Any])["last"] as Any)
-                        self.costs[3][10] = cost
-                        
-                        cost = self.getDouble((jsonData["BTC_ETC"] as! [String: Any])["last"] as Any)
-                        self.btcCosts[3][10] = cost
-                        
-                        cost = self.getDouble((jsonData["USDT_XRP"] as! [String: Any])["last"] as Any)
-                        self.costs[4][10] = cost
-                        
-                        cost = self.getDouble((jsonData["BTC_XRP"] as! [String: Any])["last"] as Any)
-                        self.btcCosts[4][10] = cost
-                        
-                        cost = self.getDouble((jsonData["BTC_STRAT"] as! [String: Any])["last"] as Any)
-                        self.costs[5][10] = cost * self.costs[1][10]
-                        self.btcCosts[5][10] = cost
-                        
-                        cost = self.getDouble((jsonData["BTC_DGB"] as! [String: Any])["last"] as Any)
-                        self.costs[6][10] = cost * self.costs[1][10]
-                        self.btcCosts[6][10] = cost
-                        cost = self.getDouble((jsonData["BTC_SC"] as! [String: Any])["last"] as Any)
-                        self.costs[7][10] = cost * self.costs[1][10]
-                        self.btcCosts[7][10] = cost
-                    } else {
-                        if (market == 1) {
-                            cost = self.getDouble(jsonData["last"] as Any)
-                        }
-                        
-                        if (market == 2) {
-                            cost = self.getDouble((jsonData["data"] as! [String: Any])["closing_price"] as Any)
-                        }
-                        
-                        if (market == 3) {
-                            cost = self.getDouble(jsonData["last"] as Any)
-                        }
-                        
-                        if (market == 11) {
-                            cost = self.getDouble((jsonData["result"] as! [String: Any])["Last"] as Any)
-                            if (coin > 1) {
-                                self.btcCosts[coin][market] = cost
-                                cost = cost * self.costs[1][11]
+                        if (market == 10) {
+                            cost = self.getDouble((jsonData["USDT_BTC"] as! [String: Any])["last"] as Any)
+                            self.costs[1][10] = cost
+                            
+                            cost = self.getDouble((jsonData["USDT_ETH"] as! [String: Any])["last"] as Any)
+                            self.costs[2][10] = cost
+                            
+                            cost = self.getDouble((jsonData["BTC_ETH"] as! [String: Any])["last"] as Any)
+                            self.btcCosts[2][10] = cost
+                            
+                            cost = self.getDouble((jsonData["USDT_ETC"] as! [String: Any])["last"] as Any)
+                            self.costs[3][10] = cost
+                            
+                            cost = self.getDouble((jsonData["BTC_ETC"] as! [String: Any])["last"] as Any)
+                            self.btcCosts[3][10] = cost
+                            
+                            cost = self.getDouble((jsonData["USDT_XRP"] as! [String: Any])["last"] as Any)
+                            self.costs[4][10] = cost
+                            
+                            cost = self.getDouble((jsonData["BTC_XRP"] as! [String: Any])["last"] as Any)
+                            self.btcCosts[4][10] = cost
+                            
+                            cost = self.getDouble((jsonData["BTC_STRAT"] as! [String: Any])["last"] as Any)
+                            self.costs[5][10] = cost * self.costs[1][10]
+                            self.btcCosts[5][10] = cost
+                            
+                            cost = self.getDouble((jsonData["BTC_DGB"] as! [String: Any])["last"] as Any)
+                            self.costs[6][10] = cost * self.costs[1][10]
+                            self.btcCosts[6][10] = cost
+                            cost = self.getDouble((jsonData["BTC_SC"] as! [String: Any])["last"] as Any)
+                            self.costs[7][10] = cost * self.costs[1][10]
+                            self.btcCosts[7][10] = cost
+                        } else {
+                            if (market == 1) {
+                                cost = self.getDouble(jsonData["last"] as Any)
                             }
-                        }
-                        
-                        if (market == 20) {
-                            cost = self.getDouble(jsonData["rate"] as Any)
-                        }
-                        
-                        if (market == 21) {
-                            cost = self.getDouble(jsonData["ltp"] as Any)
-                            if (coin > 1) {
-                                cost = cost * self.costs[1][21]
+                            
+                            if (market == 2) {
+                                cost = self.getDouble((jsonData["data"] as! [String: Any])["closing_price"] as Any)
                             }
+                            
+                            if (market == 3) {
+                                cost = self.getDouble(jsonData["last"] as Any)
+                            }
+                            
+                            if (market == 11) {
+                                cost = self.getDouble((jsonData["result"] as! [String: Any])["Last"] as Any)
+                                if (coin > 1) {
+                                    self.btcCosts[coin][market] = cost
+                                    cost = cost * self.costs[1][11]
+                                }
+                            }
+                            
+                            if (market == 20) {
+                                cost = self.getDouble(jsonData["rate"] as Any)
+                            }
+                            
+                            if (market == 21) {
+                                cost = self.getDouble(jsonData["ltp"] as Any)
+                                if (coin > 1) {
+                                    cost = cost * self.costs[1][21]
+                                }
+                            }
+                            
+                            if (cost == 0) {
+                                return
+                            }
+                            
+                            self.costs[coin][market] = cost
                         }
-                        
-                        if (cost == 0) {
-                            return
-                        }
-                        
-                        self.costs[coin][market] = cost
                     }
                 } catch _ {
                     print("ERROR :",self.coinName[coin], self.getMarketName(market))
