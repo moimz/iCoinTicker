@@ -209,6 +209,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func initOptions() {
+        let marketCurrency: NSMenuItem = NSMenuItem(title: "Market currency", action: #selector(self.setOptionsCurrency), keyEquivalent: "")
+        marketCurrency.tag = 0;
+        marketCurrency.state = self.getOptionsCurrency() == 0 ? NSOnState : NSOffState
+        self.currencyMenu.addItem(marketCurrency)
+        
+        self.currencyMenu.addItem(NSMenuItem.separator())
+        
         for i in 1..<self.currencyName.count {
             let menu: NSMenuItem = NSMenuItem(title: self.currencyMark[i] + " " + self.currencyName[i], action: #selector(self.setOptionsCurrency), keyEquivalent: "")
             menu.tag = i
@@ -345,7 +352,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func getCost(_ coin: Int, _ market: Int, _ useTicker: Bool) -> String {
         var cost: Double = 0
         if (market < 100) {
-            cost = self.costs[coin][market] * self.getCurrency(self.getMarketCurrency(market), self.getOptionsCurrency())
+            if (self.getOptionsCurrency() > 0) {
+                cost = self.costs[coin][market] * self.getCurrency(self.getMarketCurrency(market), self.getOptionsCurrency())
+            } else {
+                cost = self.costs[coin][market]
+            }
         } else {
             cost = self.btcCosts[coin][market % 100] * self.getCurrency(self.getMarketCurrency(market), self.getOptionsCurrency())
         }
@@ -360,33 +371,31 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             var text: String = ""
             
             if (market < 100) {
-                var places: Double
+                var format: String = "#,###"
                 
-                switch (self.getOptionsCurrency()) {
+                switch (self.getOptionsCurrency() > 0 ? self.getOptionsCurrency() : self.getMarketCurrency(market)) {
                     case 2 :
-                        places = Double(2)
+                        format = "#,##0.00"
                         break
                     
                     case 4 :
-                        places = Double(1)
+                        format = "#,##0.0"
                         break
                     
                     case 5 :
-                        places = Double(2)
+                        format = "#,##0.00"
                         break
                     
                     default :
-                        places = Double(0)
+                        format = "#,###"
                 }
-                
-                let divisor = pow(10.0, places)
-                cost = round(cost * divisor) / divisor
                 
                 let numberFormatter = NumberFormatter()
                 numberFormatter.numberStyle = .decimal
+                numberFormatter.format = format
                 
                 if (self.getOptionsSymbol() == 2 || (useTicker == true && self.getOptionsSymbol() == 1) || (useTicker == false && self.getOptionsSymbol() == 0)) {
-                    text = self.currencyMark[self.getOptionsCurrency()] + " " + numberFormatter.string(from: NSNumber(value: cost))!
+                    text = self.currencyMark[self.getOptionsCurrency() > 0 ? self.getOptionsCurrency() : self.getMarketCurrency(market)] + " " + numberFormatter.string(from: NSNumber(value: cost))!
                 } else {
                     text = numberFormatter.string(from: NSNumber(value: cost))!
                 }
@@ -706,8 +715,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func getOptionsCurrency() -> Int {
-        let currency: Int = UserDefaults.standard.integer(forKey: "currency")
-        return currency == 0 ? 1 : currency
+        return UserDefaults.standard.integer(forKey: "currency")
     }
     
     func setOptionsCurrency(_ sender: NSMenuItem) {
