@@ -3,6 +3,7 @@
 [![Github All Releases](https://img.shields.io/github/downloads/moimz/iCoinTicker/total.svg)](https://github.com/moimz/iCoinTicker/releases)
 [![Github Releases](https://img.shields.io/github/downloads/moimz/iCoinTicker/latest/total.svg)](https://github.com/moimz/iCoinTicker/releases/latest)
 [![GitHub release](https://img.shields.io/github/release/moimz/iCoinTicker.svg)](https://github.com/moimz/iCoinTicker/releases)
+[![Itunes App Store](https://img.shields.io/itunes/v/1248168577.svg)](https://itunes.apple.com/us/app/icointicker/id1248168577?l=ko&ls=1&mt=12)
 [![](https://img.shields.io/github/issues-raw/moimz/iCoinTicker.svg)](https://github.com/moimz/iCoinTicker/issues)
 [![license](https://img.shields.io/github/license/moimz/iCoinTicker.svg)](https://github.com/moimz/iCoinTicker/blob/master/LICENSE.md)
 
@@ -26,19 +27,24 @@ macOS menubar ticker that displays the latest crypto currency(BTC, ETH, ETC, XRP
 - STRAT (Stratis)
 - DGB (DigiByte)
 - SC (Siacoin)
+- XMR (Monero)
 
 
 ## Support Currency
 - KRW
 - USD
+- JPY
+- CNY
+- EUR
 
 
 ## Support Market
-- Korbit
-- Bithumb
-- Coinone
-- Poloniex
-- Bittrex
+- Korbit (KR)
+- Bithumb (KR)
+- Coinone (KR)
+- Poloniex (JP)
+- Bittrex (JP)
+- Okcoin (CN)
 
 
 ## Screenshot
@@ -46,7 +52,7 @@ macOS menubar ticker that displays the latest crypto currency(BTC, ETH, ETC, XRP
 
 
 ## Download
-https://github.com/moimz/iCoinTicker/releases/download/v2.2.0/iCoinTicker.zip
+https://github.com/moimz/iCoinTicker/releases/download/v2.4.0/iCoinTicker.zip
 
 
 ## Donate

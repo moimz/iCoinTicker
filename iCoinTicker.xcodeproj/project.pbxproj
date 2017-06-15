@@ -29,6 +29,7 @@
 
 /* Begin PBXFileReference section */
 		CA34533E1EE45C9800D6ECF3 /* screenshot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screenshot.png; sourceTree = "<group>"; };
+		CA38413F1EF101FC007DD767 /* iCoinTicker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iCoinTicker.entitlements; sourceTree = "<group>"; };
 		CA81D62C1EE42DFA00F1FE30 /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
 		CA82D0AB1ED31FB900B079E4 /* iCoinTicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iCoinTicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA82D0AE1ED31FB900B079E4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -81,6 +82,7 @@
 		CA82D0AD1ED31FB900B079E4 /* iCoinTicker */ = {
 			isa = PBXGroup;
 			children = (
+				CA38413F1EF101FC007DD767 /* iCoinTicker.entitlements */,
 				CA73E4441EE2171300736DC3 /* Fonts */,
 				CA82D0AE1ED31FB900B079E4 /* AppDelegate.swift */,
 				CA82D0B01ED31FB900B079E4 /* ViewController.swift */,
@@ -124,8 +126,13 @@
 				TargetAttributes = {
 					CA82D0AA1ED31FB900B079E4 = {
 						CreatedOnToolsVersion = 8.3.2;
-						DevelopmentTeam = YTHZ842387;
+						DevelopmentTeam = XSDBV8D2XL;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -268,9 +275,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = iCoinTicker/iCoinTicker.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = YTHZ842387;
+				DEVELOPMENT_TEAM = XSDBV8D2XL;
 				INFOPLIST_FILE = iCoinTicker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
@@ -285,9 +293,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = iCoinTicker/iCoinTicker.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = YTHZ842387;
+				DEVELOPMENT_TEAM = XSDBV8D2XL;
 				INFOPLIST_FILE = iCoinTicker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
