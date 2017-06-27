@@ -31,7 +31,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             components.removeLast()
             components.removeLast()
             components.append("MacOS")
-            components.append("iCoinTicker") //main app name
+            components.append("iCoinTicker")
             
             let newPath = NSString.path(withComponents: components)
             
@@ -44,7 +44,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func terminate() {
         NSApp.terminate(nil)
     }
-
+    
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
     }
