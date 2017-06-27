@@ -1,9 +1,11 @@
 /* 
-  Localization.strings
+  Localizable.strings
   iCoinTicker
 
-  Created by 알쯔 on 2017. 6. 18..
+  Created by 알쯔 on 2017. 6. 27..
   Copyright © 2017년 Moimz. All rights reserved.
 */
 
-"menu.about" = "iCoinTicker 에 관하여";
+menu.about = "iCoinTicker에 관하여";
+menu.refresh = "새로고침";
+menu.preferences = "환경설정";

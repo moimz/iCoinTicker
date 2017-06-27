@@ -11,6 +11,7 @@
 		CA82D0B11ED31FB900B079E4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA82D0B01ED31FB900B079E4 /* ViewController.swift */; };
 		CA82D0B31ED31FB900B079E4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA82D0B21ED31FB900B079E4 /* Assets.xcassets */; };
 		CA82D0C41ED325E700B079E4 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = CA82D0C31ED325E700B079E4 /* MainMenu.xib */; };
+		CAC584BB1F020C9700485CF8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CAC584BD1F020C9700485CF8 /* Localizable.strings */; };
 		CAEEFBFC1EE2017D007DD443 /* cryptocoins.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = CAEEFBFB1EE2017D007DD443 /* cryptocoins.ttf */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
 
@@ -39,6 +40,9 @@
 		CA82D0C31ED325E700B079E4 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		CA82D0C51ED327BF00B079E4 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		CAC584B81F01FF7300485CF8 /* cryptocoins.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = cryptocoins.svg; sourceTree = "<group>"; };
+		CAC584BC1F020C9700485CF8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		CAC584BE1F020CB700485CF8 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		CAC584BF1F020CCE00485CF8 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CAEEFBFB1EE2017D007DD443 /* cryptocoins.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = cryptocoins.ttf; path = ../cryptocoins.ttf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -91,6 +95,7 @@
 				CA82D0B21ED31FB900B079E4 /* Assets.xcassets */,
 				CA82D0B71ED31FB900B079E4 /* Info.plist */,
 				CA82D0C31ED325E700B079E4 /* MainMenu.xib */,
+				CAC584BD1F020C9700485CF8 /* Localizable.strings */,
 			);
 			path = iCoinTicker;
 			sourceTree = "<group>";
@@ -145,6 +150,8 @@
 			knownRegions = (
 				en,
 				Base,
+				ko,
+				ja,
 			);
 			mainGroup = CA82D0A21ED31FB900B079E4;
 			productRefGroup = CA82D0AC1ED31FB900B079E4 /* Products */;
@@ -162,6 +169,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CA82D0B31ED31FB900B079E4 /* Assets.xcassets in Resources */,
+				CAC584BB1F020C9700485CF8 /* Localizable.strings in Resources */,
 				CA82D0C41ED325E700B079E4 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -180,11 +188,26 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXVariantGroup section */
+		CAC584BD1F020C9700485CF8 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CAC584BC1F020C9700485CF8 /* en */,
+				CAC584BE1F020CB700485CF8 /* ko */,
+				CAC584BF1F020CCE00485CF8 /* ja */,
+			);
+			name = Localizable.strings;
+			path = ..;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
 		CA82D0B81ED31FB900B079E4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -235,6 +258,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
