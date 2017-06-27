@@ -16,16 +16,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet weak var window: NSWindow!
     @IBOutlet weak var appname: NSTextField!
     
-    @IBOutlet weak var statusMenu: NSMenu!
-    @IBOutlet weak var refresh: NSMenuItem!
-    
-    @IBOutlet weak var refreshTimeMenu: NSMenu!
-    @IBOutlet weak var currencyMenu: NSMenu!
-    @IBOutlet weak var fontSizeMenu: NSMenu!
-    @IBOutlet weak var symbolMenu: NSMenu!
-    
-    @IBOutlet weak var coinMenu: NSMenu!
-    @IBOutlet weak var marketMenu: NSMenu!
+    let statusMenu: NSMenu = NSMenu()
     
     let statusItem = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
     
@@ -45,11 +36,35 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var timer = Timer()
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
+        self.initStorage()
+        self.initMenus()
+        self.statusItem.menu = self.statusMenu
+        
+        self.updateTicker()
+        self.updateData()
+        self.timer = Timer.scheduledTimer(timeInterval: Double(self.getOptionsRefreshTime()), target: self, selector: #selector(AppDelegate.updateData), userInfo: nil, repeats: true)
+        self.startTicker()
+        
+        /*
+        self.initVisible()
+        
+        self.initOptions()
+        
+        
+        
+        self.updateTicker()
+        
+        self.updateData()
+        self.timer = Timer.scheduledTimer(timeInterval: Double(self.getOptionsRefreshTime()), target: self, selector: #selector(AppDelegate.updateData), userInfo: nil, repeats: true)
+        
+        self.startTicker()
+        */
+        
+//        self.checkUpdate()
+    }
+    
+    func initStorage() {
         for i in 0..<self.coinUnit.count {
-            if (i > 0) {
-                self.initMarketList(i)
-            }
-            
             self.costs.append([])
             self.btcCosts.append([])
             
@@ -58,21 +73,33 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 self.btcCosts[i].append(Double(0))
             }
         }
+    }
+    
+    func initMenus() {
+        self.stopTicker()
+        self.statusMenu.removeAllItems()
         
-        self.initVisible()
+        let about: NSMenuItem = NSMenuItem(title: NSLocalizedString("menu.about", comment: ""), action: #selector(AppDelegate.about), keyEquivalent: "")
+        self.statusMenu.addItem(about)
         
-        self.initOptions()
+        self.statusMenu.addItem(NSMenuItem.separator())
         
-        self.statusItem.menu = self.statusMenu
+        for coin in 1..<self.coinUnit.count {
+            if (self.getOptionsCoin(coin) == true) {
+                self.initMarketList(coin)
+            }
+        }
         
-        self.updateTicker()
+        self.statusMenu.addItem(NSMenuItem.separator())
         
-        self.updateData()
-        self.timer = Timer.scheduledTimer(timeInterval: Double(self.getOptionsRefreshTime()), target: self, selector: #selector(AppDelegate.updateData), userInfo: nil, repeats: true)
+        let refresh: NSMenuItem = NSMenuItem(title: NSLocalizedString("menu.refresh", comment: ""), action: #selector(AppDelegate.preferences), keyEquivalent: "")
+        refresh.tag = 0
+        self.statusMenu.addItem(refresh)
         
-        self.startTicker()
+        self.statusMenu.addItem(NSMenuItem.separator())
         
-//        self.checkUpdate()
+        let preferences: NSMenuItem = NSMenuItem(title: NSLocalizedString("menu.preferences", comment: ""), action: #selector(AppDelegate.preferences), keyEquivalent: "")
+        self.statusMenu.addItem(preferences)
     }
     
     func initMarketList(_ coin: Int) {
@@ -82,7 +109,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let list: NSMenu = NSMenu()
         menu.submenu = list
         
-        self.statusMenu.insertItem(menu, at: coin + 1)
+        self.statusMenu.addItem(menu)
         
         let none: NSMenuItem = NSMenuItem(title: "NONE", action: #selector(self.setMarket), keyEquivalent: "")
         none.tag = coin * 1000
@@ -207,7 +234,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
     }
-    
+    /*
     func initOptions() {
         let marketCurrency: NSMenuItem = NSMenuItem(title: "Market currency", action: #selector(self.setOptionsCurrency), keyEquivalent: "")
         marketCurrency.tag = 0;
@@ -280,7 +307,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self.marketMenu.addItem(menu)
         }
     }
-    
+    */
     func getMarket(_ coin: Int) -> Int {
         return UserDefaults.standard.integer(forKey: self.coinUnit[coin].lowercased())
     }
@@ -715,7 +742,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "YYYY.MM.dd HH:mm:ss"
         let DateInFormat = dateFormatter.string(from: todaysDate)
-        self.refresh.title = "Refresh : " + "\(DateInFormat)"
+        //self.refresh.title = "Refresh : " + "\(DateInFormat)"
     }
     
     func applicationWillTerminate(_ aNotification: Notification) {
@@ -725,7 +752,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func getOptionsCurrency() -> Int {
         return UserDefaults.standard.integer(forKey: "currency")
     }
-    
+    /*
     func setOptionsCurrency(_ sender: NSMenuItem) {
         if (sender.state == NSOffState) {
             UserDefaults.standard.set(sender.tag, forKey: "currency")
@@ -740,12 +767,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self.startTicker()
         }
     }
-    
+    */
     func getOptionsFontSize() -> Int {
         let fontSize: Int = UserDefaults.standard.integer(forKey: "fontSize")
         return fontSize == 0 ? 14 : fontSize
     }
-    
+    /*
     func setOptionsFontSize(_ sender: NSMenuItem) {
         if (sender.state == NSOffState) {
             UserDefaults.standard.set(sender.tag, forKey: "fontSize")
@@ -760,11 +787,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self.startTicker()
         }
     }
-    
+    */
     func getOptionsSymbol() -> Int {
         return UserDefaults.standard.integer(forKey: "symbol")
     }
-    
+    /*
     func setOptionsSymbol(_ sender: NSMenuItem) {
         if (sender.state == NSOffState) {
             UserDefaults.standard.set(sender.tag, forKey: "symbol")
@@ -779,12 +806,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self.startTicker()
         }
     }
-    
+    */
     func getOptionsRefreshTime() -> Int {
         let refreshTime: Int = UserDefaults.standard.integer(forKey: "refreshTime")
         return refreshTime == 0 ? 300 : refreshTime
     }
-    
+    /*
     func setOptionsRefreshTime(_ sender: NSMenuItem) {
         if (sender.state == NSOffState) {
             for item in self.refreshTimeMenu.items {
@@ -798,11 +825,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self.timer = Timer.scheduledTimer(timeInterval: Double(sender.tag), target: self, selector: #selector(AppDelegate.updateData), userInfo: nil, repeats: true)
         }
     }
-    
+    */
     func getOptionsCoin(_ coin: Int) -> Bool {
         return UserDefaults.standard.integer(forKey: "coin" + String(coin)) != -1
     }
-    
+    /*
     func setOptionsCoin(_ sender: NSMenuItem) {
         if (sender.state == NSOnState) {
             sender.state = NSOffState
@@ -822,7 +849,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.updateTicker()
         self.startTicker()
     }
-    
+    */
     func getOptionsMarketGroup(_ group: Int) -> Bool {
         for market in group..<group+10 {
             if (self.getOptionsMarket(market) == true) {
@@ -839,7 +866,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             return UserDefaults.standard.integer(forKey: "market" + String(market % 100)) != -1
         }
     }
-    
+    /*
     func setOptionsMarket(_ sender: NSMenuItem) {
         if (sender.state == NSOnState) {
             sender.state = NSOffState
@@ -862,6 +889,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.updateTicker()
         self.startTicker()
     }
+    */
     /*
     func checkUpdate() {
         let session = URLSession.shared
@@ -903,12 +931,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     */
-    @IBAction func info(_ sender: AnyObject) {
+    func about(_ sender: NSMenuItem) {
         self.window!.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
  
         let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
         self.appname.stringValue = "iCoinTicker v" + version
+    }
+    
+    func preferences(_ sender: NSMenuItem) {
+        
     }
     
     @IBAction func refresh(_ sender: AnyObject) {
