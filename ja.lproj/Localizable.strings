@@ -1,10 +1,10 @@
-/* 
-  Localizable.strings
-  iCoinTicker
-
-  Created by 알쯔 on 2017. 6. 27..
-  Copyright © 2017년 Moimz. All rights reserved.
-*/
+/*
+ Localizable.strings
+ iCoinTicker
+ 
+ Created by Arzz on 2017. 6. 27..
+ Copyright © 2017 Moimz. All rights reserved.
+ */
 
 menu.about = "About iCoinTicker";
 menu.refresh = "Refresh";
@@ -13,3 +13,5 @@ menu.quit = "Quit";
 
 preferences.toolbar.general = "General";
 preferences.toolbar.coin = "Coins/Markets";
+
+preferences.general.startAtLogin = "Start At Login";

@@ -1,10 +1,10 @@
-/* 
-  Localizable.strings
-  iCoinTicker
-
-  Created by 알쯔 on 2017. 6. 27..
-  Copyright © 2017년 Moimz. All rights reserved.
-*/
+/*
+ Localizable.strings
+ iCoinTicker
+ 
+ Created by Arzz on 2017. 6. 27..
+ Copyright © 2017 Moimz. All rights reserved.
+ */
 
 menu.about = "iCoinTicker에 관하여";
 menu.refresh = "새로고침";
@@ -13,3 +13,5 @@ menu.quit = "종료";
 
 preferences.toolbar.general = "일반";
 preferences.toolbar.coin = "코인";
+
+preferences.general.startAtLogin = "로그인할 때 자동으로 실행";

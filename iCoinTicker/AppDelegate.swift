@@ -40,6 +40,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var timer = Timer()
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
+        self.killLauncher()
         self.initStorage()
         self.initAboutWindow()
         self.initPreferencesWindow()
@@ -69,6 +70,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 //        self.checkUpdate()
     }
     
+    func killLauncher() {
+        let launcherAppIdentifier = "com.moimz.iCoinTickerLauncher"
+        
+        var launcherAppRunning = false
+        for app in NSWorkspace.shared().runningApplications {
+            if (app.bundleIdentifier == launcherAppIdentifier) {
+                launcherAppRunning = true
+                break
+            }
+        }
+        
+        if (launcherAppRunning == true) {
+            DistributedNotificationCenter.default().post(name: Notification.Name("killme"), object: Bundle.main.bundleIdentifier!)
+        }
+    }
+    
     func initStorage() {
         for i in 0..<self.coinUnit.count {
             self.costs.append([])
@@ -92,6 +109,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             item.label = NSLocalizedString("preferences.toolbar." + item.label, comment: "")
             item.action = #selector(AppDelegate.preferencesViewSelected)
         }
+        
+        for view in self.preferencesGeneral.subviews {
+            if (view is NSButton) {
+                let button: NSButton = view as! NSButton
+                button.title = NSLocalizedString("preferences.general." + button.title, comment: "")
+            }
+        }
+        
+        let startAtLogin: NSButton! = self.preferencesGeneral.viewWithTag(10) as! NSButton
+        startAtLogin.action = #selector(AppDelegate.preferencesStartAtLogin)
+        startAtLogin.state = UserDefaults.standard.bool(forKey: "preferencesStartAtLogin") == true ? NSOnState : NSOffState
     }
     
     func initMenus() {
@@ -1013,6 +1041,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.preferencesWindow.contentView!.isHidden = false
     }
     
+    func preferencesStartAtLogin(_ sender: NSButton) {
+        let launcherAppIdentifier = "com.moimz.iCoinTickerLauncher"
+        SMLoginItemSetEnabled(launcherAppIdentifier as CFString, sender.state == NSOnState)
+        
+        UserDefaults.standard.set(sender.state == NSOnState, forKey:"preferencesStartAtLogin")
+        
+        self.killLauncher()
+    }
+    
     func quit(_ sender: AnyObject) {
         self.timer.invalidate()
         self.tickerTimer.invalidate()
@@ -1022,6 +1059,5 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBAction func openUrl(_ sender: AnyObject) {
         NSWorkspace.shared().open(URL(string: "https://github.com/moimz/iCoinTicker/issues")!)
     }
-    
     
 }
