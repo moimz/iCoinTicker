@@ -36,9 +36,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let currencyMark: [String] = ["", "₩", "$", "¥", "¥", "€"]
     var currencyLatestTime: Double = 0
     
-    let coinUnit: [String] = ["", "BTC", "ETH", "ETC", "XRP", "STRAT", "DGB", "SC" ,"XMR"]
-    let coinName: [String] = ["", "Bitcoin", "Ethereum", "Ethereum Classic", "Ripple", "Stratis", "DigiByte", "Siacoin", "Monero"]
-    let coinMark: [String] = ["", "\u{e9a7}", "\u{e9c4}", "\u{e9c2}", "\u{e93a}", "\u{e916}", "\u{e9b6}", "\u{e906}", "\u{e936}"]
+    let coinUnit: [String] = ["", "BTC", "ETH", "ETC", "XRP", "STRAT", "DGB", "SC" ,"XMR", "ZEC", "LTC"]
+    let coinName: [String] = ["", "Bitcoin", "Ethereum", "Ethereum Classic", "Ripple", "Stratis", "DigiByte", "Siacoin", "Monero", "Zcash", "Litecoin"]
+    let coinMark: [String] = ["", "\u{e9a7}", "\u{e9c4}", "\u{e9c2}", "\u{e93a}", "\u{e916}", "\u{e9b6}", "\u{e906}", "\u{e936}", "\u{e9cf}", "\u{e990}"]
     let marketName: [String] = ["", "Korbit", "Bithumb", "Coinone", "", "", "", "", "", "", "Poloniex", "Bittrex", "", "", "", "", "", "", "", "", "Coincheck", "Bitflyer", "", "", "", "", "", "", "", "", "Okcoin"]
     
     var tickerTimer = Timer()
@@ -607,6 +607,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                             cost = self.getDouble((jsonData["BTC_XMR"] as! [String: Any])["last"] as Any)
                             self.costs[8][10] = cost * self.costs[1][10]
                             self.btcCosts[8][10] = cost
+                            
+                            cost = self.getDouble((jsonData["BTC_ZEC"] as! [String: Any])["last"] as Any)
+                            self.costs[9][10] = cost * self.costs[1][10]
+                            self.btcCosts[9][10] = cost
+                            
+                            cost = self.getDouble((jsonData["BTC_LTC"] as! [String: Any])["last"] as Any)
+                            self.costs[10][10] = cost * self.costs[1][10]
+                            self.btcCosts[10][10] = cost
                         } else {
                             if (market == 1) {
                                 cost = self.getDouble(jsonData["last"] as Any)

@@ -38,6 +38,7 @@
 		CA82D0B71ED31FB900B079E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CA82D0C31ED325E700B079E4 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		CA82D0C51ED327BF00B079E4 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		CAC584B81F01FF7300485CF8 /* cryptocoins.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = cryptocoins.svg; sourceTree = "<group>"; };
 		CAEEFBFB1EE2017D007DD443 /* cryptocoins.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = cryptocoins.ttf; path = ../cryptocoins.ttf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -56,6 +57,7 @@
 			isa = PBXGroup;
 			children = (
 				CAEEFBFB1EE2017D007DD443 /* cryptocoins.ttf */,
+				CAC584B81F01FF7300485CF8 /* cryptocoins.svg */,
 			);
 			name = Fonts;
 			sourceTree = "<group>";
