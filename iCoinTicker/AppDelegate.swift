@@ -13,8 +13,12 @@ import ServiceManagement
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     
-    @IBOutlet weak var window: NSWindow!
-    @IBOutlet weak var appname: NSTextField!
+    @IBOutlet weak var aboutWindow: NSWindow!
+    
+    @IBOutlet weak var preferencesWindow: NSWindow!
+    @IBOutlet weak var preferencesToolbar: NSToolbar!
+    @IBOutlet weak var preferencesGeneral: NSView!
+    @IBOutlet weak var preferencesCoin: NSView!
     
     let statusMenu: NSMenu = NSMenu()
     
@@ -37,6 +41,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         self.initStorage()
+        self.initAboutWindow()
+        self.initPreferencesWindow()
         self.initMenus()
         self.statusItem.menu = self.statusMenu
         
@@ -75,6 +81,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
+    func initAboutWindow() {
+        let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
+        let appname: NSTextField! = self.aboutWindow.contentView!.viewWithTag(100) as! NSTextField
+        appname.stringValue = "iCoinTicker v" + version
+    }
+    
+    func initPreferencesWindow() {
+        for item in self.preferencesToolbar.items {
+            item.label = NSLocalizedString("preferences.toolbar." + item.label, comment: "")
+            item.action = #selector(AppDelegate.preferencesViewSelected)
+        }
+    }
+    
     func initMenus() {
         self.stopTicker()
         self.statusMenu.removeAllItems()
@@ -92,14 +111,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         self.statusMenu.addItem(NSMenuItem.separator())
         
-        let refresh: NSMenuItem = NSMenuItem(title: NSLocalizedString("menu.refresh", comment: ""), action: #selector(AppDelegate.preferences), keyEquivalent: "")
-        refresh.tag = 0
+        let refresh: NSMenuItem = NSMenuItem(title: NSLocalizedString("menu.refresh", comment: ""), action: #selector(AppDelegate.refresh), keyEquivalent: "r")
+        refresh.tag = 100000
         self.statusMenu.addItem(refresh)
         
         self.statusMenu.addItem(NSMenuItem.separator())
         
-        let preferences: NSMenuItem = NSMenuItem(title: NSLocalizedString("menu.preferences", comment: ""), action: #selector(AppDelegate.preferences), keyEquivalent: "")
+        let preferences: NSMenuItem = NSMenuItem(title: NSLocalizedString("menu.preferences", comment: ""), action: #selector(AppDelegate.preferences), keyEquivalent: ",")
         self.statusMenu.addItem(preferences)
+        
+        self.statusMenu.addItem(NSMenuItem.separator())
+        
+        let quit: NSMenuItem = NSMenuItem(title: NSLocalizedString("menu.quit", comment: ""), action: #selector(AppDelegate.quit), keyEquivalent: "q")
+        self.statusMenu.addItem(quit)
     }
     
     func initMarketList(_ coin: Int) {
@@ -742,7 +766,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "YYYY.MM.dd HH:mm:ss"
         let DateInFormat = dateFormatter.string(from: todaysDate)
-        //self.refresh.title = "Refresh : " + "\(DateInFormat)"
+        
+        self.statusMenu.item(withTag: 100000)!.title = NSLocalizedString("menu.refresh", comment: "") + " : " + DateInFormat
     }
     
     func applicationWillTerminate(_ aNotification: Notification) {
@@ -932,18 +957,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     */
     func about(_ sender: NSMenuItem) {
-        self.window!.makeKeyAndOrderFront(nil)
+        self.aboutWindow.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
- 
-        let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
-        self.appname.stringValue = "iCoinTicker v" + version
     }
     
-    func preferences(_ sender: NSMenuItem) {
-        
-    }
-    
-    @IBAction func refresh(_ sender: AnyObject) {
+    func refresh(_ sender: NSMenuItem) {
         for i in 0..<self.coinUnit.count {
             for j in 0..<self.marketName.count {
                 self.costs[i][j] = Double(0)
@@ -957,13 +975,53 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.startTicker()
     }
     
-    @IBAction func openUrl(_ sender: AnyObject) {
-        NSWorkspace.shared().open(URL(string: "https://github.com/moimz/iCoinTicker/issues")!)
+    func preferences(_ sender: NSMenuItem) {
+        self.preferencesWindow.makeKeyAndOrderFront(nil)
+        self.preferencesWindow.title = NSLocalizedString("menu.preferences", comment: "")
+        NSApp.activate(ignoringOtherApps: true)
+        
+        if (self.preferencesToolbar.selectedItemIdentifier == nil) {
+            self.preferencesToolbar.selectedItemIdentifier = "general"
+            preferencesViewSelected(self.preferencesToolbar.items[0])
+        }
+        
     }
     
-    @IBAction func quit(_ sender: AnyObject) {
+    func preferencesViewSelected(_ sender: NSToolbarItem) {
+        var subview: NSView
+        switch (sender.itemIdentifier) {
+            case "general" :
+                subview = self.preferencesGeneral
+                
+            case "coin" :
+                subview = self.preferencesCoin
+                
+            default :
+                subview = self.preferencesGeneral
+        }
+        
+        
+        let windowRect: NSRect = self.preferencesWindow.frame
+        let viewRect: NSRect = subview.frame
+        
+        self.preferencesWindow.contentView!.isHidden = true
+        self.preferencesWindow.contentView = subview
+        
+        let windowFrame: NSRect = NSMakeRect(windowRect.origin.x, windowRect.origin.y + (windowRect.size.height - viewRect.size.height - 78.0), viewRect.size.width, viewRect.size.height + 78.0)
+        self.preferencesWindow.setFrame(windowFrame, display: true, animate: true)
+        
+        self.preferencesWindow.contentView!.isHidden = false
+    }
+    
+    func quit(_ sender: AnyObject) {
         self.timer.invalidate()
         self.tickerTimer.invalidate()
         exit(0)
     }
+    
+    @IBAction func openUrl(_ sender: AnyObject) {
+        NSWorkspace.shared().open(URL(string: "https://github.com/moimz/iCoinTicker/issues")!)
+    }
+    
+    
 }

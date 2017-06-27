@@ -9,3 +9,7 @@
 menu.about = "iCoinTicker에 관하여";
 menu.refresh = "새로고침";
 menu.preferences = "환경설정";
+menu.quit = "종료";
+
+preferences.toolbar.general = "일반";
+preferences.toolbar.coin = "코인";

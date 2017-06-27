@@ -9,3 +9,7 @@
 menu.about = "About iCoinTicker";
 menu.refresh = "Refresh";
 menu.preferences = "Preferences";
+menu.quit = "Quit";
+
+preferences.toolbar.general = "General";
+preferences.toolbar.coin = "Coins";
