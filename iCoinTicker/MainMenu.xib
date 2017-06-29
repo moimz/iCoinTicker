@@ -85,12 +85,12 @@ ETH : 0x3A06b2C45AC207eb66Bc79B4C81522a120E629CC</string>
             <connections>
                 <outlet property="aboutWindow" destination="aM5-Nr-TIk" id="xhs-Ud-d0J"/>
                 <outlet property="preferencesCoin" destination="MpW-i6-Qyr" id="AhS-4H-kAn"/>
+                <outlet property="preferencesDonation" destination="BtC-nV-duw" id="cGz-K7-P9W"/>
                 <outlet property="preferencesGeneral" destination="8Su-iV-Ewf" id="NQM-mu-G09"/>
                 <outlet property="preferencesToolbar" destination="9VH-dP-R79" id="dRF-lk-AI1"/>
                 <outlet property="preferencesWindow" destination="GZX-dz-C2e" id="9Ew-f0-xuc"/>
             </connections>
         </customObject>
-        <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
         <window allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="GZX-dz-C2e" customClass="NSPanel">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <rect key="contentRect" x="272" y="0.0" width="500" height="200"/>
@@ -102,6 +102,7 @@ ETH : 0x3A06b2C45AC207eb66Bc79B4C81522a120E629CC</string>
             <toolbar key="toolbar" implicitIdentifier="040CE54F-DCD0-4353-A48A-2BE8E5A9BF86" allowsUserCustomization="NO" displayMode="iconAndLabel" sizeMode="regular" id="9VH-dP-R79">
                 <allowedToolbarItems>
                     <toolbarItem implicitItemIdentifier="9672BFCE-2419-4EEE-B4AC-754588259E44" explicitItemIdentifier="general" label="general" paletteLabel="general" image="NSPreferencesGeneral" selectable="YES" id="4Sc-0D-u2M"/>
+                    <toolbarItem implicitItemIdentifier="46FC30BD-C255-4DFE-95A3-20336D1D5B5F" explicitItemIdentifier="donation" label="donation" paletteLabel="donation" image="NSPreferencesGeneral" selectable="YES" id="alw-VS-am9"/>
                     <toolbarItem implicitItemIdentifier="0CAD7367-A0B2-4D62-89F4-153D54ED34E9" explicitItemIdentifier="coin" label="coin" paletteLabel="coin" image="NSAdvanced" selectable="YES" id="8l6-OO-zVm"/>
                     <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="aey-c8-5wh"/>
                     <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="8gp-fN-X78"/>
@@ -109,6 +110,7 @@ ETH : 0x3A06b2C45AC207eb66Bc79B4C81522a120E629CC</string>
                 <defaultToolbarItems>
                     <toolbarItem reference="4Sc-0D-u2M"/>
                     <toolbarItem reference="8l6-OO-zVm"/>
+                    <toolbarItem reference="alw-VS-am9"/>
                 </defaultToolbarItems>
             </toolbar>
             <point key="canvasLocation" x="-624" y="-324"/>
@@ -232,6 +234,11 @@ ETH : 0x3A06b2C45AC207eb66Bc79B4C81522a120E629CC</string>
             </subviews>
             <point key="canvasLocation" x="-624" y="280"/>
         </view>
+        <customView id="BtC-nV-duw">
+            <rect key="frame" x="0.0" y="0.0" width="534" height="238"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <point key="canvasLocation" x="-578" y="651"/>
+        </customView>
     </objects>
     <resources>
         <image name="AppIcon" width="128" height="128"/>
