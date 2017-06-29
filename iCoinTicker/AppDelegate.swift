@@ -18,6 +18,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet weak var preferencesWindow: NSWindow!
     @IBOutlet weak var preferencesToolbar: NSToolbar!
     @IBOutlet weak var preferencesGeneral: NSView!
+    @IBOutlet weak var preferencesAppearance: NSView!
     @IBOutlet weak var preferencesCoin: NSView!
     @IBOutlet weak var preferencesDonation: NSView!
     
@@ -59,16 +60,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         init(_ data: NSMutableDictionary) {
             self.url = data["url"] as! String
             
-            let first: String? = data["first"] as? String
-            self.first = first == nil ? [] : first!.characters.split(separator: ".").map{ String($0) }
+            let first: String! = data["first"] as! String
+            self.first = first == nil ? [] : first.characters.split(separator: ".").map{ String($0) }
             
             let last: String! = data["last"] as! String
             self.last = last == nil ? [] : last!.characters.split(separator: ".").map{ String($0) }
             
-            let change: String? = data["change"] as? String
-            self.change = change == nil ? [] : change!.characters.split(separator: ".").map{ String($0) }
+            let change: String! = data["change"] as! String
+            self.change = change == nil ? [] : change.characters.split(separator: ".").map{ String($0) }
             
-            self.isCompare = first != nil || change != nil
+            self.isCompare = first.characters.count > 0 || change.characters.count > 0
         }
     }
     
@@ -94,20 +95,30 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
+    struct Currency {
+        let code: String
+        let tag: Int
+        let mark: String
+        let format: String
+        
+        init(_ key: String, _ value: NSMutableDictionary) {
+            self.code = key
+            self.tag = value["tag"] as! Int
+            self.mark = value["mark"] as! String
+            self.format = value["format"] as! String
+        }
+    }
+    
     let statusMenu: NSMenu = NSMenu()
     
     let statusItem = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
     
-    var costs: [String: [String: Double]] = [:]
-    var costChanges: [String: [String: Double?]] = [:]
-    
-    let currencyName: [String] = ["", "KRW", "USD", "JPY", "CNY", "EUR"]
-    let currencyMark: [String] = ["", "₩", "$", "¥", "¥", "€"]
-    var currencyLatestTime: Double = 0
-    
     var plist: NSMutableDictionary = [:]
     var markets: [Market] = []
     var coins: [Coin] = []
+    var currencies: [String: Currency] = [:]
+    var costs: [String: [String: Double]] = [:]
+    var costChanges: [String: [String: Double]] = [:]
     
     var tickerTimer = Timer()
     var updaterTimer: [String: Timer] = [:]
@@ -119,8 +130,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         self.initPlist()
         self.initCosts()
-        self.initAboutWindow()
-        self.initPreferencesWindow()
+        self.initWindows()
         self.initMenus()
         
         self.statusItem.menu = self.statusMenu
@@ -129,29 +139,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.startTicker()
         
         self.updateData()
-//        self.timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(AppDelegate.updateData), userInfo: nil, repeats: true)
+        self.timer = Timer.scheduledTimer(timeInterval: Double(self.getPreferencesRefreshInterval()), target: self, selector: #selector(AppDelegate.updateData), userInfo: nil, repeats: true)
         
-        //self.timer.
-        
-//        self.timer = Timer.scheduledTimer(timeInterval: Double(self.getOptionsRefreshTime()), target: self, selector: #selector(AppDelegate.updateData), userInfo: nil, repeats: true)
-        
-        
-        /*
-        self.initVisible()
-        
-        self.initOptions()
-        
-        
-        
-        self.updateTicker()
-        
-        self.updateData()
-        self.timer = Timer.scheduledTimer(timeInterval: Double(self.getOptionsRefreshTime()), target: self, selector: #selector(AppDelegate.updateData), userInfo: nil, repeats: true)
-        
-        self.startTicker()
-        */
-        
-//        self.checkUpdate()
+        Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(AppDelegate.checkUpdate), userInfo: nil, repeats: false)
     }
     
     /**
@@ -193,7 +183,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let documentsUpdated: Date? = documentsPlist == nil ? nil : documentsPlist!["updated"] as? Date
         let bundleUpdated: Date = bundlePlist["updated"] as! Date
         
-        if (true || documentsUpdated == nil || bundleUpdated.compare(documentsUpdated!) == ComparisonResult.orderedDescending) {
+        if (documentsUpdated == nil || bundleUpdated.compare(documentsUpdated!) == ComparisonResult.orderedDescending) {
             do {
                 let content = try String(contentsOfFile: bundlePath, encoding: String.Encoding.utf8)
                 try content.write(to: documentsUrl, atomically: false, encoding: String.Encoding.utf8)
@@ -235,105 +225,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             let coin: Coin = coinSorted[tag]!
             self.coins.append(coin)
         }
-        /**
-         * Sorted coin by tag
-         * @todo using sorting option
-         *
-        var sorted: [Int: String] = [:]
-        for (key, value) in plist {
-            let tag: Int = Int(value["tag"] as! String)!
-            
-            /**
-             * Sorted market by tag
-             * @todo using sorting option
-             */
-            var marketSorted: [Int: String]
-            
-            sorted[tag] = key as! String
+        
+        let currencies: [String: NSMutableDictionary] = self.plist["currencies"] as! [String: NSMutableDictionary]
+        for (key, value) in currencies {
+            let currency: Currency = Currency(key, value)
+            self.currencies[key] = currency
         }
-        
-        
-        print(sorted)
-        */
-        /*
-        print((self.plist["markets"] as! NSArray)[3])
-        print((((self.plist["markets"] as! NSArray)[3]) as! NSMutableDictionary).count)
-        print((((self.plist["markets"] as! NSArray)[4]) as! NSMutableDictionary).count)
-        */
-        /*
-        let documentsPlist: URL = documentsUrl.appendingPathComponent("coins.plist")
-        
-        let bundlePath = Bundle.main.path(forResource: "coins.plist", ofType: nil)!
-        let bundleP: NSMutableDictionary = NSMutableDictionary(contentsOfFile: plistPath)!
-        
-        let coins: NSMutableDictionary? = NSMutableDictionary(contentsOf: plistUrl)
-        
-        print(coins!["updated"], plist["updated"], coins!["updated"] as! NSDate == plist["updated"] as! NSDate)
-        
-        if (coins == nil || (coins != nil && coins!["updated"] as! NSDate == plist["updated"] as! NSDate)) {
-            do {
-                let content = try String(contentsOfFile: plistPath, encoding: String.Encoding.utf8)
-                try content.write(to: plistUrl, atomically: false, encoding: String.Encoding.utf8)
-            } catch {}
-            
-            self.coins = NSMutableDictionary(contentsOfFile: plistPath)!
-        } else {
-            self.coins = coins!
-        }
-        
-        
-        print(self.coins)
- */
-        /*
-        let plistPath = Bundle.main.path(forResource: "coins.plist", ofType: nil)!
-        
-        
-        let updateUrl: URL = URL(string: "https://raw.githubusercontent.com/moimz/iCoinTicker/3.0.0/coins.plist")!
-        do {
-            do {
-                let content = try String(contentsOf: updateUrl, encoding: String.Encoding.utf8)
-                try content.write(toFile: plistPath, atomically: false, encoding: String.Encoding.utf8)
-            } catch {
-                print("error")
-            }
-        }
-        
-        
-        self.coins = NSMutableDictionary(contentsOfFile: plistPath)!
-        
-        print(self.coins)
-        */
-        /*
-        
-        let test = NSMutableDictionary(contentsOf: destinationFileUrl)
-        
-        if (true || test == nil) {
-            let origin = Bundle.main.path(forResource: "coins.plist", ofType: nil)!
-            do {
-                let content = try String(contentsOfFile: origin, encoding: String.Encoding.utf8)
-                try content.write(to: destinationFileUrl, atomically: false, encoding: String.Encoding.utf8)
-            }
-            catch {/* error handling here */}
-            
-            
-            /*
-             do {
-             try text.write(to: path, atomically: false, encoding: String.Encoding.utf8)
-             }
-             catch {/* error handling here */}
-             */
-            
-        }
-        print(test)
-        
-        print(destinationFileUrl)
-        
-        
-        let filePath = Bundle.main.path(forResource: "coins.plist", ofType: nil)!
-        let plist = NSMutableDictionary(contentsOfFile: filePath)!
-        
-        print(plist)
- */
     }
     
     func initCosts() {
@@ -348,33 +245,153 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 }
                 
                 self.costs[coin.unit]!.updateValue(Double(0), forKey: market.name)
-                self.costChanges[coin.unit]!.updateValue(nil, forKey: market.name)
+                self.costChanges[coin.unit]!.updateValue(Double(0), forKey: market.name)
             }
         }
     }
     
-    func initAboutWindow() {
+    /**
+     * Init AboutWindow and PreferencesWindow
+     * Localizing and action
+     *
+     * @return nil
+     */
+    func initWindows() {
+        /**
+         * Init About Window
+         */
         let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
         let appname: NSTextField! = self.aboutWindow.contentView!.viewWithTag(100) as! NSTextField
         appname.stringValue = "iCoinTicker v" + version
-    }
-    
-    func initPreferencesWindow() {
+        
+        /**
+         * Init Preferences Toolbar
+         */
         for item in self.preferencesToolbar.items {
             item.label = NSLocalizedString("preferences.toolbar." + item.label, comment: "")
             item.action = #selector(AppDelegate.preferencesViewSelected)
         }
         
+        /**
+         * Init Preferences General Panel
+         */
         for view in self.preferencesGeneral.subviews {
-            if (view is NSButton) {
+            if (view is NSPopUpButton) {
+                let button: NSPopUpButton = view as! NSPopUpButton
+                for menu in button.menu!.items {
+                    menu.title = NSLocalizedString("preferences.general." + menu.title, comment: "")
+                }
+            } else if (view is NSButton) {
                 let button: NSButton = view as! NSButton
                 button.title = NSLocalizedString("preferences.general." + button.title, comment: "")
+            } else if (view is NSTextField) {
+                let textField: NSTextField = view as! NSTextField
+                textField.stringValue = NSLocalizedString("preferences.general." + textField.stringValue, comment: "") + (view.tag == 1 ? " : " : "")
             }
         }
         
-        let startAtLogin: NSButton! = self.preferencesGeneral.viewWithTag(10) as! NSButton
-        startAtLogin.action = #selector(AppDelegate.preferencesStartAtLogin)
+        let refreshInterval: NSPopUpButton = self.preferencesGeneral.viewWithTag(10) as! NSPopUpButton
+        refreshInterval.action = #selector(AppDelegate.setPreferencesRefreshInterval)
+        refreshInterval.select(refreshInterval.menu!.item(withTag: self.getPreferencesRefreshInterval()))
+        
+        let currency: NSPopUpButton = self.preferencesGeneral.viewWithTag(20) as! NSPopUpButton
+        let currencyDefault: NSMenuItem = NSMenuItem(title: NSLocalizedString("preferences.general.currency.default", comment: ""), action: #selector(AppDelegate.setPreferencesCurrency), keyEquivalent: "")
+        currencyDefault.tag = 0
+        currency.menu!.addItem(currencyDefault)
+        
+        for (_, value) in self.currencies {
+            let menu: NSMenuItem = NSMenuItem(title: value.mark + " " + value.code, action: #selector(AppDelegate.setPreferencesCurrency), keyEquivalent: "")
+            menu.tag = value.tag
+            menu.image = NSImage(named: value.code)
+            
+            currency.menu!.addItem(menu)
+        }
+        currency.select(currency.menu!.item(withTag: self.getPreferencesCurrency()))
+        
+        let autoUpdate: NSButton = self.preferencesGeneral.viewWithTag(100) as! NSButton
+        autoUpdate.action = #selector(AppDelegate.setPreferencesAutoUpdate)
+        autoUpdate.state = self.getPreferencesAutoUpdate() == -1 ? NSOffState : NSOnState
+        
+        let autoUpdateSelect: NSPopUpButton = self.preferencesGeneral.viewWithTag(101) as! NSPopUpButton
+        autoUpdateSelect.action = #selector(AppDelegate.setPreferencesAutoUpdate)
+        if (self.getPreferencesAutoUpdate() == -1) {
+            autoUpdateSelect.isEnabled = false
+            autoUpdateSelect.select(autoUpdateSelect.menu?.item(withTag: 0))
+        } else {
+            autoUpdateSelect.isEnabled = true
+            autoUpdateSelect.select(autoUpdateSelect.menu?.item(withTag: self.getPreferencesAutoUpdate()))
+        }
+        
+        let startAtLogin: NSButton! = self.preferencesGeneral.viewWithTag(1000) as! NSButton
+        startAtLogin.action = #selector(AppDelegate.setPreferencesStartAtLogin)
         startAtLogin.state = UserDefaults.standard.bool(forKey: "preferencesStartAtLogin") == true ? NSOnState : NSOffState
+        
+        /**
+         * Init Preferences Appearance Panel
+         */
+        for view in self.preferencesAppearance.subviews {
+            if (view is NSPopUpButton) {
+                let button: NSPopUpButton = view as! NSPopUpButton
+                for menu in button.menu!.items {
+                    menu.title = NSLocalizedString("preferences.appearance." + menu.title, comment: "")
+                }
+            } else if (view is NSButton) {
+                let button: NSButton = view as! NSButton
+                button.title = NSLocalizedString("preferences.appearance." + button.title, comment: "")
+            } else if (view is NSTextField) {
+                let textField: NSTextField = view as! NSTextField
+                textField.stringValue = NSLocalizedString("preferences.appearance." + textField.stringValue, comment: "") + (view.tag == 1 ? " : " : "")
+            }
+        }
+        
+        let fontSize: NSPopUpButton! = self.preferencesAppearance.viewWithTag(10) as! NSPopUpButton
+        fontSize.action = #selector(AppDelegate.setPreferencesFontSize)
+        fontSize.select(fontSize.menu!.item(withTag: self.getPreferencesFontSize()))
+        
+        let tickerDisplayedCurrency: NSPopUpButton! = self.preferencesAppearance.viewWithTag(20) as! NSPopUpButton
+        tickerDisplayedCurrency.action = #selector(AppDelegate.setPreferencesTickerDisplayedCurrency)
+        tickerDisplayedCurrency.select(tickerDisplayedCurrency.menu!.item(withTag: self.getPreferencesTickerDisplayedCurrency()))
+        
+        let tickerDisplayedChange: NSButton! = self.preferencesAppearance.viewWithTag(30) as! NSButton
+        tickerDisplayedChange.action = #selector(AppDelegate.setPreferencesTickerDisplayedChange)
+        tickerDisplayedChange.state = self.getPreferencesTickerDisplayedChange() == true ? NSOnState : NSOffState
+        
+        let menuDisplayedCurrency: NSPopUpButton! = self.preferencesAppearance.viewWithTag(120) as! NSPopUpButton
+        menuDisplayedCurrency.action = #selector(AppDelegate.setPreferencesMenuDisplayedCurrency)
+        menuDisplayedCurrency.select(menuDisplayedCurrency.menu!.item(withTag: self.getPreferencesMenuDisplayedCurrency()))
+        
+        let menuDisplayedChange: NSButton! = self.preferencesAppearance.viewWithTag(130) as! NSButton
+        menuDisplayedChange.action = #selector(AppDelegate.setPreferencesMenuDisplayedChange)
+        menuDisplayedChange.state = self.getPreferencesMenuDisplayedChange() == true ? NSOnState : NSOffState
+        
+        /**
+         * Init Preferences Coin Panel
+         */
+        for view in self.preferencesCoin.subviews {
+            if (view is NSButton) {
+                let button: NSButton = view as! NSButton
+                button.title = NSLocalizedString("preferences.coin." + button.title, comment: "")
+            } else if (view is NSTextField) {
+                let textField: NSTextField = view as! NSTextField
+                textField.stringValue = NSLocalizedString("preferences.coin." + textField.stringValue, comment: "") + (view.tag == 1 ? " : " : "")
+            }
+        }
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "YYYY.MM.dd HH:mm:ss"
+        
+        let lastUpdate: NSTextField = self.preferencesCoin.viewWithTag(200) as! NSTextField
+        lastUpdate.stringValue = NSLocalizedString("preferences.coin.lastUpdate", comment:"") + " : " + dateFormatter.string(from: self.plist["updated"] as! Date)
+        
+        let checkUpdate: NSButton = self.preferencesCoin.viewWithTag(300) as! NSButton
+        checkUpdate.action = #selector(AppDelegate.checkUpdate)
+        
+        let loading = NSProgressIndicator(frame: NSRect(x: 58.0, y: 7.0, width: 16.0, height: 16.0))
+        loading.style = NSProgressIndicatorStyle.spinningStyle
+        loading.controlSize = NSControlSize.small
+        loading.usesThreadedAnimation = false
+        loading.isDisplayedWhenStopped = false
+        checkUpdate.addSubview(loading)
     }
     
     /**
@@ -386,7 +403,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.stopTicker()
         self.statusMenu.removeAllItems()
         
-        let about: NSMenuItem = NSMenuItem(title: NSLocalizedString("menu.about", comment: ""), action: #selector(AppDelegate.about), keyEquivalent: "")
+        let about: NSMenuItem = NSMenuItem(title: NSLocalizedString("menu.about", comment: ""), action: #selector(AppDelegate.openAboutWindow), keyEquivalent: "")
         self.statusMenu.addItem(about)
         
         self.statusMenu.addItem(NSMenuItem.separator())
@@ -407,7 +424,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 title.append(NSAttributedString(string: " " + coin.unit + " (" + coin.name + ")", attributes: [NSFontAttributeName: NSFont.systemFont(ofSize: 14.0), NSBaselineOffsetAttributeName: 1.5]))
                 menu.attributedTitle = title
                 
-                let none: NSMenuItem = NSMenuItem(title: "NONE", action: #selector(self.setSelectedMarket), keyEquivalent: "")
+                let none: NSMenuItem = NSMenuItem(title: NSLocalizedString("menu.hideTicker", comment: ""), action: #selector(self.setMarketSelectedTag), keyEquivalent: "")
                 none.tag = coin.tag * 1000
                 none.isEnabled = true
                 submenu.addItem(none)
@@ -418,7 +435,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 var lastCurrency: String = "";
                 for market in coin.markets {
                     if (self.isMarketEnabled(market.name) == true) {
-                        let menu = NSMenuItem(title: market.paddingName(), action: #selector(self.setSelectedMarket), keyEquivalent: "")
+                        let menu = NSMenuItem(title: market.paddingName(), action: #selector(self.setMarketSelectedTag), keyEquivalent: "")
                         menu.tag = coin.tag * 1000 + market.tag
                         menu.image = NSImage(named: market.currency)
                         
@@ -426,18 +443,27 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                             submenu.addItem(NSMenuItem.separator())
                         }
                         submenu.addItem(menu)
+                        
+                        if (market.isBtcMarket == true) {
+                            let menu = NSMenuItem(title: market.paddingName(), action: #selector(self.setMarketSelectedTag), keyEquivalent: "")
+                            menu.tag = coin.tag * 1000 + 100 + market.tag
+                            menu.image = NSImage(named: market.currency)
+                            
+                            submenu.addItem(menu)
+                        }
+                        
                         lastSeparator = false
                         lastCurrency = market.currency
                     }
                 }
                 
-                let selectedMarket: Market? = self.getSelectedMarket(coin.unit)
-                if (selectedMarket == nil) {
+                let marketSelected: Int = self.getMarketSelectedTag(coin.unit)
+                if (marketSelected == 0) {
                     menu.state = NSOffState
-                    submenu.item(withTag: coin.tag * 1000)?.state = NSOnState
+                    submenu.item(withTag: coin.tag * 1000)!.state = NSOnState
                 } else {
                     menu.state = NSOnState
-                    submenu.item(withTag: coin.tag * 1000 + selectedMarket!.tag)?.state = NSOnState
+                    submenu.item(withTag: marketSelected)!.state = NSOnState
                 }
                 
                 self.statusMenu.addItem(menu)
@@ -452,7 +478,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         self.statusMenu.addItem(NSMenuItem.separator())
         
-        let preferences: NSMenuItem = NSMenuItem(title: NSLocalizedString("menu.preferences", comment: ""), action: #selector(AppDelegate.preferences), keyEquivalent: ",")
+        let preferences: NSMenuItem = NSMenuItem(title: NSLocalizedString("menu.preferences", comment: ""), action: #selector(AppDelegate.openPreferencesWindow), keyEquivalent: ",")
         self.statusMenu.addItem(preferences)
         
         self.statusMenu.addItem(NSMenuItem.separator())
@@ -518,31 +544,37 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     /**
-     * Get ticker selected market by coin unit
+     * Get currency data
      *
-     * @param String coin
-     * @return Market? market
+     * @param Any currency code or tag
+     * @return Currency currency
      */
-    func getSelectedMarket(_ unit: String) -> Market? {
-        if (unit == "ETH" || unit == "BTC") {
-            return self.getMarket("Korbit")
-        }
-        let coin: Coin? = self.getCoin(unit)
-        if (coin == nil) {
-            return nil
-        } else {
-            let selectedMarket: String? = UserDefaults.standard.string(forKey: "Selected" + coin!.unit)
-            if (selectedMarket == nil) {
-                return nil
-            } else {
-                let market: Market? = self.getMarket(selectedMarket!)
-                if (market == nil || self.isMarketEnabled(market!.name) == false) {
-                    return nil
-                } else {
-                    return market
+    func getCurrency(_ sender: Any) -> Currency? {
+        if (sender is Int) {
+            let tag: Int = sender as! Int
+            
+            for (_, currency) in self.currencies {
+                if (currency.tag == tag) {
+                    return currency
                 }
             }
+        } else {
+            let code: String = sender as! String
+            return self.currencies[code]
         }
+        
+        return nil
+    }
+    
+    /**
+     * Get ticker market selected tag by coin unit
+     *
+     * @param String coin
+     * @return Int marketSelected
+     */
+    func getMarketSelectedTag(_ unit: String) -> Int {
+        let coin: Coin = self.getCoin(unit)!
+        return UserDefaults.standard.integer(forKey: "marketSelected" + coin.unit)
     }
     
     /**
@@ -551,8 +583,33 @@ class AppDelegate: NSObject, NSApplicationDelegate {
      * @param NSMenuItem sender
      * @return nil
      */
-    func setSelectedMarket(_ sender: NSMenuItem) {
-        
+    func setMarketSelectedTag(_ sender: NSMenuItem) {
+        if (sender.state == NSOffState) {
+            let coinTag: Int = sender.tag / 1000
+            let marketTag: Int = sender.tag % 100
+            
+            let coin: Coin = self.getCoin(coinTag)!
+            
+            if (marketTag == 0) {
+                self.statusMenu.item(withTag: coinTag)!.state = NSOffState
+            } else {
+                self.statusMenu.item(withTag: coinTag)!.state = NSOnState
+            }
+            
+            for menu in self.statusMenu.item(withTag: coin.tag)!.submenu!.items {
+                if (sender.tag == menu.tag) {
+                    menu.state = NSOnState
+                } else {
+                    menu.state = NSOffState
+                }
+            }
+            
+            UserDefaults.standard.set(sender.tag, forKey: "marketSelected" + coin.unit)
+            
+            self.stopTicker()
+            self.updateTicker()
+            self.startTicker()
+        }
     }
     
     /**
@@ -599,106 +656,107 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
-    /*
-    func setMarket(_ sender: NSMenuItem) {
-        if (sender.state == NSOffState) {
-            let coin = sender.tag / 1000
-            let market = sender.tag % 1000
-            
-            UserDefaults.standard.set(market, forKey: self.coinUnit[coin].lowercased())
-            self.statusMenu.item(withTag: coin)!.state = market == 0 ? NSOffState : NSOnState
-            
-            for item in self.statusMenu.item(withTag: coin)!.submenu!.items {
-                item.state = NSOffState
-            }
-            
-            sender.state = NSOnState
-            
-            //self.getData(coin, market)
-            
-            self.stopTicker()
-            self.updateTicker()
-            self.startTicker()
-        }
-    }
-    */
     /**
      * Get coin cost
      *
-     * @param Coin coin
-     * @param Market market
+     * @param String coin unit
+     * @param String market name
+     * @param Bool isBtcRate
      * @param Bool isTicker
      * @reutn String cost
      */
-    func getCost(_ coin: Coin, _ market: Market, _ isTicker: Bool) -> String {
-        var cost: Double = self.costs[coin.unit]![market.name]!
+    func getCost(_ coin: String, _ market: String, _ isBtcRate: Bool, _ isTicker: Bool) -> String {
+        let coin: Coin = self.getCoin(coin)!
+        let market: Market = self.getMarket(market)!
         
-        /*
-        if (market < 100) {
-            if (self.getOptionsCurrency() > 0) {
-                cost = self.costs[coin][market] * self.getCurrency(self.getMarketCurrency(market), self.getOptionsCurrency())
-            } else {
-                cost = self.costs[coin][market]
-            }
+        let stored: Double = self.costs[coin.unit]![market.name]!
+        let changed: Double = self.costChanges[coin.unit]![market.name]!
+        var cost: Double = 0
+        
+        if (coin.unit != "BTC" && market.isBtcMarket == true) {
+            cost = stored * self.costs["BTC"]![market.name]!
         } else {
-            cost = self.btcCosts[coin][market % 100] * self.getCurrency(self.getMarketCurrency(market), self.getOptionsCurrency())
+            cost = stored
         }
-        */
         
+        let currency: Currency = self.getPreferencesCurrency() == 0 ? self.getCurrency(market.currency)! : self.getCurrency(self.getPreferencesCurrency())!
+        cost = cost * self.getCurrencyRate(market.currency, currency.code)
+        
+        var text: String = ""
         
         if (cost == 0) {
-            return "Loading..."
-        } else {
-            var text: String = ""
-            
-            if (coin.unit != "BTC" && market.isBtcMarket == true) {
-                
+            if (isTicker == true) {
+                return "Loading..."
             } else {
-                /*
-                var format: String = "#,###"
-                
-                switch (self.getOptionsCurrency() > 0 ? self.getOptionsCurrency() : market(market)) {
-                    case 2 :
-                        format = "#,##0.00"
-                        break
-                    
-                    case 4 :
-                        format = "#,##0.0"
-                        break
-                    
-                    case 5 :
-                        format = "#,##0.00"
-                        break
-                    
-                    default :
-                        format = "#,###"
+                if (coin.unit != "BTC" && market.isBtcMarket == true && isBtcRate == true) {
+                    if (self.getPreferencesMenuDisplayedCurrency() == 1) {
+                        return "฿ Loading..."
+                    } else {
+                        return "BTC Loading..."
+                    }
+                } else {
+                    if (self.getPreferencesMenuDisplayedCurrency() == 1) {
+                        return currency.mark + " Loading..."
+                    } else {
+                        return currency.code + " Loading..."
+                    }
                 }
-                */
-                
+            }
+        } else {
+            if (coin.unit != "BTC" && market.isBtcMarket == true && isBtcRate == true) {
+                if (isTicker == true) {
+                    if (self.getPreferencesTickerDisplayedCurrency() == 1) {
+                        text = "฿ "
+                    } else if (self.getPreferencesTickerDisplayedCurrency() == 2) {
+                        text = "BTC "
+                    }
+                    
+                    text += String(format:"%0.8f", stored)
+                    
+                    if (self.getPreferencesTickerDisplayedChange() == true && market.api.isCompare == true) {
+                        text += " (" + (changed > 0 ? "+" : "") + String(format:"%0.2f", changed) + "%)"
+                    }
+                    
+                    return text
+                } else {
+                    if (self.getPreferencesMenuDisplayedCurrency() == 1) {
+                        text = "฿ " + String(format:"%0.8f", stored)
+                    } else {
+                        text = "BTC " + String(format:"%0.8f", stored)
+                    }
+                    
+                    //text += "".padding(toLength: Int((14 - text.characters.count) / 4), withPad: "\t", startingAt: 0)
+                    
+                    if (self.getPreferencesMenuDisplayedChange() == true && market.api.isCompare == true) {
+                        text += " (" + (changed > 0 ? "+" : "") + String(format:"%0.2f", changed) + "%)"
+                    }
+                    
+                    return text
+                }
+            } else {
                 let numberFormatter = NumberFormatter()
                 numberFormatter.numberStyle = .decimal
-                //numberFormatter.format = format
-                /*
-                if (self.getOptionsSymbol() == 2 || (useTicker == true && self.getOptionsSymbol() == 1) || (useTicker == false && self.getOptionsSymbol() == 0)) {
-                    text = self.currencyMark[self.getOptionsCurrency() > 0 ? self.getOptionsCurrency() : self.getMarketCurrency(market)] + " " + numberFormatter.string(from: NSNumber(value: cost))!
-                } else {
-                    text = numberFormatter.string(from: NSNumber(value: cost))!
-                }
- */
+                numberFormatter.format = currency.format
                 
-                text = numberFormatter.string(from: NSNumber(value: cost))!
+                if ((isTicker == true && self.getPreferencesTickerDisplayedCurrency() == 1) || (isTicker == false && self.getPreferencesMenuDisplayedCurrency() == 1)) {
+                    text = currency.mark + " "
+                } else if ((isTicker == true && self.getPreferencesTickerDisplayedCurrency() == 2) || isTicker == false) {
+                    text = currency.code + " "
+                }
+                
+                text += numberFormatter.string(from: NSNumber(value: cost))!
+                
+                if (isTicker == true && self.getPreferencesTickerDisplayedChange() == true && market.api.isCompare == true) {
+                    text += " (" + (changed > 0 ? "+" : "") + String(format:"%0.2f", changed) + "%)"
+                }
+                
+                if (isTicker == false && self.getPreferencesMenuDisplayedChange() == true && market.api.isCompare == true) {
+                    text += " (" + (changed > 0 ? "+" : "") + String(format:"%0.2f", changed) + "%)"
+                }
                 
                 return text
-            }/* else {
-                if (self.getOptionsSymbol() == 2 || (useTicker == true && self.getOptionsSymbol() == 1) || (useTicker == false && self.getOptionsSymbol() == 0)) {
-                    return "฿ " + String(format:"%0.8f", cost)
-                } else {
-                    return String(format:"%0.8f", cost)
-                }
-            }*/
+            }
         }
-        
-        return ""
     }
     
     /**
@@ -731,22 +789,27 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         var markAttributes: [String: Any] = [NSFontAttributeName: NSFont(name: "cryptocoins", size: 14.0)!]
         var costAttributes: [String: Any] = [NSFontAttributeName: NSFont.systemFont(ofSize: 14.0), NSBaselineOffsetAttributeName: 1.5]
         
-        if (self.getOptionsFontSize() == 10) {
+        if (self.getPreferencesFontSize() == 10) {
             markAttributes = [NSFontAttributeName: NSFont(name: "cryptocoins", size: 12.0)!, NSBaselineOffsetAttributeName: 1.0]
             costAttributes = [NSFontAttributeName: NSFont.systemFont(ofSize: 10.0), NSBaselineOffsetAttributeName: 2.5]
-        } else if (self.getOptionsFontSize() == 12) {
+        } else if (self.getPreferencesFontSize() == 12) {
             markAttributes = [NSFontAttributeName: NSFont(name: "cryptocoins", size: 12.0)!, NSBaselineOffsetAttributeName: 1.0]
             costAttributes = [NSFontAttributeName: NSFont.systemFont(ofSize: 12.0), NSBaselineOffsetAttributeName: 2.0]
         }
         
         for coin in self.coins {
-            if (self.isCoinEnabled(coin.unit) == true && self.getSelectedMarket(coin.unit) != nil) {
+            if (self.isCoinEnabled(coin.unit) == true && self.getMarketSelectedTag(coin.unit) % 100 > 0) {
                 if (tickerString.length > 0) {
                     tickerString.append(NSAttributedString(string: " ", attributes: costAttributes))
                 }
                 
+                let marketTag: Int = self.getMarketSelectedTag(coin.unit) % 100
+                let isBtcRate: Bool = self.getMarketSelectedTag(coin.unit) % 1000 > 100
+                
+                let market: Market = self.getMarket(marketTag)!
+                
                 tickerString.append(NSAttributedString(string: coin.mark, attributes: markAttributes))
-                tickerString.append(NSAttributedString(string: " "+"\(self.getCost(coin, self.getSelectedMarket(coin.unit)!, true))", attributes: costAttributes))
+                tickerString.append(NSAttributedString(string: " " + self.getCost(coin.unit, market.name, isBtcRate, true), attributes: costAttributes))
             }
         }
         
@@ -757,47 +820,62 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self.statusItem.image = nil
             self.statusItem.attributedTitle = tickerString
         }
-        /*
-        for coin in 1..<self.coinUnit.count {
-            if (self.getOptionsCoin(coin) == true) {
-                /*
-                if (self.getMarket(coin) > 0) {
-                    let menu: NSMenuItem = self.statusMenu.item(withTag: coin)!
-                    let title = NSMutableAttributedString(string: "")
-                    title.append(NSAttributedString(string: self.coinMark[coin], attributes: [NSFontAttributeName: NSFont(name: "cryptocoins", size: 14.0)!]))
-                    title.append(NSAttributedString(string: " " + self.coinName[coin] + " " + "".padding(toLength: Int((16 - self.coinName[coin].characters.count) / 4), withPad: "\t", startingAt: 0), attributes: [NSFontAttributeName: NSFont.systemFont(ofSize: 14.0), NSBaselineOffsetAttributeName: 1.5]))
-                    title.append(NSAttributedString(string: self.getCost(coin, self.getMarket(coin), false), attributes: [NSFontAttributeName: NSFont.systemFont(ofSize: 14.0), NSBaselineOffsetAttributeName: 1.5]))
-                    menu.attributedTitle = title
-                }
-                */
-                for menu in self.statusMenu.item(withTag: coin)!.submenu!.items {
-                    if (menu.tag % 1000 > 0 && self.getOptionsMarket(menu.tag % 1000) == true) {
-                        let title = NSMutableAttributedString(string: "")
-                        title.append(NSAttributedString(string: self.getMarketName(menu.tag % 1000, true), attributes: [NSFontAttributeName: NSFont.systemFont(ofSize: 14.0)]))
-                        title.append(NSAttributedString(string: self.getCost(coin, menu.tag % 1000, false), attributes: [NSFontAttributeName: NSFont.systemFont(ofSize: 14.0)]))
-                        menu.attributedTitle = title
+        
+        for coin in self.coins {
+            if (self.isCoinEnabled(coin.unit) == true) {
+                let menu: NSMenuItem? = self.statusMenu.item(withTag: coin.tag)
+                if (menu != nil) {
+                    let submenu: NSMenu! = menu!.submenu!
+                    
+                    for menu in submenu.items {
+                        let tag: Int = menu.tag
+                        
+                        if (tag % 1000 > 0) {
+                            let market: Market = self.getMarket(tag % 100)!
+                            let isBtcRate: Bool = tag % 1000 > 100
+                            
+                            let cost: String = self.getCost(coin.unit, market.name, isBtcRate, false)
+                            
+                            let title = NSMutableAttributedString(string: "")
+                            title.append(NSAttributedString(string: market.paddingName(), attributes: [NSFontAttributeName: NSFont.systemFont(ofSize: 14.0)]))
+                            title.append(NSAttributedString(string: cost, attributes: [NSFontAttributeName: NSFont.systemFont(ofSize: 14.0)]))
+                            menu.attributedTitle = title
+                        }
                     }
                 }
             }
         }
- */
     }
     
-    func getCurrency(_ from: Int, _ to: Int) -> Double {
+    /**
+     * Get currency rate
+     *
+     * @param String from
+     * @param String to
+     * @return Double rate
+     */
+    func getCurrencyRate(_ from: String, _ to: String) -> Double {
         if (from == to) {
             return 1
         } else {
-            return UserDefaults.standard.double(forKey: self.currencyName[from] + self.currencyName[to])
+            return UserDefaults.standard.double(forKey: from + to)
         }
     }
     
-    func updateCurrency(_ from: Int, _ to: Int) {
-        if (from == to) {
+    /**
+     * Update currency rate
+     *
+     * @param String from
+     * @param String to
+     * @return nil
+     */
+    func updateCurrencyRate(_ from: String, _ to: String) {
+        if (from == to || UserDefaults.standard.double(forKey: from + to + "Time") > Date().timeIntervalSince1970 - 60 * 60) {
             return
         }
         
         let session = URLSession.shared
-        let jsonUrl = URL(string: "https://api.manana.kr/exchange/rate/" + self.currencyName[to] + "/" + self.currencyName[from] + ".json")
+        let jsonUrl = URL(string: "https://api.manana.kr/exchange/rate/" + to + "/" + from + ".json")
         
         let task = session.dataTask(with: jsonUrl!, completionHandler: {
             (data, response, error) -> Void in
@@ -806,12 +884,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 let jsonData = try JSONSerialization.jsonObject(with: data!) as! [[String: Any]]
                 
                 if (jsonData.count == 1) {
-                    let currency: Double = jsonData[0]["rate"] as! Double
-                    UserDefaults.standard.set(currency, forKey: self.currencyName[from] + self.currencyName[to])
+                    let time: Double = Date().timeIntervalSince1970
+                    
+                    let rate: Double = jsonData[0]["rate"] as! Double
+                    UserDefaults.standard.set(rate, forKey: from + to)
+                    UserDefaults.standard.set(time, forKey: from + to + "Time")
                 }
-            } catch _ {
-                // Error
-            }
+            } catch _ {}
         })
         
         task.resume()
@@ -829,11 +908,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
         
-        let todaysDate = Date()
+        for (from, _) in self.currencies {
+            for (to, _) in self.currencies {
+                self.updateCurrencyRate(from, to)
+            }
+        }
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "YYYY.MM.dd HH:mm:ss"
-        let DateInFormat = dateFormatter.string(from: todaysDate)
+        let DateInFormat = dateFormatter.string(from: Date())
         
         self.statusMenu.item(withTag: 100000)!.title = NSLocalizedString("menu.refresh", comment: "") + " : " + DateInFormat
     }
@@ -901,7 +984,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                                     if (market.api.change.count > 0) {
                                         var change: Any? = coinData
                                         
-                                        for i in 0..<market.api.first.count {
+                                        for i in 0..<market.api.change.count {
                                             let key: String = market.api.change[i]
                                             
                                             if (Int(key) == nil) {
@@ -914,7 +997,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                                         }
                                         
                                         if (change != nil) {
-                                            let value: Double = self.getDouble(change!)
+                                            let value: Double = self.getDouble(change!) * 100
                                             self.costChanges[coin!.unit]![market.name] = value
                                         }
                                     } else {
@@ -989,7 +1072,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                                     if (market.api.change.count > 0) {
                                         var change: Any? = jsonData
                                         
-                                        for i in 0..<market.api.first.count {
+                                        for i in 0..<market.api.change.count {
                                             let key: String = market.api.change[i]
                                             
                                             if (Int(key) == nil) {
@@ -1002,7 +1085,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                                         }
                                         
                                         if (change != nil) {
-                                            let value: Double = self.getDouble(change!)
+                                            let value: Double = self.getDouble(change!) * 100
                                             self.costChanges[coin!.unit]![market.name] = value
                                         }
                                     } else {
@@ -1040,6 +1123,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
+    /**
+     * Convert Any to Double
+     *
+     * @param Any number
+     * @return Double number
+     */
     func getDouble(_ number: Any) -> Double {
         if (number is NSNumber) {
             return number as! Double
@@ -1054,194 +1143,259 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Insert code here to tear down your application
     }
     
-    func getOptionsCurrency() -> Int {
-        return UserDefaults.standard.integer(forKey: "currency")
+    /**
+     * Get Refresh Interval
+     *
+     * @param NSPopUpButton sender
+     * @return nil
+     */
+    func getPreferencesRefreshInterval() -> Int {
+        let time: Int = UserDefaults.standard.integer(forKey: "preferencesRefreshTime")
+        return time == 0 ? 300 : time
     }
-    /*
-    func setOptionsCurrency(_ sender: NSMenuItem) {
-        if (sender.state == NSOffState) {
-            UserDefaults.standard.set(sender.tag, forKey: "currency")
-            for menu in self.currencyMenu.items {
-                menu.state = NSOffState
-            }
-            
-            sender.state = NSOnState
-            
-            self.stopTicker()
-            self.updateTicker()
-            self.startTicker()
-        }
+    
+    /**
+     * Get currency
+     *
+     * @return Int currency tag
+     */
+    func getPreferencesCurrency() -> Int {
+        return UserDefaults.standard.integer(forKey: "preferencesCurrency")
     }
-    */
-    func getOptionsFontSize() -> Int {
-        let fontSize: Int = UserDefaults.standard.integer(forKey: "fontSize")
+    
+    /**
+     * Get Auto update interval
+     *
+     * @return Int update interval
+     */
+    func getPreferencesAutoUpdate() -> Int {
+        return UserDefaults.standard.integer(forKey: "preferencesAutoUpdate")
+    }
+    
+    /**
+     * Get ticker font size
+     *
+     * @return Int font size(pt)
+     */
+    func getPreferencesFontSize() -> Int {
+        let fontSize: Int = UserDefaults.standard.integer(forKey: "preferencesFontSize")
         return fontSize == 0 ? 14 : fontSize
     }
-    /*
-    func setOptionsFontSize(_ sender: NSMenuItem) {
-        if (sender.state == NSOffState) {
-            UserDefaults.standard.set(sender.tag, forKey: "fontSize")
-            for menu in self.fontSizeMenu.items {
-                menu.state = NSOffState
-            }
-            
-            sender.state = NSOnState
-            
-            self.stopTicker()
-            self.updateTicker()
-            self.startTicker()
-        }
-    }
-    */
-    func getOptionsSymbol() -> Int {
-        return UserDefaults.standard.integer(forKey: "symbol")
-    }
-    /*
-    func setOptionsSymbol(_ sender: NSMenuItem) {
-        if (sender.state == NSOffState) {
-            UserDefaults.standard.set(sender.tag, forKey: "symbol")
-            for menu in self.symbolMenu.items {
-                menu.state = NSOffState
-            }
-            
-            sender.state = NSOnState
-            
-            self.stopTicker()
-            self.updateTicker()
-            self.startTicker()
-        }
-    }
-    */
-    func getOptionsRefreshTime() -> Int {
-        let refreshTime: Int = UserDefaults.standard.integer(forKey: "refreshTime")
-        return refreshTime == 0 ? 300 : refreshTime
-    }
-    /*
-    func setOptionsRefreshTime(_ sender: NSMenuItem) {
-        if (sender.state == NSOffState) {
-            for item in self.refreshTimeMenu.items {
-                item.state = NSOffState
-            }
-            
-            sender.state = NSOnState
-            UserDefaults.standard.set(sender.tag, forKey:"refreshTime")
-            
-            self.timer.invalidate()
-            self.timer = Timer.scheduledTimer(timeInterval: Double(sender.tag), target: self, selector: #selector(AppDelegate.updateData), userInfo: nil, repeats: true)
-        }
-    }
-    */
     
-    /*
-    func setOptionsCoin(_ sender: NSMenuItem) {
-        if (sender.state == NSOnState) {
-            sender.state = NSOffState
-            UserDefaults.standard.set(-1, forKey:"coin" + String(sender.tag))
+    /**
+     * Get ticker displayed currency
+     *
+     * @return Int displayedCurrency (0: none, 1: symbol, 2: code)
+     */
+    func getPreferencesTickerDisplayedCurrency() -> Int {
+        return UserDefaults.standard.integer(forKey: "preferencesTickerDisplayedCurrency")
+    }
+    
+    /**
+     * Get ticker displayed change
+     *
+     * @return Bool displayedChange
+     */
+    func getPreferencesTickerDisplayedChange() -> Bool {
+        return UserDefaults.standard.bool(forKey: "preferencesTickerDisplayedChange")
+    }
+    
+    /**
+     * Get menu displayed currency
+     *
+     * @return Int displayedCurrency (1: symbol, 2: code)
+     */
+    func getPreferencesMenuDisplayedCurrency() -> Int {
+        let displayedCurrency: Int = UserDefaults.standard.integer(forKey: "preferencesMenuDisplayedCurrency")
+        return displayedCurrency == 0 ? 1 : displayedCurrency
+    }
+    
+    /**
+     * Get menu displayed change
+     *
+     * @return Bool displayedChange
+     */
+    func getPreferencesMenuDisplayedChange() -> Bool {
+        return UserDefaults.standard.bool(forKey: "preferencesMenuDisplayedChange")
+    }
+    
+    /**
+     * Check coins.plist update from github.com/moimz/iCoinTicker
+     *
+     * @param Any sender
+     */
+    func checkUpdate(_ sender: Any) {
+        if (sender is NSButton) {
+            let button: NSButton = sender as! NSButton
+            let loading: NSProgressIndicator = button.viewWithTag(-1) as! NSProgressIndicator
+            button.title = ""
+            button.isEnabled = false
+            loading.startAnimation(nil)
         } else {
-            sender.state = NSOnState
-            UserDefaults.standard.set(1, forKey:"coin" + String(sender.tag))
-        }
-        
-        self.initVisible()
-        
-        if (self.getOptionsCoin(sender.tag) == false && self.getMarket(sender.tag) > 0) {
-            self.setMarket(self.statusMenu.item(withTag: sender.tag)!.submenu!.item(withTag: sender.tag * 1000)!)
-        }
-        
-        self.stopTicker()
-        self.updateTicker()
-        self.startTicker()
-    }
-    */
-    
-    
-    /*
-    func setOptionsMarket(_ sender: NSMenuItem) {
-        if (sender.state == NSOnState) {
-            sender.state = NSOffState
-            UserDefaults.standard.set(-1, forKey:"market" + String(sender.tag))
-        } else {
-            sender.state = NSOnState
-            UserDefaults.standard.set(1, forKey:"market" + String(sender.tag))
-        }
-        
-        for coin in 1..<self.coinUnit.count {
-            //self.statusMenu.item(withTag: coin)!.submenu?.item(withTag: coin * 1000 + sender.tag)?.action = self.getOptionsMarket(sender.tag) == true ? #selector(AppDelegate.setMarket) : nil
-            if (self.getMarket(coin) == sender.tag) {
-                self.setMarket(self.statusMenu.item(withTag: coin)!.submenu!.item(withTag: coin * 1000)!)
+            if (self.getPreferencesAutoUpdate() == -1) {
+                return
+            } else if (self.getPreferencesAutoUpdate() > 0 && self.checkUpdateDate() < self.getPreferencesAutoUpdate()) {
+                Timer.scheduledTimer(timeInterval: Double(self.getPreferencesAutoUpdate() * 60 * 60 * 24), target: self, selector: #selector(AppDelegate.checkUpdate), userInfo: nil, repeats: false)
+                return
             }
         }
         
-        self.initVisible()
-        
-        self.stopTicker()
-        self.updateTicker()
-        self.startTicker()
-    }
-    */
-    /*
-    func checkUpdate() {
         let session = URLSession.shared
-        let jsonUrl = URL(string: "https://api.github.com/repos/moimz/iCoinTicker/releases/latest")
+        let updateUrl: URL = URL(string: "https://raw.githubusercontent.com/moimz/iCoinTicker/3.0.0/coins.plist")!
         
-        let task = session.dataTask(with: jsonUrl!, completionHandler: {
+        let task = session.dataTask(with: updateUrl, completionHandler: {
             (data, response, error) -> Void in
             
             do {
-                let jsonData = try JSONSerialization.jsonObject(with: data!) as! [String: Any]
-                let latest = jsonData["tag_name"] as! String
-                let message = jsonData["body"] as! String
-                let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
-                
-                if (latest != "v" + version) {
-                    self.showUpdateAlert(latest, message)
+                if (data != nil) {
+                    let plist: NSMutableDictionary = try PropertyListSerialization.propertyList(from: data!, options: [], format: nil) as! NSMutableDictionary
+                    
+                    let updated: Date = plist["updated"] as! Date
+                    if (updated > self.plist["updated"] as! Date) {
+                        let fileName = "coins.plist"
+                        let documentsUrl: URL = (FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first as URL!).appendingPathComponent(fileName)
+                        
+                        let content: String = String(data: data!, encoding: String.Encoding.utf8)!
+                        try content.write(to: documentsUrl, atomically: false, encoding: String.Encoding.utf8)
+                        
+                        self.checkUpdateAlert(updated, sender is NSButton ? sender : nil)
+                    } else if (sender is NSButton) {
+                        self.checkUpdateAlert(nil, sender)
+                    }
+                    
+                    UserDefaults.standard.set(Date().timeIntervalSince1970, forKey: "latestUpdatedTime")
+                } else {
+                    self.checkUpdateAlert(nil, sender)
                 }
             } catch _ {
-                // Error
+                if (sender is NSButton) {
+                    self.checkUpdateAlert(nil, sender)
+                }
             }
         })
         
         task.resume()
     }
     
-    func showUpdateAlert(_ latest: String, _ message: String) {
+    /**
+     * Check Lastest updated time
+     *
+     * @return Int date
+     */
+    func checkUpdateDate() -> Int {
+        let latestUpdatedTime: Double = UserDefaults.standard.double(forKey: "latestUpdatedTime")
+        
+        let now: Double = Date().timeIntervalSince1970
+        let date: Int = Int((now - latestUpdatedTime) / 60.0 / 60.0 / 24.0)
+        
+        return date
+    }
+    
+    /**
+     * Show alert message after checking updated coins.plist
+     *
+     * @param Date? updatedDate
+     * @return nil
+     */
+    func checkUpdateAlert(_ updatedDate: Date?, _ sender: Any?) {
+        let isUpdated: Bool = updatedDate != nil
+        var title: String = ""
+        var message: String = ""
+        
+        if (isUpdated == true) {
+            title = NSLocalizedString("preferences.coin.checkUpdate.true.title", comment:"")
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "YYYY.MM.dd HH:mm:ss"
+            
+            message = NSLocalizedString("preferences.coin.checkUpdate.true.date", comment:"") + ": " + dateFormatter.string(from: updatedDate!)
+            message += "\n\n" + NSLocalizedString("preferences.coin.checkUpdate.true.message", comment:"")
+        } else {
+            title = NSLocalizedString("preferences.coin.checkUpdate.false.title", comment:"")
+            message = NSLocalizedString("preferences.coin.checkUpdate.false.message", comment:"")
+        }
+        
         DispatchQueue.main.async {
             let alert: NSAlert = NSAlert()
-            alert.alertStyle = NSAlertStyle.warning
-            alert.informativeText = message + "\n\n"
-            alert.messageText = "A new version(" + latest + ") is available.\nWould you like to open website?"
-            alert.addButton(withTitle: "Yes")
-            alert.addButton(withTitle: "No")
+            alert.alertStyle = NSAlertStyle.informational
+            alert.messageText = title
+            alert.informativeText = message
+            if (isUpdated == true) {
+                alert.addButton(withTitle: NSLocalizedString("button.relaunch", comment:""))
+                alert.addButton(withTitle: NSLocalizedString("button.cancel", comment:""))
+            } else {
+                alert.addButton(withTitle: NSLocalizedString("button.close", comment:""))
+            }
             
             let selected = alert.runModal()
             if (selected == NSAlertFirstButtonReturn) {
-                NSWorkspace.shared().open(URL(string: "https://github.com/moimz/iCoinTicker/releases/tag/" + latest)!)
+                if (isUpdated == true) {
+                    self.relaunch()
+                } else if (sender != nil) {
+                    let button: NSButton = sender as! NSButton
+                    let loading: NSProgressIndicator = button.viewWithTag(-1) as! NSProgressIndicator
+                    loading.stopAnimation(nil)
+                    button.title = NSLocalizedString("preferences.coin.checkUpdate", comment: "")
+                    button.isEnabled = true
+                }
+            } else {
+                if (isUpdated == true) {
+                    self.plist["updated"] = updatedDate
+                    
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "YYYY.MM.dd HH:mm:ss"
+                    
+                    let lastUpdate: NSTextField = self.preferencesCoin.viewWithTag(200) as! NSTextField
+                    lastUpdate.stringValue = NSLocalizedString("preferences.coin.lastUpdate", comment:"") + " : " + dateFormatter.string(from: self.plist["updated"] as! Date)
+                }
+                
+                if (sender != nil) {
+                    let button: NSButton = sender as! NSButton
+                    let loading: NSProgressIndicator = button.viewWithTag(-1) as! NSProgressIndicator
+                    loading.stopAnimation(nil)
+                    button.title = NSLocalizedString("preferences.coin.checkUpdate", comment: "")
+                    button.isEnabled = true
+                }
+                
+                
             }
         }
+ 
     }
-    */
-    func about(_ sender: NSMenuItem) {
+    
+    
+    /**
+     * Force refresh
+     *
+     * @param NSMenuItem sender
+     * @return nil
+     */
+    func refresh(_ sender: NSMenuItem) {
+        self.initCosts()
+        self.stopTicker()
+        self.updateTicker()
+        self.updateData()
+        self.startTicker()
+    }
+    
+    /**
+     * Open About window
+     *
+     * @param NSMenuItem sender
+     * @return nil
+     */
+    func openAboutWindow(_ sender: NSMenuItem) {
         self.aboutWindow.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
     }
     
-    func refresh(_ sender: NSMenuItem) {
-        /*
-        for i in 0..<self.coinUnit.count {
-            for j in 0..<self.marketName.count {
-                self.costs[i][j] = Double(0)
-            }
-        }
-        
-        self.updateData()
-        
-        self.stopTicker()
-        self.updateTicker()
-        self.startTicker()
- */
-    }
-    
-    func preferences(_ sender: NSMenuItem) {
+    /**
+     * Open Prefrences window and Localizing window
+     *
+     * @param NSMenuItem sender
+     * @return nil
+     */
+    func openPreferencesWindow(_ sender: NSMenuItem) {
         self.preferencesWindow.makeKeyAndOrderFront(nil)
         self.preferencesWindow.title = NSLocalizedString("menu.preferences", comment: "")
         NSApp.activate(ignoringOtherApps: true)
@@ -1250,15 +1404,24 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self.preferencesToolbar.selectedItemIdentifier = "general"
             preferencesViewSelected(self.preferencesToolbar.items[0])
         }
-        
     }
     
+    /**
+     * Preferences Toolbar Select
+     *
+     * @param NSToolbarItem sender
+     * @ return nil
+     */
     func preferencesViewSelected(_ sender: NSToolbarItem) {
         var subview: NSView
+        
         switch (sender.itemIdentifier) {
             case "general" :
                 subview = self.preferencesGeneral
-                
+            
+            case "appearance" :
+                subview = self.preferencesAppearance
+            
             case "coin" :
                 subview = self.preferencesCoin
             
@@ -1282,7 +1445,70 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.preferencesWindow.contentView!.isHidden = false
     }
     
-    func preferencesStartAtLogin(_ sender: NSButton) {
+    /**
+     * Set Refresh Interval
+     *
+     * @param NSPopUpButton sender
+     * @return nil
+     */
+    func setPreferencesRefreshInterval(_ sender: NSPopUpButton) {
+        UserDefaults.standard.set(sender.selectedItem!.tag, forKey: "preferencesRefreshTime")
+        
+        self.timer.invalidate()
+        self.timer = Timer.scheduledTimer(timeInterval: Double(sender.selectedItem!.tag), target: self, selector: #selector(AppDelegate.updateData), userInfo: nil, repeats: true)
+    }
+    
+    /**
+     * Set currency
+     *
+     * @param NSMenuItem sender
+     * @return nil
+     */
+    func setPreferencesCurrency(_ sender: NSMenuItem) {
+        UserDefaults.standard.set(sender.tag, forKey: "preferencesCurrency")
+        
+        self.stopTicker()
+        self.updateTicker()
+        self.startTicker()
+    }
+    
+    /**
+     * Set Auto update
+     *
+     * @param Any sender
+     * @return nil
+     */
+    func setPreferencesAutoUpdate(_ sender: Any) {
+        if (sender is NSPopUpButton) {
+            let select: NSPopUpButton = sender as! NSPopUpButton
+            UserDefaults.standard.set(select.selectedItem!.tag, forKey: "preferencesAutoUpdate")
+        } else if (sender is NSButton) {
+            let button: NSButton = sender as! NSButton
+            if (button.state == NSOnState) {
+                UserDefaults.standard.set(0, forKey: "preferencesAutoUpdate")
+                
+                let select: NSPopUpButton = self.preferencesGeneral.viewWithTag(101) as! NSPopUpButton
+                select.isEnabled = true
+                select.select(select.menu!.item(withTag: 0))
+            } else {
+                UserDefaults.standard.set(-1, forKey: "preferencesAutoUpdate")
+                
+                let select: NSPopUpButton = self.preferencesGeneral.viewWithTag(101) as! NSPopUpButton
+                select.isEnabled = true
+                select.select(select.menu!.item(withTag: 0))
+                select.isEnabled = false
+                select.select(select.menu!.item(withTag: 0))
+            }
+        }
+    }
+    
+    /**
+     * Toggle ticker font size
+     *
+     * @param NSButton sender
+     * @return nil
+     */
+    func setPreferencesStartAtLogin(_ sender: NSButton) {
         let launcherAppIdentifier = "com.moimz.iCoinTickerLauncher"
         SMLoginItemSetEnabled(launcherAppIdentifier as CFString, sender.state == NSOnState)
         
@@ -1291,10 +1517,111 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.killLauncher()
     }
     
+    /**
+     * Set ticker font size
+     *
+     * @param NSPopUpButton sender
+     * @return nil
+     */
+    func setPreferencesFontSize(_ sender: NSPopUpButton) {
+        UserDefaults.standard.set(sender.selectedItem!.tag, forKey: "preferencesFontSize")
+        
+        self.stopTicker()
+        self.updateTicker()
+        self.startTicker()
+    }
+    
+    /**
+     * Set ticker displayed currency
+     *
+     * @param NSPopUpButton sender
+     * @return nil
+     */
+    func setPreferencesTickerDisplayedCurrency(_ sender: NSPopUpButton) {
+        UserDefaults.standard.set(sender.selectedItem!.tag, forKey: "preferencesTickerDisplayedCurrency")
+        
+        self.stopTicker()
+        self.updateTicker()
+        self.startTicker()
+    }
+    
+    /**
+     * Set ticker displayed change
+     *
+     * @param NSButton sender
+     * @return nil
+     */
+    func setPreferencesTickerDisplayedChange(_ sender: NSButton) {
+        if (sender.state == NSOnState) {
+            UserDefaults.standard.set(true, forKey: "preferencesTickerDisplayedChange")
+        } else {
+            UserDefaults.standard.set(false, forKey: "preferencesTickerDisplayedChange")
+        }
+        
+        self.stopTicker()
+        self.updateTicker()
+        self.startTicker()
+    }
+    
+    /**
+     * Set menu displayed currency
+     *
+     * @param NSPopUpButton sender
+     * @return nil
+     */
+    func setPreferencesMenuDisplayedCurrency(_ sender: NSPopUpButton) {
+        UserDefaults.standard.set(sender.selectedItem!.tag, forKey: "preferencesMenuDisplayedCurrency")
+        
+        self.stopTicker()
+        self.updateTicker()
+        self.startTicker()
+    }
+    
+    /**
+     * Set menu displayed change
+     *
+     * @param NSButton sender
+     * @return nil
+     */
+    func setPreferencesMenuDisplayedChange(_ sender: NSButton) {
+        if (sender.state == NSOnState) {
+            UserDefaults.standard.set(true, forKey: "preferencesMenuDisplayedChange")
+        } else {
+            UserDefaults.standard.set(false, forKey: "preferencesMenuDisplayedChange")
+        }
+        
+        self.stopTicker()
+        self.updateTicker()
+        self.startTicker()
+    }
+    
+    /**
+     * Quit app
+     *
+     * @param AnyObject sender
+     * @return nil
+     */
     func quit(_ sender: AnyObject) {
         self.timer.invalidate()
         self.tickerTimer.invalidate()
-        exit(0)
+        NSApplication.shared().terminate(nil)
+    }
+    
+    /**
+     * Relaunch app after coin.plist update
+     *
+     * @return nil
+     */
+    func relaunch() {
+        let task = Process()
+        var args = [String]()
+        args.append("-c")
+        let bundle = Bundle.main.bundlePath
+        args.append("sleep 0.2; open \"\(bundle)\"")
+        task.launchPath = "/bin/sh"
+        task.arguments = args
+        task.launch()
+        NSApplication.shared().terminate(nil)
     }
     
     @IBAction func openUrl(_ sender: AnyObject) {

@@ -7,11 +7,66 @@
  */
 
 menu.about = "iCoinTicker에 관하여";
+menu.hideTicker = "티커에서 숨기기";
 menu.refresh = "새로고침";
 menu.preferences = "환경설정";
 menu.quit = "종료";
 
+button.relaunch = "지금 재시작";
+button.cancel = "취소";
+button.close = "닫기";
+
 preferences.toolbar.general = "일반";
-preferences.toolbar.coin = "코인";
+preferences.toolbar.appearance = "표시";
+preferences.toolbar.coin = "코인/거래소";
+preferences.toolbar.donation = "후원하기";
+
+preferences.general.refreshInterval = "새로고침";
+preferences.general.refreshInterval.15 = "15초";
+preferences.general.refreshInterval.30 = "30초";
+preferences.general.refreshInterval.60 = "1분";
+preferences.general.refreshInterval.300 = "5분";
+preferences.general.refreshInterval.600 = "10분";
+preferences.general.refreshInterval.1800 = "30분";
+preferences.general.refreshInterval.3600 = "1시간";
+
+preferences.general.currency = "통화";
+preferences.general.currency.default = "거래소 기본통화 사용";
+
+preferences.general.autoUpdate = "코인 및 거래소 목록 자동 업데이트";
+preferences.general.autoUpdate.0 = "매 실행시마다 확인";
+preferences.general.autoUpdate.1 = "하루에 한번 업데이트 확인";
+preferences.general.autoUpdate.7 = "일주일에 한번 업데이트 확인";
+preferences.general.autoUpdate.30 = "한달에 한번 업데이트 확인";
+
+preferences.general.autoAddNewCoins = "신규 추가된 코인 자동으로 활성화";
+preferences.general.autoAddNewMarkets = "신규 추가된 거래소 자동으로 활성화";
 
 preferences.general.startAtLogin = "로그인할 때 자동으로 실행";
+
+preferences.appearance.ticker = "티커설정";
+
+preferences.appearance.fontSize = "폰트크기";
+preferences.appearance.fontSize.10pt = "10pt";
+preferences.appearance.fontSize.12pt = "12pt";
+preferences.appearance.fontSize.14pt = "14pt (기본)";
+
+preferences.appearance.displayedCurrency = "통화표시";
+preferences.appearance.displayedCurrency.none = "표시안함";
+preferences.appearance.displayedCurrency.symbol = "기호로 표시 ($)";
+preferences.appearance.displayedCurrency.code = "코드로 표시 (USD)";
+
+preferences.appearance.displayedChanged = "변동율";
+preferences.appearance.showDisplayedChanged = "가격 변동율을 표시합니다. (일부 거래소만 지원)";
+preferences.appearance.showDisplayedChangedHelp = "24시간 이전 시작가격을 기준으로 가격변동율을 계산합니다.";
+
+preferences.appearance.menu = "메뉴설정";
+
+preferences.coin.lastUpdate = "마지막 업데이트";
+preferences.coin.checkUpdate = "업데이트 확인";
+preferences.coin.checkUpdate.true.title = "코인 및 거래소 데이터를 아래날짜의 데이터로 업데이트하였습니다.";
+preferences.coin.checkUpdate.true.date = "업데이트 시간";
+preferences.coin.checkUpdate.true.message = "업데이트된 내역을 적용하려면 앱을 재시작하여야 합니다.\n지금 앱을 재시작 하시겠습니까?";
+
+preferences.coin.checkUpdate.false.title = "업데이트 내역이 없습니다.";
+preferences.coin.checkUpdate.false.message = "현재 최신버전의 코인 및 거래소 데이터를 사용하고 있습니다.\n다음에 다시 시도하여 주시기 바랍니다.";

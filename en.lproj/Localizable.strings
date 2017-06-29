@@ -12,6 +12,8 @@ menu.preferences = "Preferences";
 menu.quit = "Quit";
 
 preferences.toolbar.general = "General";
-preferences.toolbar.coin = "Coins";
+preferences.toolbar.appearance = "Appearance";
+preferences.toolbar.coin = "Coins/Markets";
+preferences.toolbar.donation = "Donation";
 
 preferences.general.startAtLogin = "Start At Login";
