@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>updated</key>
-	<date>2017-06-28T02:00:00Z</date>
+	<date>2017-06-30T01:00:00Z</date>
 	<key>markets</key>
 	<dict>
 		<key>Korbit</key>
@@ -16,7 +16,7 @@
 			<dict>
 				<key>url</key>
 				<string>https://api.korbit.co.kr/v1/ticker?currency_pair=</string>
-				<key>start</key>
+				<key>first</key>
 				<string></string>
 				<key>last</key>
 				<string>last</string>
@@ -496,6 +496,63 @@
 				<key>Coincheck</key>
 				<string>fct_btc</string>
 			</dict>
+		</dict>
+	</dict>
+	<key>currencies</key>
+	<dict>
+		<key>USD</key>
+		<dict>
+			<key>tag</key>
+			<integer>1</integer>
+			<key>mark</key>
+			<string>$</string>
+			<key>format</key>
+			<string>#,##0.00</string>
+		</dict>
+		<key>EUR</key>
+		<dict>
+			<key>tag</key>
+			<integer>2</integer>
+			<key>mark</key>
+			<string>€</string>
+			<key>format</key>
+			<string>#,##0.00</string>
+		</dict>
+		<key>KRW</key>
+		<dict>
+			<key>tag</key>
+			<integer>3</integer>
+			<key>mark</key>
+			<string>₩</string>
+			<key>format</key>
+			<string>#,###</string>
+		</dict>
+		<key>CNY</key>
+		<dict>
+			<key>tag</key>
+			<integer>4</integer>
+			<key>mark</key>
+			<string>¥</string>
+			<key>format</key>
+			<string>#,##0.0</string>
+		</dict>
+		<key>JPY</key>
+		<dict>
+			<key>tag</key>
+			<integer>5</integer>
+			<key>mark</key>
+			<string>¥</string>
+			<key>format</key>
+			<string>#,###</string>
+		</dict>
+		<key>GBP</key>
+		<dict>
+			<key>tag</key>
+			<integer>6</integer>
+			<key>mark</key>
+			<string>£</string>
+			<key>format</key>
+			<string>#,##0.00</string>
 		</dict>
 	</dict>
 </dict>
