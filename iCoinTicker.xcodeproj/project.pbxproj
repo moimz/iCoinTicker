@@ -14,7 +14,6 @@
 		CA82D0AF1ED31FB900B079E4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA82D0AE1ED31FB900B079E4 /* AppDelegate.swift */; };
 		CA82D0B31ED31FB900B079E4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA82D0B21ED31FB900B079E4 /* Assets.xcassets */; };
 		CA82D0C41ED325E700B079E4 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = CA82D0C31ED325E700B079E4 /* MainMenu.xib */; };
-		CAC578551F02ED0200BD8895 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAC578541F02ED0200BD8895 /* StoreKit.framework */; };
 		CAC578741F032DDE00BD8895 /* coins.plist in Resources */ = {isa = PBXBuildFile; fileRef = CAC578731F032DDE00BD8895 /* coins.plist */; };
 		CAC584BB1F020C9700485CF8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CAC584BD1F020C9700485CF8 /* Localizable.strings */; };
 		CAEEFBFC1EE2017D007DD443 /* cryptocoins.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = CAEEFBFB1EE2017D007DD443 /* cryptocoins.ttf */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -59,7 +58,6 @@
 		CA82D0B71ED31FB900B079E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CA82D0C31ED325E700B079E4 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		CA82D0C51ED327BF00B079E4 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		CAC578541F02ED0200BD8895 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		CAC578731F032DDE00BD8895 /* coins.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = coins.plist; path = ../coins.plist; sourceTree = "<group>"; };
 		CAC584B81F01FF7300485CF8 /* cryptocoins.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = cryptocoins.svg; sourceTree = "<group>"; };
 		CAC584BC1F020C9700485CF8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -80,7 +78,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CAC578551F02ED0200BD8895 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -148,7 +145,6 @@
 		CAC578531F02ED0200BD8895 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				CAC578541F02ED0200BD8895 /* StoreKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -226,7 +222,7 @@
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.InAppPurchase = {
-								enabled = 1;
+								enabled = 0;
 							};
 							com.apple.Sandbox = {
 								enabled = 1;

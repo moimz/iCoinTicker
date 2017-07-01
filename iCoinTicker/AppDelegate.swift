@@ -322,6 +322,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             autoUpdateSelect.select(autoUpdateSelect.menu?.item(withTag: self.getPreferencesAutoUpdate()))
         }
         
+        let autoEnabledCoin: NSButton = self.preferencesGeneral.viewWithTag(102) as! NSButton
+        autoEnabledCoin.action = #selector(AppDelegate.setPreferencesAutoEnabledCoin)
+        autoEnabledCoin.state = self.getPreferencesAutoEnabledCoin() == true ? NSOnState : NSOffState
+        
+        let autoEnabledMarket: NSButton = self.preferencesGeneral.viewWithTag(103) as! NSButton
+        autoEnabledMarket.action = #selector(AppDelegate.setPreferencesAutoEnabledMarket)
+        autoEnabledMarket.state = self.getPreferencesAutoEnabledMarket() == true ? NSOnState : NSOffState
+        
         let startAtLogin: NSButton! = self.preferencesGeneral.viewWithTag(1000) as! NSButton
         startAtLogin.action = #selector(AppDelegate.setPreferencesStartAtLogin)
         startAtLogin.state = UserDefaults.standard.bool(forKey: "preferencesStartAtLogin") == true ? NSOnState : NSOffState
@@ -376,6 +384,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 textField.stringValue = NSLocalizedString("preferences.coin." + textField.stringValue, comment: "") + (view.tag == 1 ? " : " : "")
             }
         }
+        
+        let coins: NSTableView = self.preferencesCoin.viewWithTag(10) as! NSTableView
+        coins.tableColumn(withIdentifier: "unit")?.headerCell.title = NSLocalizedString("preferences.coin.coins.header.unit", comment: "")
+        coins.tableColumn(withIdentifier: "name")?.headerCell.title = NSLocalizedString("preferences.coin.coins.header.name", comment: "")
+        coins.delegate = self
+        coins.dataSource = self
+        
+        let markets: NSTableView = self.preferencesCoin.viewWithTag(20) as! NSTableView
+        markets.tableColumn(withIdentifier: "market")?.headerCell.title = NSLocalizedString("preferences.coin.markets.header.market", comment: "")
+        markets.tableColumn(withIdentifier: "currency")?.headerCell.title = NSLocalizedString("preferences.coin.markets.header.currency", comment: "")
+        markets.delegate = self
+        markets.dataSource = self
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "YYYY.MM.dd HH:mm:ss"
@@ -458,7 +478,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 }
                 
                 let marketSelected: Int = self.getMarketSelectedTag(coin.unit)
-                if (marketSelected == 0) {
+                if (marketSelected % 100 == 0) {
                     menu.state = NSOffState
                     submenu.item(withTag: coin.tag * 1000)!.state = NSOnState
                 } else {
@@ -626,8 +646,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             let isEnabled = UserDefaults.standard.object(forKey: "is" + coin!.unit + "Enabled")
             
             if (isEnabled == nil) {
-                UserDefaults.standard.set(true, forKey: "is" + coin!.unit + "Enabled")
-                return true
+                /**
+                 * Enabled BTC coin at First launch app
+                 */
+                if (unit == "BTC") {
+                    return true
+                }
+                UserDefaults.standard.set(self.getPreferencesAutoEnabledCoin(), forKey: "is" + coin!.unit + "Enabled")
+                return self.getPreferencesAutoEnabledCoin()
             } else {
                 return isEnabled as! Bool
             }
@@ -648,8 +674,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             let isEnabled = UserDefaults.standard.object(forKey: "is" + market!.name + "Enabled")
             
             if (isEnabled == nil) {
-                UserDefaults.standard.set(true, forKey: "is" + market!.name + "Enabled")
-                return true
+                UserDefaults.standard.set(self.getPreferencesAutoEnabledMarket(), forKey: "is" + market!.name + "Enabled")
+                return self.getPreferencesAutoEnabledMarket()
             } else {
                 return isEnabled as! Bool
             }
@@ -1173,6 +1199,24 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     /**
+     * Get Auto enabled coin
+     *
+     * @return Bool isAutoEnabled
+     */
+    func getPreferencesAutoEnabledCoin() -> Bool {
+        return UserDefaults.standard.bool(forKey: "preferencesAutoEnabledCoin")
+    }
+    
+    /**
+     * Get Auto enabled market
+     *
+     * @return Bool isAutoEnabled
+     */
+    func getPreferencesAutoEnabledMarket() -> Bool {
+        return UserDefaults.standard.bool(forKey: "preferencesAutoEnabledMarket")
+    }
+    
+    /**
      * Get ticker font size
      *
      * @return Int font size(pt)
@@ -1363,7 +1407,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
  
     }
     
-    
     /**
      * Force refresh
      *
@@ -1503,6 +1546,34 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     /**
+     * Set Auto Enabled Coin
+     *
+     * @param NSButton sender
+     * @return nil
+     */
+    func setPreferencesAutoEnabledCoin(_ sender: NSButton) {
+        if (sender.state == NSOnState) {
+            UserDefaults.standard.set(true, forKey: "preferencesAutoEnabledCoin")
+        } else {
+            UserDefaults.standard.set(false, forKey: "preferencesAutoEnabledCoin")
+        }
+    }
+    
+    /**
+     * Set Auto Enabled Market
+     *
+     * @param NSButton sender
+     * @return nil
+     */
+    func setPreferencesAutoEnabledMarket(_ sender: NSButton) {
+        if (sender.state == NSOnState) {
+            UserDefaults.standard.set(true, forKey: "preferencesAutoEnabledMarket")
+        } else {
+            UserDefaults.standard.set(false, forKey: "preferencesAutoEnabledMarket")
+        }
+    }
+    
+    /**
      * Toggle ticker font size
      *
      * @param NSButton sender
@@ -1596,6 +1667,50 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     /**
+     * Set Enabled Coin
+     *
+     * @param NSButton sender
+     * @return nil
+     */
+    func setPreferencesCoinEnabled(_ sender: NSButton) {
+        let coin: Coin = self.getCoin(sender.tag)!
+        
+        self.stopTicker()
+        
+        if (sender.state == NSOnState) {
+            UserDefaults.standard.set(true, forKey: "is" + coin.unit + "Enabled")
+        } else {
+            UserDefaults.standard.set(false, forKey: "is" + coin.unit + "Enabled")
+        }
+        
+        self.initMenus()
+        self.updateTicker()
+        self.startTicker()
+    }
+    
+    /**
+     * Set Enabled Market
+     *
+     * @param NSButton sender
+     * @return nil
+     */
+    func setPreferencesMarketEnabled(_ sender: NSButton) {
+        let market: Market = self.getMarket(sender.tag)!
+        
+        self.stopTicker()
+        
+        if (sender.state == NSOnState) {
+            UserDefaults.standard.set(true, forKey: "is" + market.name + "Enabled")
+        } else {
+            UserDefaults.standard.set(false, forKey: "is" + market.name + "Enabled")
+        }
+        
+        self.initMenus()
+        self.updateTicker()
+        self.startTicker()
+    }
+    
+    /**
      * Quit app
      *
      * @param AnyObject sender
@@ -1627,5 +1742,64 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBAction func openUrl(_ sender: AnyObject) {
         NSWorkspace.shared().open(URL(string: "https://github.com/moimz/iCoinTicker/issues")!)
     }
+}
+
+/**
+ * Table view extendsion
+ */
+extension AppDelegate: NSTableViewDataSource, NSTableViewDelegate {
+    func numberOfRows(in tableView: NSTableView) -> Int {
+        if (tableView.identifier == "coins") {
+            return self.coins.count
+        } else if (tableView.identifier == "markets") {
+            return self.markets.count
+        }
+        
+        return 0
+    }
     
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        if (tableView.identifier == "coins") {
+            let coin: Coin = self.coins[row]
+            
+            if (tableColumn?.identifier == "unit") {
+                let check: NSButton = tableView.make(withIdentifier:(tableColumn?.identifier)!, owner: self) as! NSButton
+                check.tag = coin.tag
+                check.action = #selector(AppDelegate.setPreferencesCoinEnabled)
+                check.state = self.isCoinEnabled(coin.unit) == true ? NSOnState : NSOffState
+                
+                let title = NSMutableAttributedString(string: "")
+                title.append(NSAttributedString(string: coin.mark, attributes: [NSFontAttributeName: NSFont(name: "cryptocoins", size: 14.0)!]))
+                title.append(NSAttributedString(string: " " + coin.unit, attributes: [NSFontAttributeName: NSFont.systemFont(ofSize: 14.0), NSBaselineOffsetAttributeName: 1.5]))
+                check.attributedTitle = title
+                
+                return check
+            } else if (tableColumn?.identifier == "name") {
+                let cell: NSTableCellView = tableView.make(withIdentifier:(tableColumn?.identifier)!, owner: self) as! NSTableCellView
+                cell.textField?.stringValue = coin.name
+                
+                return cell
+            }
+        } else if (tableView.identifier == "markets") {
+            let market: Market = self.markets[row]
+            
+            if (tableColumn?.identifier == "market") {
+                let check: NSButton = tableView.make(withIdentifier:(tableColumn?.identifier)!, owner: self) as! NSButton
+                check.tag = market.tag
+                check.title = market.name
+                check.action = #selector(AppDelegate.setPreferencesMarketEnabled)
+                check.state = self.isMarketEnabled(market.name) == true ? NSOnState : NSOffState
+                
+                return check
+            } else if (tableColumn?.identifier == "currency") {
+                let cell: NSTableCellView = tableView.make(withIdentifier:(tableColumn?.identifier)!, owner: self) as! NSTableCellView
+                cell.imageView?.image = NSImage(named: market.currency)
+                cell.textField?.stringValue = market.currency
+                
+                return cell
+            }
+        }
+        
+        return nil
+    }
 }

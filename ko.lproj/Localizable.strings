@@ -62,6 +62,13 @@ preferences.appearance.showDisplayedChangedHelp = "24시간 이전 시작가격�
 
 preferences.appearance.menu = "메뉴설정";
 
+preferences.coin.coins = "코인 활성화";
+preferences.coin.coins.header.unit = "코인";
+preferences.coin.coins.header.name = "코인명";
+preferences.coin.markets = "거래소 활성화";
+preferences.coin.markets.header.market = "거래소";
+preferences.coin.markets.header.currency = "기본통화";
+
 preferences.coin.lastUpdate = "마지막 업데이트";
 preferences.coin.checkUpdate = "업데이트 확인";
 preferences.coin.checkUpdate.true.title = "코인 및 거래소 데이터를 아래날짜의 데이터로 업데이트하였습니다.";
