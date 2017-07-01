@@ -86,7 +86,7 @@ ETH : 0x3A06b2C45AC207eb66Bc79B4C81522a120E629CC</string>
                 <outlet property="aboutWindow" destination="aM5-Nr-TIk" id="xhs-Ud-d0J"/>
                 <outlet property="preferencesAppearance" destination="8UW-AL-11H" id="oFJ-gK-awB"/>
                 <outlet property="preferencesCoin" destination="MpW-i6-Qyr" id="AhS-4H-kAn"/>
-                <outlet property="preferencesDonation" destination="BtC-nV-duw" id="cGz-K7-P9W"/>
+                <outlet property="preferencesDonation" destination="WYp-yK-GhY" id="R5k-2h-TXH"/>
                 <outlet property="preferencesGeneral" destination="8Su-iV-Ewf" id="NQM-mu-G09"/>
                 <outlet property="preferencesToolbar" destination="9VH-dP-R79" id="dRF-lk-AI1"/>
                 <outlet property="preferencesWindow" destination="GZX-dz-C2e" id="9Ew-f0-xuc"/>
@@ -104,7 +104,7 @@ ETH : 0x3A06b2C45AC207eb66Bc79B4C81522a120E629CC</string>
                 <allowedToolbarItems>
                     <toolbarItem implicitItemIdentifier="9672BFCE-2419-4EEE-B4AC-754588259E44" explicitItemIdentifier="general" label="general" paletteLabel="general" image="NSPreferencesGeneral" selectable="YES" id="4Sc-0D-u2M"/>
                     <toolbarItem implicitItemIdentifier="46FC30BD-C255-4DFE-95A3-20336D1D5B5F" explicitItemIdentifier="appearance" label="appearance" paletteLabel="appearance" image="NSColorPanel" selectable="YES" id="alw-VS-am9"/>
-                    <toolbarItem implicitItemIdentifier="0DCB6BDD-5220-4A0E-A102-44411BE97AF5" explicitItemIdentifier="donation" label="donation" paletteLabel="donation" image="statusIcon" selectable="YES" id="tOF-QR-KVP"/>
+                    <toolbarItem implicitItemIdentifier="0DCB6BDD-5220-4A0E-A102-44411BE97AF5" explicitItemIdentifier="donation" label="donation" paletteLabel="donation" image="Donation" selectable="YES" id="tOF-QR-KVP"/>
                     <toolbarItem implicitItemIdentifier="0CAD7367-A0B2-4D62-89F4-153D54ED34E9" explicitItemIdentifier="coin" label="coin" paletteLabel="coin" image="NSAdvanced" selectable="YES" id="8l6-OO-zVm"/>
                     <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="aey-c8-5wh"/>
                     <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="8gp-fN-X78"/>
@@ -449,11 +449,6 @@ ETH : 0x3A06b2C45AC207eb66Bc79B4C81522a120E629CC</string>
             </subviews>
             <point key="canvasLocation" x="-624" y="543"/>
         </view>
-        <customView id="BtC-nV-duw">
-            <rect key="frame" x="0.0" y="0.0" width="500" height="238"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-            <point key="canvasLocation" x="-57" y="462"/>
-        </customView>
         <view autoresizesSubviews="NO" id="8UW-AL-11H">
             <rect key="frame" x="0.0" y="0.0" width="500" height="320"/>
             <autoresizingMask key="autoresizingMask"/>
@@ -606,13 +601,137 @@ ETH : 0x3A06b2C45AC207eb66Bc79B4C81522a120E629CC</string>
             </subviews>
             <point key="canvasLocation" x="-57" y="121"/>
         </view>
+        <view autoresizesSubviews="NO" id="WYp-yK-GhY">
+            <rect key="frame" x="0.0" y="0.0" width="500" height="285"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <subviews>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lDV-qY-Eqq">
+                    <rect key="frame" x="18" y="233" width="464" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="title" id="akX-Fw-kUq">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" tag="1" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FgE-3a-kqu">
+                    <rect key="frame" x="18" y="200" width="126" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="iap" id="mMh-Fq-d91">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <button verticalHuggingPriority="750" fixedFrame="YES" tag="10" translatesAutoresizingMaskIntoConstraints="NO" id="gG5-nh-1dm">
+                    <rect key="frame" x="144" y="189" width="132" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="push" title="USD 0.99" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="xuJ-JP-ri9">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                </button>
+                <button verticalHuggingPriority="750" fixedFrame="YES" tag="20" translatesAutoresizingMaskIntoConstraints="NO" id="1uo-z5-Bjn">
+                    <rect key="frame" x="276" y="189" width="132" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="push" title="price2" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="iSX-SO-Pyw">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                </button>
+                <button verticalHuggingPriority="750" fixedFrame="YES" tag="30" translatesAutoresizingMaskIntoConstraints="NO" id="pQu-no-2js">
+                    <rect key="frame" x="144" y="160" width="132" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="push" title="price3" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Wbf-g5-bS4">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                </button>
+                <button verticalHuggingPriority="750" fixedFrame="YES" tag="40" translatesAutoresizingMaskIntoConstraints="NO" id="RpO-Dr-UnB">
+                    <rect key="frame" x="276" y="160" width="132" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="push" title="price4" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="XCC-NS-32Z">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                </button>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G4i-iC-Ndg">
+                    <rect key="frame" x="148" y="142" width="325" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="iapHelp" id="GPm-zb-UEh">
+                        <font key="font" metaFont="smallSystem"/>
+                        <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yfh-7J-j9d">
+                    <rect key="frame" x="126" y="20" width="325" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="coinHelp" id="ucG-R7-Rpj">
+                        <font key="font" metaFont="smallSystem"/>
+                        <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="Rvz-Gk-UAc">
+                    <rect key="frame" x="20" y="131" width="460" height="5"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                </box>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XwM-jc-x7W">
+                    <rect key="frame" x="18" y="95" width="464" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="coin" id="MBT-yI-K61">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" tag="-1" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xO3-Rh-wol">
+                    <rect key="frame" x="18" y="70" width="104" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="BTC :" id="YRZ-pu-hlv">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" tag="-1" allowsCharacterPickerTouchBarItem="NO" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="to5-t9-cHe">
+                    <rect key="frame" x="126" y="70" width="356" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" allowsUndo="NO" sendsActionOnEndEditing="YES" alignment="left" title="3BZZoJV1rW4G36xJ2epDPnYVz4D9mPjsFt" usesSingleLineMode="YES" id="WeE-EQ-0b2">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" tag="-1" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="awf-SM-XtK">
+                    <rect key="frame" x="18" y="45" width="104" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="ETH :" id="ggp-Oo-FjY">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" tag="-1" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XeA-iB-cdp">
+                    <rect key="frame" x="126" y="45" width="356" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" alignment="left" title="0x3A06b2C45AC207eb66Bc79B4C81522a120E629CC" usesSingleLineMode="YES" id="h0y-Q8-aca">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+            </subviews>
+            <point key="canvasLocation" x="-67" y="485.5"/>
+        </view>
     </objects>
     <resources>
         <image name="AppIcon" width="128" height="128"/>
+        <image name="Donation" width="64" height="64"/>
         <image name="NSActionTemplate" width="14" height="14"/>
         <image name="NSAdvanced" width="32" height="32"/>
         <image name="NSColorPanel" width="32" height="32"/>
         <image name="NSPreferencesGeneral" width="32" height="32"/>
-        <image name="statusIcon" width="36" height="36"/>
     </resources>
 </document>

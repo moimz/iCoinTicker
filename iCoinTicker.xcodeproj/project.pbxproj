@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CA2AA10E1F078549007F19DE /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA2AA10D1F078549007F19DE /* StoreKit.framework */; };
 		CA4392D01F02E2C000DCE78B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4392CF1F02E2C000DCE78B /* AppDelegate.swift */; };
 		CA4392D41F02E2C000DCE78B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA4392D31F02E2C000DCE78B /* Assets.xcassets */; };
 		CA4392D71F02E2C000DCE78B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA4392D51F02E2C000DCE78B /* Main.storyboard */; };
@@ -43,6 +44,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		CA2AA10D1F078549007F19DE /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		CA34533E1EE45C9800D6ECF3 /* screenshot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screenshot.png; sourceTree = "<group>"; };
 		CA38413F1EF101FC007DD767 /* iCoinTicker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iCoinTicker.entitlements; sourceTree = "<group>"; };
 		CA4392CD1F02E2C000DCE78B /* iCoinTickerLauncher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iCoinTickerLauncher.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -78,6 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA2AA10E1F078549007F19DE /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -145,6 +148,7 @@
 		CAC578531F02ED0200BD8895 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CA2AA10D1F078549007F19DE /* StoreKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -222,7 +226,7 @@
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.InAppPurchase = {
-								enabled = 0;
+								enabled = 1;
 							};
 							com.apple.Sandbox = {
 								enabled = 1;
@@ -397,7 +401,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -442,7 +446,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";

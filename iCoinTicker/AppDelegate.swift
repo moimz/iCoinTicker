@@ -9,6 +9,7 @@
 import Cocoa
 import Foundation
 import ServiceManagement
+import StoreKit
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -119,6 +120,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var currencies: [String: Currency] = [:]
     var costs: [String: [String: Double]] = [:]
     var costChanges: [String: [String: Double]] = [:]
+    
+    var donations: [String: SKProduct] = [:]
     
     var tickerTimer = Timer()
     var updaterTimer: [String: Timer] = [:]
@@ -412,6 +415,44 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         loading.usesThreadedAnimation = false
         loading.isDisplayedWhenStopped = false
         checkUpdate.addSubview(loading)
+        
+        /**
+         * Init Preferences Donation Panel
+         */
+        for view in self.preferencesDonation.subviews {
+            if (view is NSButton) {
+                let button: NSButton = view as! NSButton
+                button.title = NSLocalizedString("preferences.donation." + button.title, comment: "")
+            } else if (view is NSTextField) {
+                let textField: NSTextField = view as! NSTextField
+                if (textField.tag == -1) {
+                    continue
+                }
+                textField.stringValue = NSLocalizedString("preferences.donation." + textField.stringValue, comment: "") + (view.tag == 1 ? " : " : "")
+            }
+        }
+        
+        let donations: Set<String> = NSSet(array: ["com.moimz.iCoinTicker.donation.tier1", "com.moimz.iCoinTicker.donation.tier2", "com.moimz.iCoinTicker.donation.tier3", "com.moimz.iCoinTicker.donation.tier4"]) as! Set<String>
+        
+        if (SKPaymentQueue.canMakePayments() == true) {
+            let request = SKProductsRequest(productIdentifiers: donations)
+            request.delegate = self
+            request.start()
+        }
+        
+        SKPaymentQueue.default().add(self)
+        
+        for tag in 1...4 {
+            let button: NSButton = self.preferencesDonation.viewWithTag(tag * 10) as! NSButton
+            button.isEnabled = false
+            
+            let loading = NSProgressIndicator(frame: NSRect(x: 58.0, y: 7.0, width: 16.0, height: 16.0))
+            loading.style = NSProgressIndicatorStyle.spinningStyle
+            loading.controlSize = NSControlSize.small
+            loading.usesThreadedAnimation = false
+            loading.isDisplayedWhenStopped = false
+            button.addSubview(loading)
+        }
     }
     
     /**
@@ -1404,7 +1445,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 
             }
         }
- 
     }
     
     /**
@@ -1739,13 +1779,137 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         NSApplication.shared().terminate(nil)
     }
     
+    /**
+     * Donate Button (IAP)
+     *
+     * @param NSButton sender
+     * @return nil
+     */
+    func donate(_ sender: NSButton) {
+        if (sender.identifier == nil) {
+            return
+        }
+        
+        let loading: NSProgressIndicator = sender.viewWithTag(-1) as! NSProgressIndicator
+        sender.title = ""
+        sender.isEnabled = false
+        loading.startAnimation(nil)
+        
+        let item: SKProduct? = self.donations[sender.identifier!]
+        if (item != nil) {
+            let payment = SKPayment(product: item!)
+            SKPaymentQueue.default().add(payment)
+        }
+    }
+    
+    /**
+     * Show alert message after purchase
+     *
+     * @param Bool success
+     * @return nil
+     */
+    func donateAlert(_ success: Bool) {
+        var title: String = ""
+        var message: String = ""
+        
+        if (success == true) {
+            title = NSLocalizedString("preferences.donation.success.title", comment:"")
+            message = NSLocalizedString("preferences.donation.success.message", comment:"")
+        } else {
+            title = NSLocalizedString("preferences.donation.fail.title", comment:"")
+            message = NSLocalizedString("preferences.donation.fail.message", comment:"")
+        }
+        
+        DispatchQueue.main.async {
+            let alert: NSAlert = NSAlert()
+            alert.alertStyle = NSAlertStyle.informational
+            alert.messageText = title
+            alert.icon = NSImage(named: "Donation")
+            alert.informativeText = message
+            alert.addButton(withTitle: NSLocalizedString("button.close", comment:""))
+            
+            let selected = alert.runModal()
+            if (selected == NSAlertFirstButtonReturn) {
+                for tag in 1...4 {
+                    let button: NSButton = self.preferencesDonation.viewWithTag(tag * 10) as! NSButton
+                    if (button.isEnabled == false) {
+                        let loading: NSProgressIndicator = button.viewWithTag(-1) as! NSProgressIndicator
+                        let product: SKProduct? = self.donations[button.identifier!]
+                        
+                        if (product == nil) {
+                            continue
+                        }
+                        
+                        var title: String = ""
+                        
+                        if (product!.priceLocale.currencyCode != nil) {
+                            title += product!.priceLocale.currencyCode!
+                        } else if (product!.priceLocale.currencySymbol != nil) {
+                            title += product!.priceLocale.currencySymbol!
+                        }
+                        button.title = title + " " + product!.price.stringValue
+                        button.isEnabled = true
+                        loading.stopAnimation(nil)
+                    }
+                }
+            }
+        }
+    }
+    
     @IBAction func openUrl(_ sender: AnyObject) {
         NSWorkspace.shared().open(URL(string: "https://github.com/moimz/iCoinTicker/issues")!)
     }
 }
 
 /**
- * Table view extendsion
+ * IAP extension
+ */
+extension AppDelegate: SKPaymentTransactionObserver, SKProductsRequestDelegate {
+    func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
+        for transaction in transactions as [SKPaymentTransaction] {
+            switch (transaction.transactionState) {
+                case SKPaymentTransactionState.purchased :
+                    SKPaymentQueue.default().finishTransaction(transaction)
+                    
+                    self.donateAlert(true)
+                    break
+                
+                case SKPaymentTransactionState.failed :
+                    
+                    SKPaymentQueue.default().finishTransaction(transaction)
+                    
+                    self.donateAlert(true)
+                    break
+                
+                default:
+                    break
+            }
+        }
+    }
+
+    func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
+        for product in response.products {
+            let tag: Int = Int(product.productIdentifier.replacingOccurrences(of: "com.moimz.iCoinTicker.donation.tier", with: ""))! * 10
+            let button: NSButton = self.preferencesDonation.viewWithTag(tag) as! NSButton
+            
+            var title: String = ""
+            if (product.priceLocale.currencyCode != nil) {
+                title += product.priceLocale.currencyCode!
+            } else if (product.priceLocale.currencySymbol != nil) {
+                title += product.priceLocale.currencySymbol!
+            }
+            button.title = title + " " + product.price.stringValue
+            button.action = #selector(AppDelegate.donate)
+            button.isEnabled = true
+            button.identifier = product.productIdentifier
+            
+            self.donations[product.productIdentifier] = product
+        }
+    }
+}
+
+/**
+ * Table view extension
  */
 extension AppDelegate: NSTableViewDataSource, NSTableViewDelegate {
     func numberOfRows(in tableView: NSTableView) -> Int {
