@@ -1,4 +1,4 @@
-/* 
+/*
   Localizable.strings
   iCoinTicker
 
@@ -7,13 +7,86 @@
 */
 
 menu.about = "About iCoinTicker";
+menu.hideTicker = "Hide from menubar";
 menu.refresh = "Refresh";
 menu.preferences = "Preferences";
 menu.quit = "Quit";
 
+button.relaunch = "relaunch";
+button.cancel = "cancel";
+button.close = "close";
+
 preferences.toolbar.general = "General";
 preferences.toolbar.appearance = "Appearance";
 preferences.toolbar.coin = "Coins/Markets";
-preferences.toolbar.donation = "Donation";
+preferences.toolbar.donation = "Donate";
 
-preferences.general.startAtLogin = "Start At Login";
+preferences.general.refreshInterval = "Refresh interval";
+preferences.general.refreshInterval.15 = "15 seconds";
+preferences.general.refreshInterval.30 = "30  seconds";
+preferences.general.refreshInterval.60 = "1 minute";
+preferences.general.refreshInterval.300 = "5 minutes";
+preferences.general.refreshInterval.600 = "10 minutes";
+preferences.general.refreshInterval.1800 = "30 minutes";
+preferences.general.refreshInterval.3600 = "1 hour";
+
+preferences.general.currency = "Currency";
+preferences.general.currency.default = "Using market base currency";
+
+preferences.general.autoUpdate = "Auto update for coin and market lists";
+preferences.general.autoUpdate.0 = "Check for updates at every launch";
+preferences.general.autoUpdate.1 = "Check for updates once a day";
+preferences.general.autoUpdate.7 = "Check for updates once a week";
+preferences.general.autoUpdate.30 = "Check for updates once a month";
+
+preferences.general.autoAddNewCoins = "Newly updated coins are auto enabled";
+preferences.general.autoAddNewMarkets = "Newly updated markets are auto enabled";
+
+preferences.general.startAtLogin = "Start at login";
+
+preferences.appearance.ticker = "Ticker";
+
+preferences.appearance.fontSize = "Font size";
+preferences.appearance.fontSize.10pt = "10pt";
+preferences.appearance.fontSize.12pt = "12pt";
+preferences.appearance.fontSize.14pt = "14pt (macOS default)";
+
+preferences.appearance.displayedCurrency = "Displayd currency";
+preferences.appearance.displayedCurrency.none = "None";
+preferences.appearance.displayedCurrency.symbol = "Displayed symbol ($)";
+preferences.appearance.displayedCurrency.code = "Displayed code (USD)";
+
+preferences.appearance.displayedChanged = "Change rate";
+preferences.appearance.showDisplayedChanged = "Displayed change rate (some market support)";
+preferences.appearance.showDisplayedChangedHelp = "Calculates rate of price change based on the pre 24 hour first price.";
+
+preferences.appearance.menu = "Menu";
+
+preferences.coin.coins = "Enabled coins";
+preferences.coin.coins.header.unit = "Coin";
+preferences.coin.coins.header.name = "Name";
+preferences.coin.markets = "Enabled markets";
+preferences.coin.markets.header.market = "Market";
+preferences.coin.markets.header.currency = "Base currency";
+
+preferences.coin.lastUpdate = "Last update";
+preferences.coin.checkUpdate = "Check for update";
+preferences.coin.checkUpdate.true.title = "Updated coin and market lists.";
+preferences.coin.checkUpdate.true.date = "Update time";
+preferences.coin.checkUpdate.true.message = "Restart app to apply the new coin and market lists.\nAre you sure you want to relaunch app now?";
+
+preferences.coin.checkUpdate.false.title = "You’re up-to-date.";
+preferences.coin.checkUpdate.false.message = "Your data is currently the newest version available.\nPlease try again later.";
+
+preferences.donation.title = "If you like iCoinTicker, Please support the developer.";
+preferences.donation.iap = "In-app-purchase";
+preferences.donation.iapHelp = "You can donate as mush as you choose throuth the Mac App Store.";
+
+preferences.donation.success.title = "Your payment was successful.";
+preferences.donation.success.message = "Thank you for your support.";
+
+preferences.donation.fail.title = "Payment failed.";
+preferences.donation.fail.message = "Please check your Apple account.";
+
+preferences.donation.coin = "Or you can send BTC or ETH to the address below.";
+preferences.donation.coinHelp = "Drag or Double click to select an address.";
