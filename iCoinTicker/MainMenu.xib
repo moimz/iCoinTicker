@@ -25,7 +25,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="AppIcon" id="jzI-BN-HAW"/>
                     </imageView>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QeD-hA-b3x">
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" tag="100" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QeD-hA-b3x">
                         <rect key="frame" x="180" y="210" width="121" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="APPNAME" id="86W-5P-tfx">
@@ -79,20 +79,17 @@ ETH : 0x3A06b2C45AC207eb66Bc79B4C81522a120E629CC</string>
                     </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="150" y="-316.5"/>
+            <point key="canvasLocation" x="-67" y="-313"/>
         </window>
         <customObject id="5v1-Rt-say" userLabel="Delegate" customClass="AppDelegate" customModule="iCoinTicker" customModuleProvider="target">
             <connections>
-                <outlet property="appname" destination="QeD-hA-b3x" id="vuP-fx-4oG"/>
-                <outlet property="coinMenu" destination="ajs-qB-E6B" id="oCX-Of-4mU"/>
-                <outlet property="currencyMenu" destination="4GM-GR-2Tv" id="eb7-13-PZR"/>
-                <outlet property="fontSizeMenu" destination="upR-Nx-kyt" id="soz-ZX-28j"/>
-                <outlet property="marketMenu" destination="uMQ-1S-PLZ" id="RHp-YV-Nha"/>
-                <outlet property="refresh" destination="kqm-By-QWK" id="6GF-G9-AaL"/>
-                <outlet property="refreshTimeMenu" destination="C4s-PQ-Y1N" id="aEh-dj-hs4"/>
-                <outlet property="statusMenu" destination="RYg-KH-kzd" id="S5L-fw-tIK"/>
-                <outlet property="symbolMenu" destination="ZeF-lU-tUr" id="GnV-iG-D9S"/>
-                <outlet property="window" destination="aM5-Nr-TIk" id="3jS-jZ-R1s"/>
+                <outlet property="aboutWindow" destination="aM5-Nr-TIk" id="xhs-Ud-d0J"/>
+                <outlet property="preferencesAppearance" destination="8UW-AL-11H" id="oFJ-gK-awB"/>
+                <outlet property="preferencesCoin" destination="MpW-i6-Qyr" id="AhS-4H-kAn"/>
+                <outlet property="preferencesDonation" destination="WYp-yK-GhY" id="R5k-2h-TXH"/>
+                <outlet property="preferencesGeneral" destination="8Su-iV-Ewf" id="NQM-mu-G09"/>
+                <outlet property="preferencesToolbar" destination="9VH-dP-R79" id="dRF-lk-AI1"/>
+                <outlet property="preferencesWindow" destination="GZX-dz-C2e" id="9Ew-f0-xuc"/>
             </connections>
         </customObject>
         <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
@@ -158,5 +155,10 @@ ETH : 0x3A06b2C45AC207eb66Bc79B4C81522a120E629CC</string>
     </objects>
     <resources>
         <image name="AppIcon" width="128" height="128"/>
+        <image name="Donation" width="64" height="64"/>
+        <image name="NSActionTemplate" width="14" height="14"/>
+        <image name="NSAdvanced" width="32" height="32"/>
+        <image name="NSColorPanel" width="32" height="32"/>
+        <image name="NSPreferencesGeneral" width="32" height="32"/>
     </resources>
 </document>
