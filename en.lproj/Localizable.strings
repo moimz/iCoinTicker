@@ -51,7 +51,7 @@ preferences.appearance.fontSize.10pt = "10pt";
 preferences.appearance.fontSize.12pt = "12pt";
 preferences.appearance.fontSize.14pt = "14pt (macOS default)";
 
-preferences.appearance.displayedCurrency = "Displayd currency";
+preferences.appearance.displayedCurrency = "Displayed currency";
 preferences.appearance.displayedCurrency.none = "None";
 preferences.appearance.displayedCurrency.symbol = "Displayed symbol ($)";
 preferences.appearance.displayedCurrency.code = "Displayed code (USD)";
@@ -80,7 +80,7 @@ preferences.coin.checkUpdate.false.message = "Your data is currently the newest 
 
 preferences.donation.title = "If you like iCoinTicker, Please support the developer.";
 preferences.donation.iap = "In-app-purchase";
-preferences.donation.iapHelp = "You can donate as mush as you choose throuth the Mac App Store.";
+preferences.donation.iapHelp = "You can donate as much as you like through the Mac App Store.";
 
 preferences.donation.success.title = "Your payment was successful.";
 preferences.donation.success.message = "Thank you for your support.";
