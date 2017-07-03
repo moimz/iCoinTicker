@@ -1871,20 +1871,20 @@ class NSTextFieldWithShortcut: NSTextField {
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
         if (event.type == NSEventType.keyDown) {
             if ((event.modifierFlags.rawValue & NSEventModifierFlags.deviceIndependentFlagsMask.rawValue) == commandKey) {
-                switch (event.charactersIgnoringModifiers!) {
-                    case "x":
+                switch (event.keyCode) {
+                    case 0x07:
                         if NSApp.sendAction(#selector(NSText.cut(_:)), to:nil, from:self) { return true }
-                    
-                    case "c":
+                        
+                    case 0x08 :
                         if NSApp.sendAction(#selector(NSText.copy(_:)), to:nil, from:self) { return true }
                     
-                    case "v":
+                    case 0x09:
                         if NSApp.sendAction(#selector(NSText.paste(_:)), to:nil, from:self) { return true }
                     
-                    case "a":
+                    case 0x00:
                         if NSApp.sendAction(#selector(NSResponder.selectAll(_:)), to:nil, from:self) { return true }
                     
-                    default:
+                    default :
                         break
                 }
             }
