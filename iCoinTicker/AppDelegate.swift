@@ -1862,6 +1862,39 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 }
 
 /**
+ * NSTextField with Keyboard short
+ */
+class NSTextFieldWithShortcut: NSTextField {
+    private let commandKey = NSEventModifierFlags.command.rawValue
+    private let commandShiftKey = NSEventModifierFlags.command.rawValue | NSEventModifierFlags.shift.rawValue
+    
+    override func performKeyEquivalent(with event: NSEvent) -> Bool {
+        if (event.type == NSEventType.keyDown) {
+            if ((event.modifierFlags.rawValue & NSEventModifierFlags.deviceIndependentFlagsMask.rawValue) == commandKey) {
+                switch (event.charactersIgnoringModifiers!) {
+                    case "x":
+                        if NSApp.sendAction(#selector(NSText.cut(_:)), to:nil, from:self) { return true }
+                    
+                    case "c":
+                        if NSApp.sendAction(#selector(NSText.copy(_:)), to:nil, from:self) { return true }
+                    
+                    case "v":
+                        if NSApp.sendAction(#selector(NSText.paste(_:)), to:nil, from:self) { return true }
+                    
+                    case "a":
+                        if NSApp.sendAction(#selector(NSResponder.selectAll(_:)), to:nil, from:self) { return true }
+                    
+                    default:
+                        break
+                }
+            }
+        }
+        
+        return super.performKeyEquivalent(with: event)
+    }
+}
+
+/**
  * IAP extension
  */
 extension AppDelegate: SKPaymentTransactionObserver, SKProductsRequestDelegate {
@@ -1878,7 +1911,7 @@ extension AppDelegate: SKPaymentTransactionObserver, SKProductsRequestDelegate {
                     
                     SKPaymentQueue.default().finishTransaction(transaction)
                     
-                    self.donateAlert(true)
+                    self.donateAlert(false)
                     break
                 
                 default:
