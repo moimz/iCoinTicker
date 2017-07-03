@@ -1326,7 +1326,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         
         let session = URLSession.shared
-        let updateUrl: URL = URL(string: "https://raw.githubusercontent.com/moimz/iCoinTicker/3.0.0/coins.plist")!
+        let updateUrl: URL = URL(string: "https://raw.githubusercontent.com/moimz/iCoinTicker/master/coins.plist")!
         
         let task = session.dataTask(with: updateUrl, completionHandler: {
             (data, response, error) -> Void in
