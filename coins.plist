@@ -140,6 +140,28 @@
 			<key>isBtcMarket</key>
 			<false/>
 		</dict>
+		<key>Kraken</key>
+		<dict>
+			<key>tag</key>
+			<integer>13</integer>
+			<key>currency</key>
+			<string>USD</string>
+			<key>api</key>
+			<dict>
+				<key>url</key>
+				<string>https://api.kraken.com/0/public/Ticker?pair=</string>
+				<key>first</key>
+				<string>result.*.o</string>
+				<key>last</key>
+				<string>result.*.c.0</string>
+				<key>change</key>
+				<string></string>
+			</dict>
+			<key>isCombination</key>
+			<false/>
+			<key>isBtcMarket</key>
+			<false/>
+		</dict>
 		<key>Coincheck</key>
 		<dict>
 			<key>tag</key>
@@ -231,6 +253,8 @@
 				<string>USDT-BTC</string>
 				<key>Gdax</key>
 				<string>BTC-USD/ticker</string>
+				<key>Kraken</key>
+				<string>XBTUSD</string>
 				<key>Coincheck</key>
 				<string>btc_jpy</string>
 				<key>Bitflyer</key>
@@ -261,6 +285,8 @@
 				<string>BTC-ETH</string>
 				<key>Gdax</key>
 				<string>ETH-USD/ticker</string>
+				<key>Kraken</key>
+				<string>ETHUSD</string>
 				<key>Coincheck</key>
 				<string>eth_btc</string>
 				<key>Bitflyer</key>
@@ -289,6 +315,8 @@
 				<string>BTC_ETC</string>
 				<key>Bittrex</key>
 				<string>BTC-ETC</string>
+				<key>Kraken</key>
+				<string>ETCUSD</string>
 				<key>Coincheck</key>
 				<string>etc_btc</string>
 			</dict>
@@ -311,6 +339,8 @@
 				<string>BTC_XRP</string>
 				<key>Bittrex</key>
 				<string>BTC-XRP</string>
+				<key>Kraken</key>
+				<string>XRPUSD</string>
 				<key>Coincheck</key>
 				<string>xrp_btc</string>
 			</dict>
@@ -377,6 +407,8 @@
 				<string>BTC_XMR</string>
 				<key>Bittrex</key>
 				<string>BTC-XMR</string>
+				<key>Kraken</key>
+				<string>XMRUSD</string>
 				<key>Coincheck</key>
 				<string>xmr_btc</string>
 			</dict>
@@ -395,6 +427,8 @@
 				<string>BTC_ZEC</string>
 				<key>Bittrex</key>
 				<string>BTC-ZEC</string>
+				<key>Kraken</key>
+				<string>ZECUSD</string>
 				<key>Coincheck</key>
 				<string>zec_btc</string>
 			</dict>
@@ -417,6 +451,8 @@
 				<string>BTC-ETH</string>
 				<key>Gdax</key>
 				<string>LTC-USD/ticker</string>
+				<key>Kraken</key>
+				<string>LTCUSD</string>
 				<key>Coincheck</key>
 				<string>ltc_btc</string>
 				<key>Okcoin</key>
@@ -439,6 +475,8 @@
 				<string>BTC_DASH</string>
 				<key>Bittrex</key>
 				<string>BTC-DASH</string>
+				<key>Kraken</key>
+				<string>DASHUSD</string>
 				<key>Coincheck</key>
 				<string>dash_btc</string>
 			</dict>
