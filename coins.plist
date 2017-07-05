@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>updated</key>
-	<date>2017-06-30T01:00:00Z</date>
+	<date>2017-07-06T01:00:00Z</date>
 	<key>markets</key>
 	<dict>
 		<key>Korbit</key>
@@ -116,6 +116,30 @@
 			<key>isBtcMarket</key>
 			<true/>
 		</dict>
+		<key>Gdax</key>
+		<dict>
+			<key>display</key>
+			<string>GDAX/coinbase</string>
+			<key>tag</key>
+			<integer>12</integer>
+			<key>currency</key>
+			<string>USD</string>
+			<key>api</key>
+			<dict>
+				<key>url</key>
+				<string>https://api.gdax.com/products/</string>
+				<key>first</key>
+				<string></string>
+				<key>last</key>
+				<string>price</string>
+				<key>change</key>
+				<string></string>
+			</dict>
+			<key>isCombination</key>
+			<false/>
+			<key>isBtcMarket</key>
+			<false/>
+		</dict>
 		<key>Coincheck</key>
 		<dict>
 			<key>tag</key>
@@ -205,6 +229,8 @@
 				<string>USDT_BTC</string>
 				<key>Bittrex</key>
 				<string>USDT-BTC</string>
+				<key>Gdax</key>
+				<string>BTC-USD/ticker</string>
 				<key>Coincheck</key>
 				<string>btc_jpy</string>
 				<key>Bitflyer</key>
@@ -233,6 +259,8 @@
 				<string>BTC_ETH</string>
 				<key>Bittrex</key>
 				<string>BTC-ETH</string>
+				<key>Gdax</key>
+				<string>ETH-USD/ticker</string>
 				<key>Coincheck</key>
 				<string>eth_btc</string>
 				<key>Bitflyer</key>
@@ -387,6 +415,8 @@
 				<string>BTC_ETH</string>
 				<key>Bittrex</key>
 				<string>BTC-ETH</string>
+				<key>Gdax</key>
+				<string>LTC-USD/ticker</string>
 				<key>Coincheck</key>
 				<string>ltc_btc</string>
 				<key>Okcoin</key>
