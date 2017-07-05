@@ -12,7 +12,7 @@ import ServiceManagement
 import StoreKit
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDelegate {
     
     @IBOutlet weak var aboutWindow: NSWindow!
     
@@ -21,7 +21,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet weak var preferencesGeneral: NSView!
     @IBOutlet weak var preferencesAppearance: NSView!
     @IBOutlet weak var preferencesCoin: NSView!
+    @IBOutlet weak var preferencesNotification: NSView!
     @IBOutlet weak var preferencesDonation: NSView!
+    
+    @IBOutlet weak var notificationEditWindow: NSWindow!
+    
+    let preferences: NSUbiquitousKeyValueStore = NSUbiquitousKeyValueStore()
     
     struct Coin {
         let unit: String
@@ -295,7 +300,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         let refreshInterval: NSPopUpButton = self.preferencesGeneral.viewWithTag(10) as! NSPopUpButton
         refreshInterval.action = #selector(AppDelegate.setPreferencesRefreshInterval)
-        refreshInterval.select(refreshInterval.menu!.item(withTag: self.getPreferencesRefreshInterval()))
         
         let currency: NSPopUpButton = self.preferencesGeneral.viewWithTag(20) as! NSPopUpButton
         let currencyDefault: NSMenuItem = NSMenuItem(title: NSLocalizedString("preferences.general.currency.default", comment: ""), action: #selector(AppDelegate.setPreferencesCurrency), keyEquivalent: "")
@@ -309,33 +313,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             
             currency.menu!.addItem(menu)
         }
-        currency.select(currency.menu!.item(withTag: self.getPreferencesCurrency()))
         
         let autoUpdate: NSButton = self.preferencesGeneral.viewWithTag(100) as! NSButton
         autoUpdate.action = #selector(AppDelegate.setPreferencesAutoUpdate)
-        autoUpdate.state = self.getPreferencesAutoUpdate() == -1 ? NSOffState : NSOnState
         
         let autoUpdateSelect: NSPopUpButton = self.preferencesGeneral.viewWithTag(101) as! NSPopUpButton
         autoUpdateSelect.action = #selector(AppDelegate.setPreferencesAutoUpdate)
-        if (self.getPreferencesAutoUpdate() == -1) {
-            autoUpdateSelect.isEnabled = false
-            autoUpdateSelect.select(autoUpdateSelect.menu?.item(withTag: 0))
-        } else {
-            autoUpdateSelect.isEnabled = true
-            autoUpdateSelect.select(autoUpdateSelect.menu?.item(withTag: self.getPreferencesAutoUpdate()))
-        }
         
         let autoEnabledCoin: NSButton = self.preferencesGeneral.viewWithTag(102) as! NSButton
         autoEnabledCoin.action = #selector(AppDelegate.setPreferencesAutoEnabledCoin)
-        autoEnabledCoin.state = self.getPreferencesAutoEnabledCoin() == true ? NSOnState : NSOffState
         
         let autoEnabledMarket: NSButton = self.preferencesGeneral.viewWithTag(103) as! NSButton
         autoEnabledMarket.action = #selector(AppDelegate.setPreferencesAutoEnabledMarket)
-        autoEnabledMarket.state = self.getPreferencesAutoEnabledMarket() == true ? NSOnState : NSOffState
         
         let startAtLogin: NSButton! = self.preferencesGeneral.viewWithTag(1000) as! NSButton
         startAtLogin.action = #selector(AppDelegate.setPreferencesStartAtLogin)
-        startAtLogin.state = UserDefaults.standard.bool(forKey: "preferencesStartAtLogin") == true ? NSOnState : NSOffState
         
         /**
          * Init Preferences Appearance Panel
@@ -357,23 +349,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         let fontSize: NSPopUpButton! = self.preferencesAppearance.viewWithTag(10) as! NSPopUpButton
         fontSize.action = #selector(AppDelegate.setPreferencesFontSize)
-        fontSize.select(fontSize.menu!.item(withTag: self.getPreferencesFontSize()))
         
         let tickerDisplayedCurrency: NSPopUpButton! = self.preferencesAppearance.viewWithTag(20) as! NSPopUpButton
         tickerDisplayedCurrency.action = #selector(AppDelegate.setPreferencesTickerDisplayedCurrency)
-        tickerDisplayedCurrency.select(tickerDisplayedCurrency.menu!.item(withTag: self.getPreferencesTickerDisplayedCurrency()))
         
         let tickerDisplayedChange: NSButton! = self.preferencesAppearance.viewWithTag(30) as! NSButton
         tickerDisplayedChange.action = #selector(AppDelegate.setPreferencesTickerDisplayedChange)
-        tickerDisplayedChange.state = self.getPreferencesTickerDisplayedChange() == true ? NSOnState : NSOffState
         
         let menuDisplayedCurrency: NSPopUpButton! = self.preferencesAppearance.viewWithTag(120) as! NSPopUpButton
         menuDisplayedCurrency.action = #selector(AppDelegate.setPreferencesMenuDisplayedCurrency)
-        menuDisplayedCurrency.select(menuDisplayedCurrency.menu!.item(withTag: self.getPreferencesMenuDisplayedCurrency()))
         
         let menuDisplayedChange: NSButton! = self.preferencesAppearance.viewWithTag(130) as! NSButton
         menuDisplayedChange.action = #selector(AppDelegate.setPreferencesMenuDisplayedChange)
-        menuDisplayedChange.state = self.getPreferencesMenuDisplayedChange() == true ? NSOnState : NSOffState
         
         /**
          * Init Preferences Coin Panel
@@ -417,6 +404,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         checkUpdate.addSubview(loading)
         
         /**
+         * Init Preferences Notification Panel
+         */
+        let addButton: NSButton = self.preferencesNotification.viewWithTag(100) as! NSButton
+        addButton.action = #selector(AppDelegate.test)
+        
+        /**
          * Init Preferences Donation Panel
          */
         for view in self.preferencesDonation.subviews {
@@ -453,6 +446,76 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             loading.isDisplayedWhenStopped = false
             button.addSubview(loading)
         }
+    }
+    
+    func initPreferences() {
+        /**
+         * Init Preferences General
+         */
+        let refreshInterval: NSPopUpButton = self.preferencesGeneral.viewWithTag(10) as! NSPopUpButton
+        refreshInterval.select(refreshInterval.menu!.item(withTag: self.getPreferencesRefreshInterval()))
+        
+        let currency: NSPopUpButton = self.preferencesGeneral.viewWithTag(20) as! NSPopUpButton
+        currency.select(currency.menu!.item(withTag: self.getPreferencesCurrency()))
+        
+        let autoUpdate: NSButton = self.preferencesGeneral.viewWithTag(100) as! NSButton
+        autoUpdate.state = self.getPreferencesAutoUpdate() == -1 ? NSOffState : NSOnState
+        
+        let autoUpdateSelect: NSPopUpButton = self.preferencesGeneral.viewWithTag(101) as! NSPopUpButton
+        if (self.getPreferencesAutoUpdate() == -1) {
+            autoUpdateSelect.isEnabled = false
+            autoUpdateSelect.select(autoUpdateSelect.menu?.item(withTag: 0))
+        } else {
+            autoUpdateSelect.isEnabled = true
+            autoUpdateSelect.select(autoUpdateSelect.menu?.item(withTag: self.getPreferencesAutoUpdate()))
+        }
+        
+        let autoEnabledCoin: NSButton = self.preferencesGeneral.viewWithTag(102) as! NSButton
+        autoEnabledCoin.state = self.getPreferencesAutoEnabledCoin() == true ? NSOnState : NSOffState
+        
+        let autoEnabledMarket: NSButton = self.preferencesGeneral.viewWithTag(103) as! NSButton
+        autoEnabledMarket.state = self.getPreferencesAutoEnabledMarket() == true ? NSOnState : NSOffState
+        
+        let startAtLogin: NSButton! = self.preferencesGeneral.viewWithTag(1000) as! NSButton
+        startAtLogin.state = self.getPreferencesStartAtLogin() == true ? NSOnState : NSOffState
+        
+        /**
+         * Init Preferences Appearance
+         */
+        let fontSize: NSPopUpButton! = self.preferencesAppearance.viewWithTag(10) as! NSPopUpButton
+        fontSize.select(fontSize.menu!.item(withTag: self.getPreferencesFontSize()))
+        
+        let tickerDisplayedCurrency: NSPopUpButton! = self.preferencesAppearance.viewWithTag(20) as! NSPopUpButton
+        tickerDisplayedCurrency.select(tickerDisplayedCurrency.menu!.item(withTag: self.getPreferencesTickerDisplayedCurrency()))
+        
+        let tickerDisplayedChange: NSButton! = self.preferencesAppearance.viewWithTag(30) as! NSButton
+        tickerDisplayedChange.state = self.getPreferencesTickerDisplayedChange() == true ? NSOnState : NSOffState
+        
+        let menuDisplayedCurrency: NSPopUpButton! = self.preferencesAppearance.viewWithTag(120) as! NSPopUpButton
+        menuDisplayedCurrency.select(menuDisplayedCurrency.menu!.item(withTag: self.getPreferencesMenuDisplayedCurrency()))
+        
+        let menuDisplayedChange: NSButton! = self.preferencesAppearance.viewWithTag(130) as! NSButton
+        menuDisplayedChange.state = self.getPreferencesMenuDisplayedChange() == true ? NSOnState : NSOffState
+        
+        /**
+         * Init Preferences Coin
+         */
+        let coins: NSTableView = self.preferencesCoin.viewWithTag(10) as! NSTableView
+        coins.reloadData()
+        
+        let markets: NSTableView = self.preferencesCoin.viewWithTag(20) as! NSTableView
+        markets.reloadData()
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "YYYY.MM.dd HH:mm:ss"
+        
+        let lastUpdate: NSTextField = self.preferencesCoin.viewWithTag(200) as! NSTextField
+        lastUpdate.stringValue = NSLocalizedString("preferences.coin.lastUpdate", comment:"") + " : " + dateFormatter.string(from: self.plist["updated"] as! Date)
+        
+        /**
+         * Init Preferences Notification
+         */
+        
     }
     
     /**
@@ -635,7 +698,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
      */
     func getMarketSelectedTag(_ unit: String) -> Int {
         let coin: Coin = self.getCoin(unit)!
-        return UserDefaults.standard.integer(forKey: "marketSelected" + coin.unit)
+        let marketSelected = self.getStorage("preferencesMarketSelected") as? NSDictionary
+        if (marketSelected == nil || marketSelected![coin.unit] == nil) {
+            return 0
+        } else {
+            let marketSelectedTag = marketSelected![coin.unit] as! Int
+            if (self.getMarket(marketSelectedTag % 100) == nil) {
+                return 0
+            } else {
+                return marketSelectedTag
+            }
+        }
     }
     
     /**
@@ -665,7 +738,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 }
             }
             
-            UserDefaults.standard.set(sender.tag, forKey: "marketSelected" + coin.unit)
+            let marketSelected: NSMutableDictionary = self.getStorage("preferencesMarketSelected") as? NSDictionary == nil ? NSMutableDictionary() : (self.getStorage("preferencesMarketSelected") as! NSDictionary).mutableCopy() as! NSMutableDictionary
+            marketSelected.setValue(sender.tag, forKey: coin.unit)
+            self.setStorage("preferencesMarketSelected", marketSelected)
             
             self.stopTicker()
             self.updateTicker()
@@ -684,20 +759,24 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if (coin == nil) {
             return false
         } else {
-            let isEnabled = UserDefaults.standard.object(forKey: "is" + coin!.unit + "Enabled")
-            
-            if (isEnabled == nil) {
-                /**
-                 * Enabled BTC coin at First launch app
-                 */
+            let enabledCoins = self.getStorage("preferencesEnabledCoins") as? NSDictionary
+            if (enabledCoins == nil || enabledCoins![unit] == nil) {
                 if (unit == "BTC") {
+                    let enabledCoins: NSMutableDictionary = self.getStorage("preferencesEnabledCoins") as? NSDictionary == nil ? NSMutableDictionary() : (self.getStorage("preferencesEnabledCoins") as? NSDictionary)?.mutableCopy() as! NSMutableDictionary
+                    enabledCoins.setValue(true, forKey: "BTC")
+                    self.setStorage("preferencesEnabledCoins", enabledCoins)
+                    
                     return true
+                } else {
+                    let enabledCoins: NSMutableDictionary = self.getStorage("preferencesEnabledCoins") as? NSDictionary == nil ? NSMutableDictionary() : (self.getStorage("preferencesEnabledCoins") as? NSDictionary)?.mutableCopy() as! NSMutableDictionary
+                    enabledCoins.setValue(self.getPreferencesAutoEnabledCoin(), forKey: unit)
+                    self.setStorage("preferencesEnabledCoins", enabledCoins)
+                    
+                    return self.getPreferencesAutoEnabledCoin()
                 }
-                UserDefaults.standard.set(self.getPreferencesAutoEnabledCoin(), forKey: "is" + coin!.unit + "Enabled")
-                return self.getPreferencesAutoEnabledCoin()
-            } else {
-                return isEnabled as! Bool
             }
+            
+            return enabledCoins![unit] as! Bool
         }
     }
     
@@ -712,13 +791,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if (market == nil) {
             return false
         } else {
-            let isEnabled = UserDefaults.standard.object(forKey: "is" + market!.name + "Enabled")
-            
-            if (isEnabled == nil) {
-                UserDefaults.standard.set(self.getPreferencesAutoEnabledMarket(), forKey: "is" + market!.name + "Enabled")
+            let enabledMarkets = self.getStorage("preferencesEnabledMarkets") as? NSDictionary
+            if (enabledMarkets == nil || enabledMarkets![name] == nil) {
+                let enabledMarkets: NSMutableDictionary = self.getStorage("preferencesEnabledMarkets") as? NSDictionary == nil ? NSMutableDictionary() : (self.getStorage("preferencesEnabledMarkets") as? NSDictionary)?.mutableCopy() as! NSMutableDictionary
+                enabledMarkets.setValue(self.getPreferencesAutoEnabledMarket(), forKey: name)
+                self.setStorage("preferencesEnabledMarkets", enabledMarkets)
+                
                 return self.getPreferencesAutoEnabledMarket()
             } else {
-                return isEnabled as! Bool
+                return enabledMarkets![name] as! Bool
             }
         }
     }
@@ -986,6 +1067,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let DateInFormat = dateFormatter.string(from: Date())
         
         self.statusMenu.item(withTag: 100000)!.title = NSLocalizedString("menu.refresh", comment: "") + " : " + DateInFormat
+        
+        //self.showCostNotification(self.getCoin(1)!, self.getMarket(1)!)
     }
     
     /**
@@ -1217,8 +1300,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
      * @return nil
      */
     func getPreferencesRefreshInterval() -> Int {
-        let time: Int = UserDefaults.standard.integer(forKey: "preferencesRefreshTime")
-        return time == 0 ? 300 : time
+        return self.getStorage("preferencesRefreshTime") == nil ? 300 : self.getStorage("preferencesRefreshTime") as! Int
     }
     
     /**
@@ -1227,7 +1309,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
      * @return Int currency tag
      */
     func getPreferencesCurrency() -> Int {
-        return UserDefaults.standard.integer(forKey: "preferencesCurrency")
+        return self.getStorage("preferencesCurrency") == nil ? 0 : self.getStorage("preferencesCurrency") as! Int
     }
     
     /**
@@ -1236,7 +1318,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
      * @return Int update interval
      */
     func getPreferencesAutoUpdate() -> Int {
-        return UserDefaults.standard.integer(forKey: "preferencesAutoUpdate")
+        return self.getStorage("preferencesAutoUpdate") == nil ? 0 : self.getStorage("preferencesAutoUpdate") as! Int
     }
     
     /**
@@ -1245,7 +1327,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
      * @return Bool isAutoEnabled
      */
     func getPreferencesAutoEnabledCoin() -> Bool {
-        return UserDefaults.standard.bool(forKey: "preferencesAutoEnabledCoin")
+        return self.getStorage("preferencesAutoEnabledCoin") == nil ? false : self.getStorage("preferencesAutoEnabledCoin") as! Bool
     }
     
     /**
@@ -1254,7 +1336,25 @@ class AppDelegate: NSObject, NSApplicationDelegate {
      * @return Bool isAutoEnabled
      */
     func getPreferencesAutoEnabledMarket() -> Bool {
-        return UserDefaults.standard.bool(forKey: "preferencesAutoEnabledMarket")
+        return self.getStorage("preferencesAutoEnabledMarket") == nil ? false : self.getStorage("preferencesAutoEnabledMarket") as! Bool
+    }
+    
+    /**
+     * Get start at login option
+     *
+     * @return Bool isStartAtLogin
+     */
+    func getPreferencesStartAtLogin() -> Bool {
+        let launcherAppIdentifier = "com.moimz.iCoinTickerLauncher"
+        let startAtLogin = self.getStorage("preferencesStartAtLogin") as? Bool
+        
+        if (startAtLogin == nil) {
+            SMLoginItemSetEnabled(launcherAppIdentifier as CFString, false)
+            return false
+        } else {
+            SMLoginItemSetEnabled(launcherAppIdentifier as CFString, startAtLogin!)
+            return startAtLogin!
+        }
     }
     
     /**
@@ -1263,8 +1363,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
      * @return Int font size(pt)
      */
     func getPreferencesFontSize() -> Int {
-        let fontSize: Int = UserDefaults.standard.integer(forKey: "preferencesFontSize")
-        return fontSize == 0 ? 14 : fontSize
+        return self.getStorage("preferencesFontSize") == nil ? 14 : self.getStorage("preferencesFontSize") as! Int
     }
     
     /**
@@ -1273,7 +1372,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
      * @return Int displayedCurrency (0: none, 1: symbol, 2: code)
      */
     func getPreferencesTickerDisplayedCurrency() -> Int {
-        return UserDefaults.standard.integer(forKey: "preferencesTickerDisplayedCurrency")
+        return self.getStorage("preferencesTickerDisplayedCurrency") == nil ? 0 : self.getStorage("preferencesTickerDisplayedCurrency") as! Int
     }
     
     /**
@@ -1282,7 +1381,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
      * @return Bool displayedChange
      */
     func getPreferencesTickerDisplayedChange() -> Bool {
-        return UserDefaults.standard.bool(forKey: "preferencesTickerDisplayedChange")
+        return self.getStorage("preferencesTickerDisplayedChange") == nil ? false : self.getStorage("preferencesTickerDisplayedChange") as! Bool
     }
     
     /**
@@ -1291,8 +1390,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
      * @return Int displayedCurrency (1: symbol, 2: code)
      */
     func getPreferencesMenuDisplayedCurrency() -> Int {
-        let displayedCurrency: Int = UserDefaults.standard.integer(forKey: "preferencesMenuDisplayedCurrency")
-        return displayedCurrency == 0 ? 1 : displayedCurrency
+        return self.getStorage("preferencesTickerDisplayedCurrency") == nil ? 1 : self.getStorage("preferencesTickerDisplayedCurrency") as! Int
     }
     
     /**
@@ -1301,7 +1399,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
      * @return Bool displayedChange
      */
     func getPreferencesMenuDisplayedChange() -> Bool {
-        return UserDefaults.standard.bool(forKey: "preferencesMenuDisplayedChange")
+        return self.getStorage("preferencesMenuDisplayedChange") == nil ? false : self.getStorage("preferencesMenuDisplayedChange") as! Bool
     }
     
     /**
@@ -1487,6 +1585,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self.preferencesToolbar.selectedItemIdentifier = "general"
             preferencesViewSelected(self.preferencesToolbar.items[0])
         }
+        
+        self.initPreferences()
     }
     
     /**
@@ -1507,6 +1607,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             
             case "coin" :
                 subview = self.preferencesCoin
+            
+            case "notification" :
+                subview = self.preferencesNotification
             
             case "donation" :
                 subview = self.preferencesDonation
@@ -1535,7 +1638,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
      * @return nil
      */
     func setPreferencesRefreshInterval(_ sender: NSPopUpButton) {
-        UserDefaults.standard.set(sender.selectedItem!.tag, forKey: "preferencesRefreshTime")
+        self.setStorage("preferencesRefreshTime", sender.selectedItem!.tag)
         
         self.timer.invalidate()
         self.timer = Timer.scheduledTimer(timeInterval: Double(sender.selectedItem!.tag), target: self, selector: #selector(AppDelegate.updateData), userInfo: nil, repeats: true)
@@ -1548,7 +1651,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
      * @return nil
      */
     func setPreferencesCurrency(_ sender: NSMenuItem) {
-        UserDefaults.standard.set(sender.tag, forKey: "preferencesCurrency")
+        self.setStorage("preferencesCurrency", sender.tag)
         
         self.stopTicker()
         self.updateTicker()
@@ -1564,17 +1667,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func setPreferencesAutoUpdate(_ sender: Any) {
         if (sender is NSPopUpButton) {
             let select: NSPopUpButton = sender as! NSPopUpButton
-            UserDefaults.standard.set(select.selectedItem!.tag, forKey: "preferencesAutoUpdate")
+            self.setStorage("preferencesAutoUpdate", select.selectedItem!.tag)
         } else if (sender is NSButton) {
             let button: NSButton = sender as! NSButton
             if (button.state == NSOnState) {
-                UserDefaults.standard.set(0, forKey: "preferencesAutoUpdate")
+                self.setStorage("preferencesAutoUpdate", 0)
                 
                 let select: NSPopUpButton = self.preferencesGeneral.viewWithTag(101) as! NSPopUpButton
                 select.isEnabled = true
                 select.select(select.menu!.item(withTag: 0))
             } else {
-                UserDefaults.standard.set(-1, forKey: "preferencesAutoUpdate")
+                self.setStorage("preferencesAutoUpdate", -1)
                 
                 let select: NSPopUpButton = self.preferencesGeneral.viewWithTag(101) as! NSPopUpButton
                 select.isEnabled = true
@@ -1592,11 +1695,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
      * @return nil
      */
     func setPreferencesAutoEnabledCoin(_ sender: NSButton) {
-        if (sender.state == NSOnState) {
-            UserDefaults.standard.set(true, forKey: "preferencesAutoEnabledCoin")
-        } else {
-            UserDefaults.standard.set(false, forKey: "preferencesAutoEnabledCoin")
-        }
+        self.setStorage("preferencesAutoEnabledCoin", sender.state == NSOnState)
     }
     
     /**
@@ -1606,15 +1705,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
      * @return nil
      */
     func setPreferencesAutoEnabledMarket(_ sender: NSButton) {
-        if (sender.state == NSOnState) {
-            UserDefaults.standard.set(true, forKey: "preferencesAutoEnabledMarket")
-        } else {
-            UserDefaults.standard.set(false, forKey: "preferencesAutoEnabledMarket")
-        }
+        self.setStorage("preferencesAutoEnabledMarket", sender.state == NSOnState)
     }
     
     /**
-     * Toggle ticker font size
+     * Toggle start at login option
      *
      * @param NSButton sender
      * @return nil
@@ -1623,8 +1718,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let launcherAppIdentifier = "com.moimz.iCoinTickerLauncher"
         SMLoginItemSetEnabled(launcherAppIdentifier as CFString, sender.state == NSOnState)
         
-        UserDefaults.standard.set(sender.state == NSOnState, forKey:"preferencesStartAtLogin")
-        
+        self.setStorage("preferencesStartAtLogin", sender.state == NSOnState)
         self.killLauncher()
     }
     
@@ -1635,7 +1729,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
      * @return nil
      */
     func setPreferencesFontSize(_ sender: NSPopUpButton) {
-        UserDefaults.standard.set(sender.selectedItem!.tag, forKey: "preferencesFontSize")
+        self.setStorage("preferencesFontSize", sender.selectedItem!.tag)
         
         self.stopTicker()
         self.updateTicker()
@@ -1649,7 +1743,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
      * @return nil
      */
     func setPreferencesTickerDisplayedCurrency(_ sender: NSPopUpButton) {
-        UserDefaults.standard.set(sender.selectedItem!.tag, forKey: "preferencesTickerDisplayedCurrency")
+        self.setStorage("preferencesTickerDisplayedCurrency", sender.selectedItem!.tag)
         
         self.stopTicker()
         self.updateTicker()
@@ -1663,11 +1757,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
      * @return nil
      */
     func setPreferencesTickerDisplayedChange(_ sender: NSButton) {
-        if (sender.state == NSOnState) {
-            UserDefaults.standard.set(true, forKey: "preferencesTickerDisplayedChange")
-        } else {
-            UserDefaults.standard.set(false, forKey: "preferencesTickerDisplayedChange")
-        }
+        self.setStorage("preferencesTickerDisplayedChange", sender.state == NSOnState)
         
         self.stopTicker()
         self.updateTicker()
@@ -1681,7 +1771,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
      * @return nil
      */
     func setPreferencesMenuDisplayedCurrency(_ sender: NSPopUpButton) {
-        UserDefaults.standard.set(sender.selectedItem!.tag, forKey: "preferencesMenuDisplayedCurrency")
+        self.setStorage("preferencesMenuDisplayedCurrency", sender.selectedItem!.tag)
         
         self.stopTicker()
         self.updateTicker()
@@ -1695,11 +1785,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
      * @return nil
      */
     func setPreferencesMenuDisplayedChange(_ sender: NSButton) {
-        if (sender.state == NSOnState) {
-            UserDefaults.standard.set(true, forKey: "preferencesMenuDisplayedChange")
-        } else {
-            UserDefaults.standard.set(false, forKey: "preferencesMenuDisplayedChange")
-        }
+        self.setStorage("preferencesMenuDisplayedChange", sender.state == NSOnState)
         
         self.stopTicker()
         self.updateTicker()
@@ -1714,14 +1800,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
      */
     func setPreferencesCoinEnabled(_ sender: NSButton) {
         let coin: Coin = self.getCoin(sender.tag)!
+        let enabledCoins: NSMutableDictionary = self.getStorage("preferencesEnabledCoins") as? NSDictionary == nil ? NSMutableDictionary() : (self.getStorage("preferencesEnabledCoins") as! NSDictionary).mutableCopy() as! NSMutableDictionary
         
         self.stopTicker()
         
-        if (sender.state == NSOnState) {
-            UserDefaults.standard.set(true, forKey: "is" + coin.unit + "Enabled")
-        } else {
-            UserDefaults.standard.set(false, forKey: "is" + coin.unit + "Enabled")
-        }
+        enabledCoins.setValue(sender.state == NSOnState, forKey: coin.unit)
+        self.setStorage("preferencesEnabledCoins", enabledCoins)
         
         self.initMenus()
         self.updateTicker()
@@ -1736,14 +1820,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
      */
     func setPreferencesMarketEnabled(_ sender: NSButton) {
         let market: Market = self.getMarket(sender.tag)!
+        let enabledMarkets: NSMutableDictionary = self.getStorage("preferencesEnabledMarkets") as? NSDictionary == nil ? NSMutableDictionary() : (self.getStorage("preferencesEnabledMarkets") as! NSDictionary).mutableCopy() as! NSMutableDictionary
         
         self.stopTicker()
         
-        if (sender.state == NSOnState) {
-            UserDefaults.standard.set(true, forKey: "is" + market.name + "Enabled")
-        } else {
-            UserDefaults.standard.set(false, forKey: "is" + market.name + "Enabled")
-        }
+        enabledMarkets.setValue(sender.state == NSOnState, forKey: market.name)
+        self.setStorage("preferencesEnabledMarkets", enabledMarkets)
         
         self.initMenus()
         self.updateTicker()
@@ -1824,7 +1906,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             let alert: NSAlert = NSAlert()
             alert.alertStyle = NSAlertStyle.informational
             alert.messageText = title
-            alert.icon = NSImage(named: "Donation")
+            alert.icon = NSImage(named: "donation")
             alert.informativeText = message
             alert.addButton(withTitle: NSLocalizedString("button.close", comment:""))
             
@@ -1854,6 +1936,36 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 }
             }
         }
+    }
+    
+    /**
+     * Cost changed notification
+     *
+     * @param Coin coin
+     * @param Market market
+     * @return nil
+     */
+    func showCostNotification(_ coin:Coin, _ market: Market) {
+        let notification = NSUserNotification()
+        notification.title = NSLocalizedString("notification.cost.title", comment: "").replacingOccurrences(of: "{COIN}", with: coin.name)
+        notification.subtitle = "$ 125.00"
+        notification.soundName = NSUserNotificationDefaultSoundName
+        NSUserNotificationCenter.default.deliver(notification)
+    }
+    
+    /**
+     * Get value in storage for key
+     */
+    func getStorage(_ key: String) -> Any? {
+        return self.preferences.object(forKey: key)
+    }
+    
+    /**
+     * Set value in storage for key
+     */
+    func setStorage(_ key:String, _ value: Any) {
+        self.preferences.set(value, forKey: key)
+        self.preferences.synchronize()
     }
     
     @IBAction func openUrl(_ sender: AnyObject) {
