@@ -568,6 +568,15 @@
 	</dict>
 	<key>currencies</key>
 	<dict>
+		<key>BTC</key>
+		<dict>
+			<key>tag</key>
+			<integer>0</integer>
+			<key>mark</key>
+			<string>฿</string>
+			<key>format</key>
+			<string>0.########</string>
+		</dict>
 		<key>USD</key>
 		<dict>
 			<key>tag</key>
