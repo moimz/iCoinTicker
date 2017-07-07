@@ -19,7 +19,8 @@ macOS menubar ticker that displays the latest crypto currency(BTC, ETH, ETC, XRP
 - Auto refresh (10s ~ 1h)
 - Manual refresh
 - Support BTC, ETH, ETC, XRP and etc.
-- Store latest user settings
+- Store preferences and sync via iCloud
+- Notification
 
 
 ## Support Coin
@@ -31,6 +32,19 @@ macOS menubar ticker that displays the latest crypto currency(BTC, ETH, ETC, XRP
 - DGB (DigiByte)
 - SC (Siacoin)
 - XMR (Monero)
+- ZEC (Zcash)
+- LTC (Litecoin)
+- DASH (Dash)
+- STR (Stellar)
+- XEM (NEM)
+- STEEM (Steem)
+- LSK (Lisk)
+- FCT (Factom)
+- MIOTA (IOTA)
+- BTS (BitShares)
+- BCN (ByteCoin)
+- GNT (Golem)
+- DGD (DigixDAO)
 
 
 ## Support Currency
@@ -39,23 +53,21 @@ macOS menubar ticker that displays the latest crypto currency(BTC, ETH, ETC, XRP
 - JPY
 - CNY
 - EUR
+- GBP
 
 
 ## Support Market
-- Korbit (KR)
-- Bithumb (KR)
-- Coinone (KR)
-- Poloniex (JP)
-- Bittrex (JP)
-- Okcoin (CN)
-
-
-## Screenshot
-![Ticker-Screenshot](https://github.com/moimz/iCoinTicker/blob/master/screenshot.png?raw=true)
-
-
-## Download
-https://github.com/moimz/iCoinTicker/releases/download/v2.4.0/iCoinTicker.zip
+- Korbit (KRW)
+- Bithumb (KRW)
+- Coinone (KRW)
+- Poloniex (USD)
+- Bittrex (USD)
+- GDAX (USD)
+- Kraken (USD)
+- Bitfinex (USD)
+- CoinCheck (JPY)
+- Bitflyer (JPY)
+- OKcoin (CNY)
 
 
 ## Donate
@@ -66,3 +78,15 @@ If you like it, do it:
 
 - BTC : `3BZZoJV1rW4G36xJ2epDPnYVz4D9mPjsFt`
 - ETH : `0x3A06b2C45AC207eb66Bc79B4C81522a120E629CC`
+
+
+## Screenshot
+![Ticker-Screenshot](https://github.com/moimz/iCoinTicker/blob/master/screenshot1.png?raw=true)
+![Ticker-Screenshot](https://github.com/moimz/iCoinTicker/blob/master/screenshot2.png?raw=true)
+![Ticker-Screenshot](https://github.com/moimz/iCoinTicker/blob/master/screenshot3.png?raw=true)
+
+
+## Download
+https://github.com/moimz/iCoinTicker/releases/download/v2.5.0/iCoinTicker.zip
+
+v3.0.0 is available on Mac AppStore. (Not yet available without sandboxing app for GitHub release)

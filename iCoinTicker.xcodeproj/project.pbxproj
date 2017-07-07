@@ -45,7 +45,6 @@
 
 /* Begin PBXFileReference section */
 		CA2AA10D1F078549007F19DE /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
-		CA34533E1EE45C9800D6ECF3 /* screenshot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screenshot.png; sourceTree = "<group>"; };
 		CA38413F1EF101FC007DD767 /* iCoinTicker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iCoinTicker.entitlements; sourceTree = "<group>"; };
 		CA4392CD1F02E2C000DCE78B /* iCoinTickerLauncher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iCoinTickerLauncher.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA4392CF1F02E2C000DCE78B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -61,6 +60,9 @@
 		CA82D0B71ED31FB900B079E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CA82D0C31ED325E700B079E4 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		CA82D0C51ED327BF00B079E4 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		CA8845391F1000F6003ED862 /* screenshot1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screenshot1.png; sourceTree = "<group>"; };
+		CA88453A1F1000F6003ED862 /* screenshot2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screenshot2.png; sourceTree = "<group>"; };
+		CA88453B1F1000F6003ED862 /* screenshot3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screenshot3.png; sourceTree = "<group>"; };
 		CAC578731F032DDE00BD8895 /* coins.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = coins.plist; path = ../coins.plist; sourceTree = "<group>"; };
 		CAC584BC1F020C9700485CF8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CAC584BE1F020CB700485CF8 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -114,7 +116,9 @@
 				CA4392CE1F02E2C000DCE78B /* iCoinTickerLauncher */,
 				CA82D0AC1ED31FB900B079E4 /* Products */,
 				CA81D62C1EE42DFA00F1FE30 /* LICENSE.md */,
-				CA34533E1EE45C9800D6ECF3 /* screenshot.png */,
+				CA8845391F1000F6003ED862 /* screenshot1.png */,
+				CA88453A1F1000F6003ED862 /* screenshot2.png */,
+				CA88453B1F1000F6003ED862 /* screenshot3.png */,
 				CAC578531F02ED0200BD8895 /* Frameworks */,
 			);
 			sourceTree = "<group>";
