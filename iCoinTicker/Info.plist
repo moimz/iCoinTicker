@@ -36,7 +36,7 @@
 	<string>NSApplication</string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>cryptocoins.ttf</string>
+		<string>cryptocoins-icons.ttf</string>
 	</array>
 </dict>
 </plist>

@@ -12,12 +12,12 @@
 		CA4392D41F02E2C000DCE78B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA4392D31F02E2C000DCE78B /* Assets.xcassets */; };
 		CA4392D71F02E2C000DCE78B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA4392D51F02E2C000DCE78B /* Main.storyboard */; };
 		CA4392DC1F02E2E700DCE78B /* iCoinTickerLauncher.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = CA4392CD1F02E2C000DCE78B /* iCoinTickerLauncher.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		CA43C3061F0F557100580614 /* cryptocoins-icons.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = CA43C3051F0F557100580614 /* cryptocoins-icons.ttf */; };
 		CA82D0AF1ED31FB900B079E4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA82D0AE1ED31FB900B079E4 /* AppDelegate.swift */; };
 		CA82D0B31ED31FB900B079E4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA82D0B21ED31FB900B079E4 /* Assets.xcassets */; };
 		CA82D0C41ED325E700B079E4 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = CA82D0C31ED325E700B079E4 /* MainMenu.xib */; };
 		CAC578741F032DDE00BD8895 /* coins.plist in Resources */ = {isa = PBXBuildFile; fileRef = CAC578731F032DDE00BD8895 /* coins.plist */; };
 		CAC584BB1F020C9700485CF8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CAC584BD1F020C9700485CF8 /* Localizable.strings */; };
-		CAEEFBFC1EE2017D007DD443 /* cryptocoins.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = CAEEFBFB1EE2017D007DD443 /* cryptocoins.ttf */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -27,7 +27,7 @@
 			dstPath = Fonts;
 			dstSubfolderSpec = 7;
 			files = (
-				CAEEFBFC1EE2017D007DD443 /* cryptocoins.ttf in CopyFiles */,
+				CA43C3061F0F557100580614 /* cryptocoins-icons.ttf in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -53,6 +53,7 @@
 		CA4392D61F02E2C000DCE78B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CA4392D81F02E2C000DCE78B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CA4392DD1F02E2F000DCE78B /* iCoinTickerLauncher.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iCoinTickerLauncher.entitlements; sourceTree = "<group>"; };
+		CA43C3051F0F557100580614 /* cryptocoins-icons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "cryptocoins-icons.ttf"; path = "../cryptocoins-icons.ttf"; sourceTree = "<group>"; };
 		CA81D62C1EE42DFA00F1FE30 /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
 		CA82D0AB1ED31FB900B079E4 /* iCoinTicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iCoinTicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA82D0AE1ED31FB900B079E4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -61,11 +62,9 @@
 		CA82D0C31ED325E700B079E4 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		CA82D0C51ED327BF00B079E4 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		CAC578731F032DDE00BD8895 /* coins.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = coins.plist; path = ../coins.plist; sourceTree = "<group>"; };
-		CAC584B81F01FF7300485CF8 /* cryptocoins.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = cryptocoins.svg; sourceTree = "<group>"; };
 		CAC584BC1F020C9700485CF8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CAC584BE1F020CB700485CF8 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CAC584BF1F020CCE00485CF8 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
-		CAEEFBFB1EE2017D007DD443 /* cryptocoins.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = cryptocoins.ttf; path = ../cryptocoins.ttf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,8 +101,7 @@
 		CA73E4441EE2171300736DC3 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				CAEEFBFB1EE2017D007DD443 /* cryptocoins.ttf */,
-				CAC584B81F01FF7300485CF8 /* cryptocoins.svg */,
+				CA43C3051F0F557100580614 /* cryptocoins-icons.ttf */,
 			);
 			name = Fonts;
 			sourceTree = "<group>";
@@ -228,7 +226,13 @@
 							com.apple.InAppPurchase = {
 								enabled = 1;
 							};
+							com.apple.Push = {
+								enabled = 0;
+							};
 							com.apple.Sandbox = {
+								enabled = 1;
+							};
+							com.apple.iCloud = {
 								enabled = 1;
 							};
 						};
