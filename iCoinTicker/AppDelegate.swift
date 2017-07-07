@@ -26,7 +26,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     
     @IBOutlet weak var notificationEditWindow: NSWindow!
     
-    let preferences: NSUbiquitousKeyValueStore = NSUbiquitousKeyValueStore()
+    var preferences: NSUbiquitousKeyValueStore = NSUbiquitousKeyValueStore()
     
     struct Coin {
         let unit: String
@@ -163,11 +163,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
                 appDelegate.showCostNotification(self.coin, price)
                 
                 if (self.repeated == false) {
-                    let notification: NSMutableDictionary = appDelegate.notifications[index].mutableCopy() as! NSMutableDictionary
+                    var notifications: [NSDictionary] = appDelegate.getPreferencesNotifactions()
+                    let notification: NSMutableDictionary = notifications[index].mutableCopy() as! NSMutableDictionary
                     notification.setValue(false, forKey: "enabled")
                     
-                    appDelegate.notifications[index] = notification as NSDictionary
-                    appDelegate.setStorage("notifications", appDelegate.notifications)
+                    notifications[index] = notification as NSDictionary
+                    appDelegate.setStorage("notifications", notifications)
                     
                     let tableView: NSTableView = appDelegate.preferencesNotification.viewWithTag(10) as! NSTableView
                     let tableViewSelected: IndexSet = tableView.selectedRowIndexes
@@ -203,8 +204,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     var costs: [String: [String: Double]] = [:]
     var costChanges: [String: [String: Double]] = [:]
     
-    var notifications: [NSDictionary] = []
-    
     var donations: [String: SKProduct] = [:]
     
     var tickerTimer: Timer = Timer()
@@ -229,11 +228,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         self.updateData()
         self.timer = Timer.scheduledTimer(timeInterval: Double(self.getPreferencesRefreshInterval()), target: self, selector: #selector(AppDelegate.updateData), userInfo: nil, repeats: true)
         
-        self.notifications = self.getStorage("notifications") == nil ? [] : self.getStorage("notifications") as! [NSDictionary]
-        
         self.startNotification()
         
         Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(AppDelegate.checkUpdate), userInfo: nil, repeats: false)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.ubiquitousKeyValueStoreDidChange), name: NSUbiquitousKeyValueStore.didChangeExternallyNotification, object: self.preferences)
     }
     
     /**
@@ -1164,8 +1163,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
      * @return nil
      */
     func notify() {
-        for index in 0..<self.notifications.count {
-            NotificationSetting(self.notifications[index]).notify(index)
+        for index in 0..<self.getPreferencesNotifactions().count {
+            NotificationSetting(self.getPreferencesNotifactions()[index]).notify(index)
         }
     }
     
@@ -1604,6 +1603,17 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         return self.getStorage("preferencesMenuDisplayedChange") == nil ? false : self.getStorage("preferencesMenuDisplayedChange") as! Bool
     }
     
+    
+    
+    /**
+     * Get Notifications
+     *
+     * @return [NSDictionary] notifications
+     */
+    func getPreferencesNotifactions() -> [NSDictionary] {
+        return self.getStorage("notifications") == nil ? [] : self.getStorage("notifications") as! [NSDictionary]
+    }
+    
     /**
      * Check coins.plist update from github.com/moimz/iCoinTicker
      *
@@ -1910,7 +1920,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
                 return
             }
             
-            let notification: NotificationSetting = NotificationSetting(self.notifications[index!])
+            let notification: NotificationSetting = NotificationSetting(self.getPreferencesNotifactions()[index!])
             
             coinButton.selectItem(withTag: notification.coin.tag)
             self.setNotificationEditSheet(coinButton)
@@ -2080,10 +2090,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         notification.setValue(enabled, forKey: "enabled")
         notification.setValue(repeated, forKey: "repeated")
         
+        var notifications: [NSDictionary] = self.getPreferencesNotifactions()
         if (index == -1) {
-            self.notifications.append(notification)
+            notifications.append(notification)
         } else {
-            self.notifications[index] = notification
+            notifications[index] = notification
         }
         
         self.setStorage("notifications", notifications)
@@ -2092,8 +2103,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         tableView.reloadData()
         if (index > -1) {
             tableView.selectRowIndexes(IndexSet(integer: index), byExtendingSelection: false)
-        } else if (self.notifications.count > 0) {
-            tableView.selectRowIndexes(IndexSet(integer: self.notifications.count - 1), byExtendingSelection: false)
+        } else if (notifications.count > 0) {
+            tableView.selectRowIndexes(IndexSet(integer: notifications.count - 1), byExtendingSelection: false)
         }
         
         self.startNotification()
@@ -2127,14 +2138,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             
             if (selected == NSAlertFirstButtonReturn) {
                 var notifications: [NSDictionary] = []
-                for i in 0..<self.notifications.count {
+                for i in 0..<self.getPreferencesNotifactions().count {
                     if (indexes.contains(i) == false) {
-                        notifications.append(self.notifications[i])
+                        notifications.append(self.getPreferencesNotifactions()[i])
                     }
                 }
                 
-                self.notifications = notifications
-                self.setStorage("notifications", self.notifications)
+                self.setStorage("notifications", notifications)
                 tableView.reloadData()
             }
             
@@ -2526,6 +2536,23 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         self.preferences.synchronize()
     }
     
+    /**
+     * KeyStore did changed
+     */
+    func ubiquitousKeyValueStoreDidChange(notification: NSNotification) {
+        let changedKeys = notification.userInfo?[NSUbiquitousKeyValueStoreChangedKeysKey] as? [String]
+        
+        if (changedKeys != nil) {
+            if (changedKeys!.contains("preferencesEnabledCoins") == true || changedKeys!.contains("preferencesEnabledMarkets") == true || changedKeys!.contains("preferencesMarketSelected") == true) {
+                self.stopTicker()
+                self.initMenus()
+                self.startTicker()
+            }
+        }
+        
+        self.initPreferences()
+    }
+    
     @IBAction func openUrl(_ sender: AnyObject) {
         NSWorkspace.shared().open(URL(string: "https://github.com/moimz/iCoinTicker/issues")!)
     }
@@ -2667,7 +2694,7 @@ extension AppDelegate: NSTableViewDataSource, NSTableViewDelegate {
         } else if (tableView.identifier == "markets") {
             return self.markets.count
         } else if (tableView.identifier == "notifications") {
-            return self.notifications.count
+            return self.getPreferencesNotifactions().count
         }
         
         return 0
@@ -2715,7 +2742,7 @@ extension AppDelegate: NSTableViewDataSource, NSTableViewDelegate {
             }
         } else if (tableView.identifier == "notifications") {
             let cell: NSTableCellView = tableView.make(withIdentifier:(tableColumn?.identifier)!, owner: self) as! NSTableCellView
-            let notification: NotificationSetting = NotificationSetting(self.notifications[row])
+            let notification: NotificationSetting = NotificationSetting(self.getPreferencesNotifactions()[row])
             
             if (tableColumn?.identifier == "coin") {
                 let title = NSMutableAttributedString(string: "")
