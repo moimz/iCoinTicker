@@ -162,6 +162,28 @@
 			<key>isBtcMarket</key>
 			<false/>
 		</dict>
+		<key>Bitfinex</key>
+		<dict>
+			<key>tag</key>
+			<integer>14</integer>
+			<key>currency</key>
+			<string>USD</string>
+			<key>api</key>
+			<dict>
+				<key>url</key>
+				<string>https://api.bitfinex.com/v1/pubticker/</string>
+				<key>first</key>
+				<string></string>
+				<key>last</key>
+				<string>last_price</string>
+				<key>change</key>
+				<string></string>
+			</dict>
+			<key>isCombination</key>
+			<false/>
+			<key>isBtcMarket</key>
+			<true/>
+		</dict>
 		<key>Coincheck</key>
 		<dict>
 			<key>tag</key>
@@ -238,7 +260,7 @@
 			<key>name</key>
 			<string>Bitcoin</string>
 			<key>mark</key>
-			<string>e9a7</string>
+			<string>E022</string>
 			<key>marketParams</key>
 			<dict>
 				<key>Korbit</key>
@@ -255,6 +277,8 @@
 				<string>BTC-USD/ticker</string>
 				<key>Kraken</key>
 				<string>XBTUSD</string>
+				<key>Bitfinex</key>
+				<string>btcusd</string>
 				<key>Coincheck</key>
 				<string>btc_jpy</string>
 				<key>Bitflyer</key>
@@ -270,7 +294,7 @@
 			<key>name</key>
 			<string>Ethereum</string>
 			<key>mark</key>
-			<string>e9c4</string>
+			<string>E041</string>
 			<key>marketParams</key>
 			<dict>
 				<key>Korbit</key>
@@ -287,6 +311,8 @@
 				<string>ETH-USD/ticker</string>
 				<key>Kraken</key>
 				<string>ETHUSD</string>
+				<key>Bitfinex</key>
+				<string>ethbtc</string>
 				<key>Coincheck</key>
 				<string>eth_btc</string>
 				<key>Bitflyer</key>
@@ -302,7 +328,7 @@
 			<key>name</key>
 			<string>Ethereum Classic</string>
 			<key>mark</key>
-			<string>e9c2</string>
+			<string>E03F</string>
 			<key>marketParams</key>
 			<dict>
 				<key>Korbit</key>
@@ -317,6 +343,8 @@
 				<string>BTC-ETC</string>
 				<key>Kraken</key>
 				<string>ETCUSD</string>
+				<key>Bitfinex</key>
+				<string>etcbtc</string>
 				<key>Coincheck</key>
 				<string>etc_btc</string>
 			</dict>
@@ -328,7 +356,7 @@
 			<key>name</key>
 			<string>Ripple</string>
 			<key>mark</key>
-			<string>e93a</string>
+			<string>E0F1</string>
 			<key>marketParams</key>
 			<dict>
 				<key>Bithumb</key>
@@ -341,6 +369,8 @@
 				<string>BTC-XRP</string>
 				<key>Kraken</key>
 				<string>XRPUSD</string>
+				<key>Bitfinex</key>
+				<string>xrpbtc</string>
 				<key>Coincheck</key>
 				<string>xrp_btc</string>
 			</dict>
@@ -352,7 +382,7 @@
 			<key>name</key>
 			<string>Stratis</string>
 			<key>mark</key>
-			<string>e916</string>
+			<string>E0C9</string>
 			<key>marketParams</key>
 			<dict>
 				<key>Poloniex</key>
@@ -368,7 +398,7 @@
 			<key>name</key>
 			<string>DigiByte</string>
 			<key>mark</key>
-			<string>e9b6</string>
+			<string>E033</string>
 			<key>marketParams</key>
 			<dict>
 				<key>Poloniex</key>
@@ -384,7 +414,7 @@
 			<key>name</key>
 			<string>Siacoin</string>
 			<key>mark</key>
-			<string>e906</string>
+			<string>E0B9</string>
 			<key>marketParams</key>
 			<dict>
 				<key>Poloniex</key>
@@ -400,7 +430,7 @@
 			<key>name</key>
 			<string>Monero</string>
 			<key>mark</key>
-			<string>e936</string>
+			<string>E0EE</string>
 			<key>marketParams</key>
 			<dict>
 				<key>Poloniex</key>
@@ -409,6 +439,8 @@
 				<string>BTC-XMR</string>
 				<key>Kraken</key>
 				<string>XMRUSD</string>
+				<key>Bitfinex</key>
+				<string>xmrbtc</string>
 				<key>Coincheck</key>
 				<string>xmr_btc</string>
 			</dict>
@@ -420,7 +452,7 @@
 			<key>name</key>
 			<string>Zcash</string>
 			<key>mark</key>
-			<string>e9cf</string>
+			<string>E0F8</string>
 			<key>marketParams</key>
 			<dict>
 				<key>Poloniex</key>
@@ -429,6 +461,8 @@
 				<string>BTC-ZEC</string>
 				<key>Kraken</key>
 				<string>ZECUSD</string>
+				<key>Bitfinex</key>
+				<string>zecbtc</string>
 				<key>Coincheck</key>
 				<string>zec_btc</string>
 			</dict>
@@ -440,7 +474,7 @@
 			<key>name</key>
 			<string>Litecoin</string>
 			<key>mark</key>
-			<string>e990</string>
+			<string>E074</string>
 			<key>marketParams</key>
 			<dict>
 				<key>Bithumb</key>
@@ -466,7 +500,7 @@
 			<key>name</key>
 			<string>Dash</string>
 			<key>mark</key>
-			<string>e9b3</string>
+			<string>E02E</string>
 			<key>marketParams</key>
 			<dict>
 				<key>Bithumb</key>
@@ -477,6 +511,8 @@
 				<string>BTC-DASH</string>
 				<key>Kraken</key>
 				<string>DASHUSD</string>
+				<key>Bitfinex</key>
+				<string>dshbtc</string>
 				<key>Coincheck</key>
 				<string>dash_btc</string>
 			</dict>
@@ -488,7 +524,7 @@
 			<key>name</key>
 			<string>Stellar</string>
 			<key>mark</key>
-			<string>e915</string>
+			<string>E0C6</string>
 			<key>marketParams</key>
 			<dict>
 				<key>Poloniex</key>
@@ -502,7 +538,7 @@
 			<key>name</key>
 			<string>NEM</string>
 			<key>mark</key>
-			<string>e935</string>
+			<string>E0EC</string>
 			<key>marketParams</key>
 			<dict>
 				<key>Poloniex</key>
@@ -520,7 +556,7 @@
 			<key>name</key>
 			<string>Steem</string>
 			<key>mark</key>
-			<string>e912</string>
+			<string>E0C5</string>
 			<key>marketParams</key>
 			<dict>
 				<key>Poloniex</key>
@@ -536,7 +572,7 @@
 			<key>name</key>
 			<string>Lisk</string>
 			<key>mark</key>
-			<string>e98d</string>
+			<string>E073</string>
 			<key>marketParams</key>
 			<dict>
 				<key>Poloniex</key>
@@ -554,7 +590,7 @@
 			<key>name</key>
 			<string>Factom</string>
 			<key>mark</key>
-			<string>e9c8</string>
+			<string>E045</string>
 			<key>marketParams</key>
 			<dict>
 				<key>Poloniex</key>
@@ -563,6 +599,82 @@
 				<string>BTC-FCT</string>
 				<key>Coincheck</key>
 				<string>fct_btc</string>
+			</dict>
+		</dict>
+		<key>MIOTA</key>
+		<dict>
+			<key>tag</key>
+			<integer>17</integer>
+			<key>name</key>
+			<string>IOTA</string>
+			<key>mark</key>
+			<string>E066</string>
+			<key>marketParams</key>
+			<dict>
+				<key>Bitfinex</key>
+				<string>iotbtc</string>
+			</dict>
+		</dict>
+		<key>BTS</key>
+		<dict>
+			<key>tag</key>
+			<integer>18</integer>
+			<key>name</key>
+			<string>BitShares</string>
+			<key>mark</key>
+			<string>E026</string>
+			<key>marketParams</key>
+			<dict>
+				<key>Poloniex</key>
+				<string>BTC_BTS</string>
+				<key>Bittrex</key>
+				<string>BTC-BTS</string>
+			</dict>
+		</dict>
+		<key>BCN</key>
+		<dict>
+			<key>tag</key>
+			<integer>19</integer>
+			<key>name</key>
+			<string>Bytecoin</string>
+			<key>mark</key>
+			<string>E017</string>
+			<key>marketParams</key>
+			<dict>
+				<key>Poloniex</key>
+				<string>BTC_BCN</string>
+				<key>Bittrex</key>
+				<string>BTC-BCN</string>
+			</dict>
+		</dict>
+		<key>GNT</key>
+		<dict>
+			<key>tag</key>
+			<integer>20</integer>
+			<key>name</key>
+			<string>Golem</string>
+			<key>mark</key>
+			<string>E057</string>
+			<key>marketParams</key>
+			<dict>
+				<key>Poloniex</key>
+				<string>BTC_GNT</string>
+				<key>Bittrex</key>
+				<string>BTC-GNT</string>
+			</dict>
+		</dict>
+		<key>DGD</key>
+		<dict>
+			<key>tag</key>
+			<integer>21</integer>
+			<key>name</key>
+			<string>DigixDAO</string>
+			<key>mark</key>
+			<string>E034</string>
+			<key>marketParams</key>
+			<dict>
+				<key>Bittrex</key>
+				<string>BTC-DGD</string>
 			</dict>
 		</dict>
 	</dict>
