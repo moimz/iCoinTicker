@@ -89,4 +89,6 @@ If you like it, do it:
 ## Download
 https://github.com/moimz/iCoinTicker/releases/download/v2.5.0/iCoinTicker.zip
 
+https://itunes.apple.com/us/app/icointicker/id1248168577
+
 v3.0.0 is available on Mac AppStore. (Not yet available without sandboxing app for GitHub release)
