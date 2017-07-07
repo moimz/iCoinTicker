@@ -8,9 +8,9 @@
 [![license](https://img.shields.io/github/license/moimz/iCoinTicker.svg)](https://github.com/moimz/iCoinTicker/blob/master/LICENSE.md)
 
 
-코빗, 빗썸, 코인원, Poloniex, Bittrex 의 가상화폐 시세(비트코인(BTC), 이더리움(ETH), 이더리움클래식(ETC), 리플(XRP) 등)를 macOS의 메뉴바에서 확인할 수 있습니다.
+코빗, 빗썸, 코인원 및 세계 주요 거래소의 가상화폐 시세(비트코인(BTC), 이더리움(ETH), 이더리움클래식(ETC), 리플(XRP) 등)를 macOS의 메뉴바에서 확인할 수 있습니다.
 
-macOS menubar ticker that displays the latest crypto currency(BTC, ETH, ETC, XRP and etc.) of Poloniex, Bittrex.
+macOS menubar ticker that displays the latest crypto currency(BTC, ETH, ETC, XRP and etc.) of worldwide major markets.
 
 [![Mac App Store](https://devimages.apple.com.edgekey.net/app-store/marketing/guidelines/mac/images/badge-download-on-the-mac-app-store.svg)](https://itunes.apple.com/us/app/icointicker/id1248168577)
 
@@ -91,4 +91,4 @@ https://github.com/moimz/iCoinTicker/releases/download/v2.5.0/iCoinTicker.zip
 
 https://itunes.apple.com/us/app/icointicker/id1248168577
 
-v3.0.0 is available on Mac AppStore. (Not yet available without sandboxing app for GitHub release)
+v3.0.0 is available on Mac AppStore. (Not yet available unsandboxing app for GitHub release)
