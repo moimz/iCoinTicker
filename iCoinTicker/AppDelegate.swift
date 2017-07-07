@@ -275,7 +275,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         let documentsUpdated: Date? = documentsPlist == nil ? nil : documentsPlist!["updated"] as? Date
         let bundleUpdated: Date = bundlePlist["updated"] as! Date
         
-        if (true || documentsUpdated == nil || bundleUpdated.compare(documentsUpdated!) == ComparisonResult.orderedDescending) {
+        if (documentsUpdated == nil || bundleUpdated.compare(documentsUpdated!) == ComparisonResult.orderedDescending) {
             do {
                 let content = try String(contentsOfFile: bundlePath, encoding: String.Encoding.utf8)
                 try content.write(to: documentsUrl, atomically: false, encoding: String.Encoding.utf8)
