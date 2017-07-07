@@ -14,11 +14,14 @@ menu.quit = "종료";
 
 button.relaunch = "지금 재시작";
 button.cancel = "취소";
+button.save = "저장";
 button.close = "닫기";
+button.delete = "삭제";
 
 preferences.toolbar.general = "일반";
 preferences.toolbar.appearance = "표시";
 preferences.toolbar.coin = "코인/거래소";
+preferences.toolbar.notification = "알림";
 preferences.toolbar.donation = "후원하기";
 
 preferences.general.refreshInterval = "새로고침";
@@ -78,6 +81,17 @@ preferences.coin.checkUpdate.true.message = "업데이트된 내역을 적용하
 preferences.coin.checkUpdate.false.title = "업데이트 내역이 없습니다.";
 preferences.coin.checkUpdate.false.message = "현재 최신버전의 코인 및 거래소 데이터를 사용하고 있습니다.\n다음에 다시 시도하여 주시기 바랍니다.";
 
+preferences.notification.coin = "코인";
+preferences.notification.market = "거래소";
+preferences.notification.rule = "조건";
+preferences.notification.status = "상태";
+preferences.notification.status.enabled = "활성화";
+preferences.notification.status.disabled = "비활성화";
+preferences.notification.status.repeated = "반복";
+preferences.notification.help = "목록을 더블클릭하여 설정을 수정할 수 있습니다.";
+preferences.notification.remove = "선택하신 알림설정을 삭제하시겠습니까?";
+preferences.notification.removeHelp = "선택하신 {COUNT}개의 알림설정이 삭제됩니다.";
+
 preferences.donation.title = "이 프로그램이 마음에 드신다면, 개발자에게 후원 부탁드립니다.";
 preferences.donation.iap = "인앱결제";
 preferences.donation.iapHelp = "맥 앱스토어 인앱결제를 통하여 선택하신 금액만큼 후원이 가능합니다.";
@@ -90,3 +104,14 @@ preferences.donation.fail.message = "애플 앱스토어 계정을 확인하여 
 
 preferences.donation.coin = "또는 아래의 주소로 후원이 가능합니다.";
 preferences.donation.coinHelp = "지갑주소를 드래그하거나, 더블클릭하면 주소를 선택할 수 있습니다.";
+
+notification.edit.coin = "코인";
+notification.edit.market = "거래소";
+notification.edit.price = "가격";
+notification.edit.rule = "조건";
+notification.edit.rule.higher = "설정된 가격 이상일 때";
+notification.edit.rule.lower = "설정된 가격 이하일 때";
+notification.edit.enabled = "현재 알림을 활성화합니다.";
+notification.edit.repeat.check = "알림을 반복합니다.";
+notification.edit.repeat.help = "조건이 만족하는동안 30초 간격으로 반복합니다.\n체크해제시 조건이 만족될 때 한번만 알립니다.";
+notification.cost.title = "{COIN} 가격이 변동되었습니다.";

@@ -12,13 +12,16 @@ menu.refresh = "Refresh";
 menu.preferences = "Preferences";
 menu.quit = "Quit";
 
-button.relaunch = "relaunch";
-button.cancel = "cancel";
-button.close = "close";
+button.relaunch = "Relaunch";
+button.cancel = "Cancel";
+button.save = "Save";
+button.close = "Close";
+button.delete = "Delete";
 
 preferences.toolbar.general = "General";
 preferences.toolbar.appearance = "Appearance";
 preferences.toolbar.coin = "Coins/Markets";
+preferences.toolbar.notification = "Notification";
 preferences.toolbar.donation = "Donate";
 
 preferences.general.refreshInterval = "Refresh interval";
@@ -78,6 +81,17 @@ preferences.coin.checkUpdate.true.message = "Restart app to apply the new coin a
 preferences.coin.checkUpdate.false.title = "You’re up-to-date.";
 preferences.coin.checkUpdate.false.message = "Your data is currently the newest version available.\nPlease try again later.";
 
+preferences.notification.coin = "Coin";
+preferences.notification.market = "Market";
+preferences.notification.rule = "Rule";
+preferences.notification.status = "Status";
+preferences.notification.status.enabled = "Enabled";
+preferences.notification.status.disabled = "Disabled";
+preferences.notification.status.repeated = "Repeated";
+preferences.notification.help = "Modify the settings by double click the list.";
+preferences.notification.remove = "Are you sure you want to delete your notification settings?";
+preferences.notification.removeHelp = "The notification settings you selected will be deleted.";
+
 preferences.donation.title = "If you like iCoinTicker, Please support the developer.";
 preferences.donation.iap = "In-app-purchase";
 preferences.donation.iapHelp = "You can donate as much as you like through the Mac App Store.";
@@ -90,3 +104,14 @@ preferences.donation.fail.message = "Please check your Apple account.";
 
 preferences.donation.coin = "Or you can send BTC or ETH to the address below.";
 preferences.donation.coinHelp = "Drag or Double click to select an address.";
+
+notification.edit.coin = "Coin";
+notification.edit.market = "Market";
+notification.edit.price = "Price";
+notification.edit.rule = "Rule";
+notification.edit.rule.higher = "Higher than set price";
+notification.edit.rule.lower = "Lower than set price";
+notification.edit.enabled = "Enabled the current notification.";
+notification.edit.repeat.check = "Repeat notification.";
+notification.edit.repeat.help = "It repeats every 30sec while the rule's satisfied.\nUnchecked, It'll be notified once when the rule's satisfied.";
+notification.cost.title = "{COIN} costs was changed.";

@@ -8,20 +8,23 @@
 
 menu.about = "iCoinTickerについて";
 menu.hideTicker = "メニューバーで非表示";
-menu.refresh = "リフレッシュ";
-menu.preferences = "設定";
-menu.quit = "終了する";
+menu.refresh = "更新";
+menu.preferences = "環境設定";
+menu.quit = "終了";
 
-button.relaunch = "再起動";
+button.relaunch = "今すぐ再起動";
 button.cancel = "キャンセル";
+button.save = "セーブ";
 button.close = "閉じる";
+button.delete = "削除";
 
 preferences.toolbar.general = "一般";
-preferences.toolbar.appearance = "外観";
+preferences.toolbar.appearance = "表示";
 preferences.toolbar.coin = "通貨/取引所";
+preferences.toolbar.notification = "通知";
 preferences.toolbar.donation = "寄付する";
 
-preferences.general.refreshInterval = "リフレッシュ間隔";
+preferences.general.refreshInterval = "更新間隔";
 preferences.general.refreshInterval.15 = "15秒";
 preferences.general.refreshInterval.30 = "30秒";
 preferences.general.refreshInterval.60 = "1分";
@@ -31,62 +34,84 @@ preferences.general.refreshInterval.1800 = "30分";
 preferences.general.refreshInterval.3600 = "1時間";
 
 preferences.general.currency = "通貨";
-preferences.general.currency.default = "取引所の基本通貨を使用する";
+preferences.general.currency.default = "取引所の基本通貨を使用";
 
-preferences.general.autoUpdate = "通貨/取引所の自動更新";
-preferences.general.autoUpdate.0 = "起動時に更新を確認する";
-preferences.general.autoUpdate.1 = "1日に1回更新を確認する";
-preferences.general.autoUpdate.7 = "1週間に1回更新を確認する";
-preferences.general.autoUpdate.30 = "1か月に1回更新を確認する";
+preferences.general.autoUpdate = "通貨及び取引所のリストを自動更新";
+preferences.general.autoUpdate.0 = "毎回起動時に確認する";
+preferences.general.autoUpdate.1 = "一日に一回更新を確認する";
+preferences.general.autoUpdate.7 = "一週間に一回更新を確認する";
+preferences.general.autoUpdate.30 = "一か月に一回更新を確認する";
 
-preferences.general.autoAddNewCoins = "新しく更新されたコインは自動有効化されています";
-preferences.general.autoAddNewMarkets = "新たに更新された市場は自動有効化されています";
+preferences.general.autoAddNewCoins = "新規に追加された通貨は自動で有効化されています。";
+preferences.general.autoAddNewMarkets = "新規に追加された取引所は自動で有効化されています。";
 
-preferences.general.startAtLogin = "ログイン時に開始";
+preferences.general.startAtLogin = "ログイン時に自動で実行";
 
-preferences.appearance.ticker = "ティッカー";
+preferences.appearance.ticker = "メニューバーの設定";
 
-preferences.appearance.fontSize = "フォントサイズ";
+preferences.appearance.fontSize = "フォントの大きさ";
 preferences.appearance.fontSize.10pt = "10pt";
 preferences.appearance.fontSize.12pt = "12pt";
-preferences.appearance.fontSize.14pt = "14pt (macOS デフォルト)";
+preferences.appearance.fontSize.14pt = "14pt (macOS基本)";
 
-preferences.appearance.displayedCurrency = "表示通貨";
-preferences.appearance.displayedCurrency.none = "なし";
-preferences.appearance.displayedCurrency.symbol = "通貨記号 (¥)";
-preferences.appearance.displayedCurrency.code = "通貨コード (JPY)";
+preferences.appearance.displayedCurrency = "通貨表示";
+preferences.appearance.displayedCurrency.none = "表示しない";
+preferences.appearance.displayedCurrency.symbol = "記号で表示 (¥)";
+preferences.appearance.displayedCurrency.code = "コードで表示 (JPY)";
 
 preferences.appearance.displayedChanged = "変動率";
-preferences.appearance.showDisplayedChanged = "変動率見せる (いくつかの取引所サポート)";
-preferences.appearance.showDisplayedChangedHelp = "24時間前の価格に基づいて価格の変化率を計算します。";
+preferences.appearance.showDisplayedChanged = "価格の変動率を表示します。(一部の取引所のみ支援)";
+preferences.appearance.showDisplayedChangedHelp = "24時間以前の開始価格を基準に価格の変動率を計算します。";
 
-preferences.appearance.menu = "メニュー";
+preferences.appearance.menu = "メニューの設定";
 
-preferences.coin.coins = "有効暗号通貨";
-preferences.coin.coins.header.unit = "暗号通貨";
-preferences.coin.coins.header.name = "名";
-preferences.coin.markets = "有効取引所";
+preferences.coin.coins = "通貨有効化";
+preferences.coin.coins.header.unit = "通貨";
+preferences.coin.coins.header.name = "通貨名";
+preferences.coin.markets = "取引所有効化";
 preferences.coin.markets.header.market = "取引所";
 preferences.coin.markets.header.currency = "基本通貨";
 
-preferences.coin.lastUpdate = "最後の更新";
-preferences.coin.checkUpdate = "更新を確認";
-preferences.coin.checkUpdate.true.title = "更新されたデータ";
+preferences.coin.lastUpdate = "最終更新";
+preferences.coin.checkUpdate = "更新の確認";
+preferences.coin.checkUpdate.true.title = "通貨及び取引所のデータを下記の日付のデータに更新しました。";
 preferences.coin.checkUpdate.true.date = "更新時間";
-preferences.coin.checkUpdate.true.message = "アプリを再起動して新しいデータを適用する\n今すぐアプリを再起動してもよろしいですか？";
+preferences.coin.checkUpdate.true.message = "更新された内訳を適用するためにはアプリを再起動しなければなりません。\n今すぐアプリを再起動しますか？";
 
-preferences.coin.checkUpdate.false.title = "あなたは最新です。";
-preferences.coin.checkUpdate.false.message = "あなたのデータは現在入手可能な最新のバージョンです。\n後でもう一度お試しください。";
+preferences.coin.checkUpdate.false.title = "更新された内訳がありません。";
+preferences.coin.checkUpdate.false.message = "現在、最新バージョンの通貨および取引所のデータを使用しています。\n後ほど再び試してみてください。";
 
-preferences.donation.title = "あなたが好きなら、開発者をサポートしてください";
-preferences.donation.iap = "アプリ内購入";
-preferences.donation.iapHelp = "あなたはAppStoreを通じてあなたが選んだ分だけ寄付することができます。";
+preferences.notification.coin = "通貨";
+preferences.notification.market = "取引所";
+preferences.notification.rule = "条件";
+preferences.notification.status = "状態";
+preferences.notification.status.enabled = "有効";
+preferences.notification.status.disabled = "無効";
+preferences.notification.status.repeated = "繰り返し";
+preferences.notification.help = "リストをダブルクリックして設定を変更することができます。";
+preferences.notification.remove = "選択した通知の設定を削除しますか？";
+preferences.notification.removeHelp = "選択した通知設定が削除されます。";
 
-preferences.donation.success.title = "あなたの支払いは成功しました。";
-preferences.donation.success.message = "ご協力ありがとうございます。";
+preferences.donation.title = "このプログラムがお気に召しましたら、開発者にご寄付を賜りたく存じます。";
+preferences.donation.iap = "アプリ内決済";
+preferences.donation.iapHelp = "アプリストア内決済を通して選択なさった金額だけご寄付が可能です。";
 
-preferences.donation.fail.title = "支払いに失敗しました。";
-preferences.donation.fail.message = "あなたのAppleアカウントを確認してください。";
+preferences.donation.success.title = "決済が成功しました。";
+preferences.donation.success.message = "ご寄付を賜り心から感謝を申し上げます。より素敵なプログラムを通してこのご恩を返させていただきます。";
 
-preferences.donation.coin = "または、BTC/ETHを下の住所に送ることができます。";
-preferences.donation.coinHelp = "ドラッグするかダブルクリックしてアドレスを選択します。";
+preferences.donation.fail.title = "決済に失敗しました。";
+preferences.donation.fail.message = "アップルのアプリストアアカウントをご確認ください。";
+
+preferences.donation.coin = "または下記の住所にご寄付も可能でございます。";
+preferences.donation.coinHelp = "ダブルクリックをしていただきますと住所を選択することができます。";
+
+notification.edit.coin = "通貨";
+notification.edit.market = "取引所";
+notification.edit.price = "価格";
+notification.edit.rule = "条件";
+notification.edit.rule.higher = "設定された価格以上の時";
+notification.edit.rule.lower = "設定された価格以下の場合";
+notification.edit.enabled = "この通知を有効にします。";
+notification.edit.repeat.check = "通知を繰り返します。";
+notification.edit.repeat.help = "条件が満足している間、30秒間隔で繰り返します。\nチェック提示条件が満足されるときに一度だけ通知します。";
+notification.cost.title = "{COIN}の費用は変更されました。";
