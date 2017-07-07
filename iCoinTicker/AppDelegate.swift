@@ -939,19 +939,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         } else {
             let enabledCoins = self.getStorage("preferencesEnabledCoins") as? NSDictionary
             if (enabledCoins == nil || enabledCoins![unit] == nil) {
-                if (unit == "BTC") {
-                    let enabledCoins: NSMutableDictionary = self.getStorage("preferencesEnabledCoins") as? NSDictionary == nil ? NSMutableDictionary() : (self.getStorage("preferencesEnabledCoins") as? NSDictionary)?.mutableCopy() as! NSMutableDictionary
-                    enabledCoins.setValue(true, forKey: "BTC")
-                    self.setStorage("preferencesEnabledCoins", enabledCoins)
-                    
-                    return true
-                } else {
-                    let enabledCoins: NSMutableDictionary = self.getStorage("preferencesEnabledCoins") as? NSDictionary == nil ? NSMutableDictionary() : (self.getStorage("preferencesEnabledCoins") as? NSDictionary)?.mutableCopy() as! NSMutableDictionary
-                    enabledCoins.setValue(self.getPreferencesAutoEnabledCoin(), forKey: unit)
-                    self.setStorage("preferencesEnabledCoins", enabledCoins)
-                    
-                    return self.getPreferencesAutoEnabledCoin()
-                }
+                let enabledCoins: NSMutableDictionary = self.getStorage("preferencesEnabledCoins") as? NSDictionary == nil ? NSMutableDictionary() : (self.getStorage("preferencesEnabledCoins") as? NSDictionary)?.mutableCopy() as! NSMutableDictionary
+                enabledCoins.setValue(unit == "BTC" || self.getPreferencesAutoEnabledCoin(), forKey: unit)
+                self.setStorage("preferencesEnabledCoins", enabledCoins)
+                
+                return unit == "BTC" || self.getPreferencesAutoEnabledCoin()
             }
             
             return enabledCoins![unit] as! Bool
@@ -972,10 +964,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             let enabledMarkets = self.getStorage("preferencesEnabledMarkets") as? NSDictionary
             if (enabledMarkets == nil || enabledMarkets![name] == nil) {
                 let enabledMarkets: NSMutableDictionary = self.getStorage("preferencesEnabledMarkets") as? NSDictionary == nil ? NSMutableDictionary() : (self.getStorage("preferencesEnabledMarkets") as? NSDictionary)?.mutableCopy() as! NSMutableDictionary
-                enabledMarkets.setValue(self.getPreferencesAutoEnabledMarket(), forKey: name)
+                enabledMarkets.setValue(name == "Poloniex" || self.getPreferencesAutoEnabledMarket(), forKey: name)
                 self.setStorage("preferencesEnabledMarkets", enabledMarkets)
                 
-                return self.getPreferencesAutoEnabledMarket()
+                return name == "Poloniex" || self.getPreferencesAutoEnabledMarket()
             } else {
                 return enabledMarkets![name] as! Bool
             }
