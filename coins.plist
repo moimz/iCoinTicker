@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>updated</key>
-	<date>2017-07-07T01:00:00Z</date>
+	<date>2017-07-08T03:45:00Z</date>
 	<key>markets</key>
 	<dict>
 		<key>Korbit</key>
@@ -480,9 +480,9 @@
 				<key>Bithumb</key>
 				<string>ltc</string>
 				<key>Poloniex</key>
-				<string>BTC_ETH</string>
+				<string>BTC_LTC</string>
 				<key>Bittrex</key>
-				<string>BTC-ETH</string>
+				<string>BTC-LTC</string>
 				<key>Gdax</key>
 				<string>LTC-USD/ticker</string>
 				<key>Kraken</key>
@@ -675,6 +675,20 @@
 			<dict>
 				<key>Bittrex</key>
 				<string>BTC-DGD</string>
+			</dict>
+		</dict>
+		<key>PIVX</key>
+		<dict>
+			<key>tag</key>
+			<integer>22</integer>
+			<key>name</key>
+			<string>PIVX</string>
+			<key>mark</key>
+			<string>E09D</string>
+			<key>marketParams</key>
+			<dict>
+				<key>Bittrex</key>
+				<string>BTC-PIVX</string>
 			</dict>
 		</dict>
 	</dict>
