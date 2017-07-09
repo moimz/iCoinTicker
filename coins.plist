@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>updated</key>
-	<date>2017-07-08T03:45:00Z</date>
+	<date>2017-07-10T03:50:00Z</date>
 	<key>markets</key>
 	<dict>
 		<key>Korbit</key>
@@ -701,7 +701,7 @@
 			<key>mark</key>
 			<string>฿</string>
 			<key>format</key>
-			<string>0.########</string>
+			<string>0.00000000</string>
 		</dict>
 		<key>USD</key>
 		<dict>
@@ -754,6 +754,60 @@
 			<integer>6</integer>
 			<key>mark</key>
 			<string>£</string>
+			<key>format</key>
+			<string>#,##0.00</string>
+		</dict>
+		<key>AUD</key>
+		<dict>
+			<key>tag</key>
+			<integer>7</integer>
+			<key>mark</key>
+			<string>$</string>
+			<key>format</key>
+			<string>#,##0.00</string>
+		</dict>
+		<key>CAD</key>
+		<dict>
+			<key>tag</key>
+			<integer>8</integer>
+			<key>mark</key>
+			<string>C$</string>
+			<key>format</key>
+			<string>#,##0.00</string>
+		</dict>
+		<key>HKD</key>
+		<dict>
+			<key>tag</key>
+			<integer>9</integer>
+			<key>mark</key>
+			<string>HK$</string>
+			<key>format</key>
+			<string>#,##0.00</string>
+		</dict>
+		<key>PHP</key>
+		<dict>
+			<key>tag</key>
+			<integer>10</integer>
+			<key>mark</key>
+			<string>₱</string>
+			<key>format</key>
+			<string>#,##0.00</string>
+		</dict>
+		<key>PLN</key>
+		<dict>
+			<key>tag</key>
+			<integer>11</integer>
+			<key>mark</key>
+			<string>zł</string>
+			<key>format</key>
+			<string>#,##0.00</string>
+		</dict>
+		<key>RUB</key>
+		<dict>
+			<key>tag</key>
+			<integer>12</integer>
+			<key>mark</key>
+			<string>руб</string>
 			<key>format</key>
 			<string>#,##0.00</string>
 		</dict>
