@@ -45,6 +45,7 @@ macOS menubar ticker that displays the latest crypto currency(BTC, ETH, ETC, XRP
 - BCN (ByteCoin)
 - GNT (Golem)
 - DGD (DigixDAO)
+- PIVX (PIVX)
 
 
 ## Support Currency
@@ -54,6 +55,12 @@ macOS menubar ticker that displays the latest crypto currency(BTC, ETH, ETC, XRP
 - CNY
 - EUR
 - GBP
+- HKD
+- CAD
+- PHP
+- RUB
+- PLN
+- AUD
 
 
 ## Support Market
@@ -82,7 +89,9 @@ If you like it, do it:
 
 ## Screenshot
 ![Ticker-Screenshot](https://github.com/moimz/iCoinTicker/blob/master/screenshot1.png?raw=true)
+
 ![Ticker-Screenshot](https://github.com/moimz/iCoinTicker/blob/master/screenshot2.png?raw=true)
+
 ![Ticker-Screenshot](https://github.com/moimz/iCoinTicker/blob/master/screenshot3.png?raw=true)
 
 
@@ -91,4 +100,4 @@ https://github.com/moimz/iCoinTicker/releases/download/v2.5.0/iCoinTicker.zip
 
 https://itunes.apple.com/us/app/icointicker/id1248168577
 
-v3.0.0 is available on Mac AppStore. (Not yet available unsandboxing app for GitHub release)
+v3.2.0 is available on Mac AppStore. (Not yet available unsandboxing app for GitHub release)
