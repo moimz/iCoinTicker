@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>updated</key>
-	<date>2017-07-10T03:50:00Z</date>
+	<date>2017-07-11T05:50:00Z</date>
 	<key>markets</key>
 	<dict>
 		<key>Korbit</key>
@@ -386,9 +386,9 @@
 			<key>marketParams</key>
 			<dict>
 				<key>Poloniex</key>
-				<string>BTC_ETH</string>
+				<string>BTC_STRAT</string>
 				<key>Bittrex</key>
-				<string>BTC-ETH</string>
+				<string>BTC-STRAT</string>
 			</dict>
 		</dict>
 		<key>DGB</key>
