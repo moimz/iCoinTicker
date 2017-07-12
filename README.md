@@ -96,8 +96,11 @@ If you like it, do it:
 
 
 ## Download
-https://github.com/moimz/iCoinTicker/releases/download/v2.5.0/iCoinTicker.zip
+https://github.com/moimz/iCoinTicker/releases/download/v3.2.0/iCoinTicker.zip
 
 https://itunes.apple.com/us/app/icointicker/id1248168577
 
-v3.2.0 is available on Mac AppStore. (Not yet available unsandboxing app for GitHub release)
+
+## Contact
+help@moimz.com
+https://twitter.com/arzzcom
