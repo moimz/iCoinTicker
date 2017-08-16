@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>updated</key>
-	<date>2017-07-11T05:50:00Z</date>
+	<date>2017-08-16T20:26:11Z</date>
 	<key>markets</key>
 	<dict>
 		<key>Korbit</key>
@@ -250,6 +250,28 @@
 			<key>isBtcMarket</key>
 			<false/>
 		</dict>
+		<key>Bitstamp</key>
+		<dict>
+			<key>tag</key>
+			<integer>31</integer>
+			<key>currency</key>
+			<string>USD</string>
+			<key>api</key>
+			<dict>
+				<key>url</key>
+				<string>https://www.bitstamp.net/api/ticker/</string>
+				<key>first</key>
+				<string>open</string>
+				<key>last</key>
+				<string>last</string>
+				<key>change</key>
+				<string></string>
+			</dict>
+			<key>isCombination</key>
+			<false/>
+			<key>isBtcMarket</key>
+			<true/>
+		</dict>
 	</dict>
 	<key>coins</key>
 	<dict>
@@ -285,6 +307,8 @@
 				<string>BTC_JPY</string>
 				<key>Okcoin</key>
 				<string>btc_cny</string>
+				<key>Bitstamp</key>
+				<string>btc_usd</string>
 			</dict>
 		</dict>
 		<key>ETH</key>
@@ -372,6 +396,8 @@
 				<key>Bitfinex</key>
 				<string>xrpbtc</string>
 				<key>Coincheck</key>
+				<string>xrp_btc</string>
+				<key>Bitstamp</key>
 				<string>xrp_btc</string>
 			</dict>
 		</dict>
@@ -491,6 +517,8 @@
 				<string>ltc_btc</string>
 				<key>Okcoin</key>
 				<string>ltc_cny</string>
+				<key>Bitstamp</key>
+				<string>ltc_usd</string>
 			</dict>
 		</dict>
 		<key>DASH</key>
