@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>updated</key>
-	<date>2017-08-16T20:26:11Z</date>
+	<date>2017-08-17T20:26:11Z</date>
 	<key>markets</key>
 	<dict>
 		<key>Korbit</key>
@@ -259,7 +259,7 @@
 			<key>api</key>
 			<dict>
 				<key>url</key>
-				<string>https://www.bitstamp.net/api/ticker/</string>
+				<string>https://www.bitstamp.net/api/v2/ticker/</string>
 				<key>first</key>
 				<string>open</string>
 				<key>last</key>
@@ -308,7 +308,7 @@
 				<key>Okcoin</key>
 				<string>btc_cny</string>
 				<key>Bitstamp</key>
-				<string>btc_usd</string>
+				<string>btcusd</string>
 			</dict>
 		</dict>
 		<key>ETH</key>
@@ -343,6 +343,8 @@
 				<string>ETH_BTC</string>
 				<key>Okcoin</key>
 				<string>eth_cny</string>
+				<key>Bitstamp</key>
+				<string>ethusd</string>
 			</dict>
 		</dict>
 		<key>ETC</key>
@@ -398,7 +400,7 @@
 				<key>Coincheck</key>
 				<string>xrp_btc</string>
 				<key>Bitstamp</key>
-				<string>xrp_btc</string>
+				<string>xrpbtc</string>
 			</dict>
 		</dict>
 		<key>STRAT</key>
@@ -518,7 +520,7 @@
 				<key>Okcoin</key>
 				<string>ltc_cny</string>
 				<key>Bitstamp</key>
-				<string>ltc_usd</string>
+				<string>ltcusd</string>
 			</dict>
 		</dict>
 		<key>DASH</key>
