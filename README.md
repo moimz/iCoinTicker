@@ -75,6 +75,7 @@ macOS menubar ticker that displays the latest crypto currency(BTC, ETH, ETC, XRP
 - CoinCheck (JPY)
 - Bitflyer (JPY)
 - OKcoin (CNY)
+- Bitstamp (USD)
 
 
 ## Donate
