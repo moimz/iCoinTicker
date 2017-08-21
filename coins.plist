@@ -344,7 +344,7 @@
 				<key>Okcoin</key>
 				<string>eth_cny</string>
 				<key>Bitstamp</key>
-				<string>ethusd</string>
+				<string>ethbtc</string>
 			</dict>
 		</dict>
 		<key>ETC</key>
@@ -520,7 +520,7 @@
 				<key>Okcoin</key>
 				<string>ltc_cny</string>
 				<key>Bitstamp</key>
-				<string>ltcusd</string>
+				<string>ltcbtc</string>
 			</dict>
 		</dict>
 		<key>DASH</key>
