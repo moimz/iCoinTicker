@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>updated</key>
-	<date>2017-08-21T07:00:00Z</date>
+	<date>2017-08-21T07:30:00Z</date>
 	<key>markets</key>
 	<dict>
 		<key>Korbit</key>
@@ -184,6 +184,30 @@
 			<key>isBtcMarket</key>
 			<true/>
 		</dict>
+		<key>Bitstamp</key>
+		<dict>
+			<key>display</key>
+			<string>Bitstamp </string>
+			<key>tag</key>
+			<integer>15</integer>
+			<key>currency</key>
+			<string>USD</string>
+			<key>api</key>
+			<dict>
+				<key>url</key>
+				<string>https://www.bitstamp.net/api/v2/ticker/</string>
+				<key>first</key>
+				<string>open</string>
+				<key>last</key>
+				<string>last</string>
+				<key>change</key>
+				<string></string>
+			</dict>
+			<key>isCombination</key>
+			<false/>
+			<key>isBtcMarket</key>
+			<true/>
+		</dict>
 		<key>Coincheck</key>
 		<dict>
 			<key>tag</key>
@@ -249,28 +273,6 @@
 			<false/>
 			<key>isBtcMarket</key>
 			<false/>
-		</dict>
-		<key>Bitstamp</key>
-		<dict>
-			<key>tag</key>
-			<integer>31</integer>
-			<key>currency</key>
-			<string>USD</string>
-			<key>api</key>
-			<dict>
-				<key>url</key>
-				<string>https://www.bitstamp.net/api/v2/ticker/</string>
-				<key>first</key>
-				<string>open</string>
-				<key>last</key>
-				<string>last</string>
-				<key>change</key>
-				<string></string>
-			</dict>
-			<key>isCombination</key>
-			<false/>
-			<key>isBtcMarket</key>
-			<true/>
 		</dict>
 	</dict>
 	<key>coins</key>
