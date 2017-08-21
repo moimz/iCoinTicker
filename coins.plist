@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>updated</key>
-	<date>2017-08-17T20:26:11Z</date>
+	<date>2017-08-21T07:00:00Z</date>
 	<key>markets</key>
 	<dict>
 		<key>Korbit</key>
@@ -719,6 +719,20 @@
 			<dict>
 				<key>Bittrex</key>
 				<string>BTC-PIVX</string>
+			</dict>
+		</dict>
+		<key>WAVES</key>
+		<dict>
+			<key>tag</key>
+			<integer>23</integer>
+			<key>name</key>
+			<string>Waves</string>
+			<key>mark</key>
+			<string>E0E5</string>
+			<key>marketParams</key>
+			<dict>
+				<key>Bittrex</key>
+				<string>BTC-WAVES</string>
 			</dict>
 		</dict>
 	</dict>
